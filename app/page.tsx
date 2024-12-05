@@ -75,8 +75,10 @@ export default function Home() {
                 ¡Déjame ayudarte a hacer tu sueño realidad!
               </p>
             </div>
-            <div>
-              <Button className="bg-roseGold text-white">Contacto</Button>
+            <div className="">
+              <Button className="bg-roseGold text-white hidden">
+                Contacto
+              </Button>
             </div>
           </div>
         </div>
