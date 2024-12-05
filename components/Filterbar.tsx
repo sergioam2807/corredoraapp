@@ -19,7 +19,7 @@ export const Filterbar = ({ filters }: FilterbarProps) => {
       //     'crocodile',
       //     'whale',
       //   ]}
-      //   className="max-w-xs"
+      className="max-w-xs z-20"
     >
       {filters.map((filter) => (
         <SelectItem key={filter.key}>{filter.label}</SelectItem>
