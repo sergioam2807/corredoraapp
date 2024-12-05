@@ -1,4 +1,5 @@
 // import { SendEmail } from '@/components/sendEmail'
+import { CardComponent } from '@/components/CardComponent'
 import { Filterbar } from '@/components/Filterbar'
 import { Wave } from '@/components/Wave'
 import house from '@/public/hero-house.jpg'
@@ -80,7 +81,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="xl:hidden absolute inset-0 flex justify-center items-center z-20 mt-11 flex-col ">
+      <div className="xl:hidden absolute inset-0 flex justify-center items-center z-20 mt-11 flex-col">
         <div className="bg-gray-400/70 flex justify-center w-3/4 items-center flex-col px-4 py-2 rounded-lg gap-2">
           <Filterbar filters={tiposVenta} />
           <Filterbar filters={tiposVenta} />
@@ -90,8 +91,9 @@ export default function Home() {
       <div className="mt-20">
         <Wave />
       </div>
-      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-        {/* <SendEmail /> */}
+      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 bg-roseGold -mt-1 gap-2">
+        <CardComponent />
+        <CardComponent />
       </section>
     </div>
   )
