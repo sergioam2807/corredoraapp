@@ -14,6 +14,7 @@ import clsx from 'clsx'
 
 import { siteConfig } from '@/config/site'
 import { TwitterIcon } from '@/components/icons'
+import { fontTangerine } from '@/config/fonts'
 
 export const Navbar = () => {
   return (
@@ -21,19 +22,29 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            {/* <Logo /> */}
-            <p className="font-bold text-inherit">Lorena Soto</p>
+            <div className={`${fontTangerine.variable} flex items-center`}>
+              {/* <Logo /> */}
+              <p
+                className="font-extrabold text-inherit text-3xl"
+                style={{ fontFamily: 'var(--font-tangerine)' }}
+              >
+                Lorena Soto
+              </p>
+            </div>
           </NextLink>
         </NavbarBrand>
         <div className="flex justify-center min-w-full">
-          <ul className="hidden sm:flex gap-4 justify-center mr-56">
+          <ul className="hidden sm:flex gap-8 justify-center mr-56">
             {siteConfig.navItems.map((item) => (
               <NavbarItem key={item.href}>
                 <NextLink
-                  className={clsx(
-                    linkStyles({ color: 'foreground' }),
-                    'data-[active=true]:text-primary data-[active=true]:font-medium'
-                  )}
+                  className={
+                    (clsx(
+                      linkStyles({ color: 'foreground' }),
+                      'data-[active=true]:text-primary data-[active=true]:font-medium'
+                    ),
+                    'text-2xl font-semibold sm:text-lg')
+                  }
                   color="foreground"
                   href={item.href}
                 >
@@ -52,7 +63,7 @@ export const Navbar = () => {
           </Link>
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent className="sm:hidden " justify="end">
+      <NavbarContent className="sm:hidden" justify="end">
         <NavbarMenuToggle />
       </NavbarContent>
 

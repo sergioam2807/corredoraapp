@@ -1,65 +1,31 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: 'Propiedades',
+  name: 'Lorena Soto Propiedades',
   description: 'Sitio de venta de propiedades',
   navItems: [
     {
-      label: 'Home',
+      label: 'Inicio',
       href: '/',
     },
     {
-      label: 'Docs',
-      href: '/docs',
+      label: 'Quien Soy',
+      href: '/conoceme',
     },
     {
-      label: 'Pricing',
-      href: '/pricing',
-    },
-    {
-      label: 'Blog',
-      href: '/blog',
-    },
-    {
-      label: 'About',
-      href: '/about',
+      label: 'Contacto',
+      href: '/contacto',
     },
   ],
   navMenuItems: [
+    //TODO ADMIN ROUTE
     {
       label: 'Profile',
       href: '/profile',
     },
-    {
-      label: 'Dashboard',
-      href: '/dashboard',
-    },
-    {
-      label: 'Projects',
-      href: '/projects',
-    },
-    {
-      label: 'Team',
-      href: '/team',
-    },
-    {
-      label: 'Calendar',
-      href: '/calendar',
-    },
-    {
-      label: 'Settings',
-      href: '/settings',
-    },
-    {
-      label: 'Help & Feedback',
-      href: '/help-feedback',
-    },
-    // {
-    //   label: "Logout",
-    //   href: "/logout",
-    // },
   ],
   links: {
+    //ADD SOCIAL LINKS
     github: 'https://github.com/nextui-org/nextui',
     twitter: 'https://twitter.com/getnextui',
     docs: 'https://nextui.org',
