@@ -1,7 +1,14 @@
 // import { SendEmail } from '@/components/sendEmail'
+import { Filterbar } from '@/components/Filterbar'
+import { Wave } from '@/components/Wave'
 import house from '@/public/hero-house.jpg'
 import { Button } from '@nextui-org/button'
 import Image from 'next/image'
+
+const tiposVenta = [
+  { key: 'venta', label: 'Venta' },
+  { key: 'arriendo', label: 'Arriendo' },
+]
 
 export default function Home() {
   return (
@@ -50,7 +57,7 @@ export default function Home() {
         </div>
 
         {/* Texto para pantallas pequeñas */}
-        <div className="relative z-10 flex flex-col justify-around items-start w-full text-left md:flex md:hidden px-5 py-10">
+        <div className="xl:hidden relative z-10 flex flex-col justify-around items-start w-full text-left md:flex px-5 py-10">
           <div className="flex flex-col gap-6">
             <div>
               <p className="text-3xl font-extrabold">Encuentra el hogar</p>
@@ -73,14 +80,15 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="mt-0">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-          <path
-            fill="#e0bfb8"
-            fillOpacity="1"
-            d="M0,160L40,144C80,128,160,96,240,112C320,128,400,192,480,186.7C560,181,640,107,720,74.7C800,43,880,53,960,90.7C1040,128,1120,192,1200,192C1280,192,1360,128,1400,96L1440,64L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
-          ></path>
-        </svg>
+      <div className="xl:hidden absolute inset-0 flex justify-center items-center z-20 mt-11 flex-col ">
+        <div className="bg-gray-400/70 flex justify-center w-3/4 items-center flex-col px-4 py-2 rounded-lg gap-2">
+          <Filterbar filters={tiposVenta} />
+          <Filterbar filters={tiposVenta} />
+          <Filterbar filters={tiposVenta} />
+        </div>
+      </div>
+      <div className="mt-20">
+        <Wave />
       </div>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         {/* <SendEmail /> */}
