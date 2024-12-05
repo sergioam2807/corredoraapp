@@ -9,7 +9,7 @@ export async function POST() {
       from: 'Acme <onboarding@resend.dev>',
       to: ['sergioam2807@gmail.com'],
       subject: 'Enviado desde nextjs a mi mail mendiante resend',
-      react: EmailTemplate({ firstName: 'Sergio' }),
+      react: EmailTemplate({ firstName: 'Karla' }),
     })
 
     if (error) {
