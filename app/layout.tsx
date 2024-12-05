@@ -1,6 +1,5 @@
 import '@/styles/globals.css'
 import { Metadata } from 'next'
-import { Link } from '@nextui-org/link'
 import clsx from 'clsx'
 
 import { Providers } from './providers'
@@ -8,6 +7,10 @@ import { Providers } from './providers'
 import { siteConfig } from '@/config/site'
 import { fontSans } from '@/config/fonts'
 import { Navbar } from '@/components/navbar'
+import Image from 'next/image'
+import wtsp from '@/public/whatsapp.png'
+import email from '@/public/email.png'
+import location from '@/public/location.png'
 
 export const metadata: Metadata = {
   title: {
@@ -53,8 +56,8 @@ export default function RootLayout({
             <Navbar />
             {/* className="container mx-auto max-w-7xl pt-16 px-6 flex-grow" */}
             <main className="pt-16">{children}</main>
-            <footer className="w-full flex items-center justify-center py-3">
-              <Link
+            <footer className="w-full flex flex-col items-center justify-center py-4 gap-2">
+              {/* <Link
                 isExternal
                 className="flex items-center gap-1 text-current"
                 href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
@@ -62,7 +65,29 @@ export default function RootLayout({
               >
                 <span className="text-default-600">Powered by</span>
                 <p className="text-primary">NextUI</p>
-              </Link>
+              </Link> */}
+              <div className="flex gap-1">
+                <Image src={wtsp} alt="whatsapp" width={24} height={24} />
+                <p className="text-default-500">+569 64562423</p>
+              </div>
+              <div className="flex gap-1">
+                <Image src={email} alt="email" width={24} height={24} />
+                <p className="text-default-500">contacto@lorenasoto.cl</p>
+              </div>
+              <div className="flex gap-1">
+                <Image src={location} alt="location" width={24} height={24} />
+                <p className="text-default-500">Region de Valparaiso</p>
+              </div>
+              <div className="flex gap-1 mt-2">
+                <p className="text-default-500">
+                  Visitanos en nuestras redes sociales
+                </p>
+              </div>
+              <div className="flex gap-14">
+                <Image src={location} alt="location" width={24} height={24} />
+                <Image src={location} alt="location" width={24} height={24} />
+                <Image src={location} alt="location" width={24} height={24} />
+              </div>
             </footer>
           </div>
         </Providers>
