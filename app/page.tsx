@@ -11,6 +11,18 @@ const tiposVenta = [
   { key: 'arriendo', label: 'Arriendo' },
 ]
 
+const tipoPropiedad = [
+  { key: 'casa', label: 'Casa' },
+  { key: 'depto', label: 'Departamento' },
+]
+
+const tipoComuna = [
+  { key: 'viña', label: 'Viña del mar' },
+  { key: 'concon  ', label: 'Con Con' },
+  { key: 'quillota  ', label: 'Quillota' },
+  { key: 'limache  ', label: 'Limache' },
+]
+
 export default function Home() {
   return (
     <div>
@@ -86,8 +98,16 @@ export default function Home() {
       <div className="inset-0 flex justify-center items-center md:-z-10 -mt-11 -mb-3 flex-col md:flex md:mt-1 md:-mb-9">
         <div className="bg-gray-400/70 flex justify-center w-3/4 items-center flex-col md:flex-row px-4 py-2 rounded-lg gap-2">
           <Filterbar filters={tiposVenta} />
-          <Filterbar filters={tiposVenta} />
-          <Filterbar filters={tiposVenta} />
+          <Filterbar
+            label="Tipo de propiedad"
+            placeholder="Selecciona tipo de propiedad"
+            filters={tipoPropiedad}
+          />
+          <Filterbar
+            label="Comuna"
+            placeholder="Selecciona Comuna"
+            filters={tipoComuna}
+          />
         </div>
       </div>
       <div className="z-0">

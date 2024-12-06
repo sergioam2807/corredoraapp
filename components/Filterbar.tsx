@@ -4,13 +4,19 @@ import { Select, SelectItem } from '@nextui-org/react'
 
 interface FilterbarProps {
   filters: Array<{ key: string; label: string }>
+  label?: string
+  placeholder?: string
 }
 
-export const Filterbar = ({ filters }: FilterbarProps) => {
+export const Filterbar = ({
+  filters,
+  label = 'Tipo',
+  placeholder = 'Selecciona un tipo',
+}: FilterbarProps) => {
   return (
     <Select
-      label="Tipo"
-      placeholder="Selecciona un tipo"
+      label={label}
+      placeholder={placeholder}
       //   disabledKeys={[
       //     'Vemta',
       //     'Arriendo',

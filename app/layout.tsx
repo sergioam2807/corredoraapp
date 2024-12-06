@@ -56,8 +56,8 @@ export default function RootLayout({
             <Navbar />
             {/* className="container mx-auto max-w-7xl pt-16 px-6 flex-grow" */}
             <main className="pt-16">{children}</main>
-            <footer className="w-full flex flex-col items-center justify-center py-4 gap-2">
-              {/* <Link
+
+            {/* <Link
                 isExternal
                 className="flex items-center gap-1 text-current"
                 href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
@@ -66,17 +66,20 @@ export default function RootLayout({
                 <span className="text-default-600">Powered by</span>
                 <p className="text-primary">NextUI</p>
               </Link> */}
-              <div className="flex gap-1">
-                <Image src={wtsp} alt="whatsapp" width={24} height={24} />
-                <p className="text-default-500">+569 64562423</p>
-              </div>
-              <div className="flex gap-1">
-                <Image src={email} alt="email" width={24} height={24} />
-                <p className="text-default-500">contacto@lorenasoto.cl</p>
-              </div>
-              <div className="flex gap-1">
-                <Image src={location} alt="location" width={24} height={24} />
-                <p className="text-default-500">Region de Valparaiso</p>
+            <footer className="w-full flex flex-col items-center justify-center py-4 gap-2">
+              <div className="flex flex-col lg:flex-row gap-1 lg:gap-8">
+                <div className="flex gap-1">
+                  <Image src={wtsp} alt="whatsapp" width={24} height={24} />
+                  <p className="text-default-500">+569 64562423</p>
+                </div>
+                <div className="flex gap-1">
+                  <Image src={email} alt="email" width={24} height={24} />
+                  <p className="text-default-500">contacto@lorenasoto.cl</p>
+                </div>
+                <div className="flex gap-1">
+                  <Image src={location} alt="location" width={24} height={24} />
+                  <p className="text-default-500">Region de Valparaiso</p>
+                </div>
               </div>
               <div className="flex gap-1 mt-2">
                 <p className="text-default-500">
