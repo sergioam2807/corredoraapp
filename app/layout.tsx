@@ -82,9 +82,7 @@ export default function RootLayout({
                 </div>
               </div>
               <div className="flex gap-1 mt-2">
-                <p className="text-default-500">
-                  Visitanos en nuestras redes sociales
-                </p>
+                <p className="text-default-500">Visita mis redes sociales</p>
               </div>
               <div className="flex gap-14">
                 <Image src={location} alt="location" width={24} height={24} />

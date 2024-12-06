@@ -1,4 +1,5 @@
 // import { SendEmail } from '@/components/sendEmail'
+import { ButtonComponent } from '@/components/ButtonComponent'
 import { CardComponent } from '@/components/CardComponent'
 import { Filterbar } from '@/components/Filterbar'
 import { Wave } from '@/components/Wave'
@@ -41,7 +42,7 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <Button className="bg-roseGold text-white">Contacto</Button>
+              <ButtonComponent />
             </div>
           </div>
           <div className="flex justify-center items-center w-full h-full">
@@ -51,6 +52,7 @@ export default function Home() {
               height={800}
               className="rounded-xl"
               alt="house"
+              priority
             />
           </div>
         </div>
@@ -63,9 +65,12 @@ export default function Home() {
             src={house}
             // width={800}
             // height={1000}
+
             fill
             className="rounded-xl opacity-30 md:fixed md:w-auto md:h-auto"
             alt="house"
+            priority
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, 50vw"
           />
         </div>
 
@@ -88,9 +93,7 @@ export default function Home() {
               </p>
             </div>
             <div className="">
-              <Button className="bg-roseGold text-white hidden">
-                Contacto
-              </Button>
+              <ButtonComponent />
             </div>
           </div>
         </div>
