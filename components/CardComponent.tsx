@@ -10,7 +10,7 @@ import { Parking } from '@/icons/Parking'
 
 export const CardComponent = () => {
   return (
-    <Card className="py-4 w-3/4 flex">
+    <Card className="py-4 w-96 h-auto flex flex-col last:justify-self-center">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
         <small className="text-default-500">Departamento</small>
         <h4 className="font-bold text-large">Cumbres del bosque</h4>
@@ -18,7 +18,6 @@ export const CardComponent = () => {
           <LocationIcon />
           <small className="text-default-500">Viña del mar</small>
         </div>
-        {/* <p className="text-tiny uppercase font-bold">Viña del mar</p> */}
       </CardHeader>
       <CardBody className="overflow-visible py-2">
         <Image

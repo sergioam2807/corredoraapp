@@ -58,7 +58,7 @@ export default function Home() {
         </div>
 
         {/* Texto para pantallas pequeñas */}
-        <div className="xl:hidden relative z-10 flex flex-col justify-around items-start w-full text-left md:flex px-5 py-10">
+        <div className="xl:hidden relative z-10 flex flex-col justify-around items-start w-full text-left  px-5 py-10 md:hidden">
           <div className="flex flex-col gap-6">
             <div>
               <p className="text-3xl font-extrabold">Encuentra el hogar</p>
@@ -83,8 +83,8 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="xl:hidden inset-0 flex justify-center items-center md:-z-10 -mt-11 -mb-3  flex-col ">
-        <div className="bg-gray-400/70 flex justify-center w-3/4 items-center flex-col px-4 py-2 rounded-lg gap-2">
+      <div className="inset-0 flex justify-center items-center md:-z-10 -mt-11 -mb-3 flex-col md:flex md:mt-1 md:-mb-9">
+        <div className="bg-gray-400/70 flex justify-center w-3/4 items-center flex-col md:flex-row px-4 py-2 rounded-lg gap-2">
           <Filterbar filters={tiposVenta} />
           <Filterbar filters={tiposVenta} />
           <Filterbar filters={tiposVenta} />
@@ -93,7 +93,9 @@ export default function Home() {
       <div className="z-0">
         <Wave />
       </div>
-      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 bg-roseGold -mt-1 gap-2">
+      <section className="grid w-full grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold md:-mt-14 -mt-1 justify-items-center items-center">
+        <CardComponent />
+        <CardComponent />
         <CardComponent />
         <CardComponent />
       </section>
