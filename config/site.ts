@@ -23,6 +23,10 @@ export const siteConfig = {
       label: 'Contacto',
       href: '/conoceme',
     },
+    {
+      label: 'Propiedades',
+      href: '/propiedades',
+    },
   ],
   links: {
     //ADD SOCIAL LINKS
