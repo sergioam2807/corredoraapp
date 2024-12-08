@@ -8,22 +8,38 @@ import {
   Input,
   Textarea,
 } from '@nextui-org/react'
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import Confetti from 'react-confetti'
 
+interface FormData {
+  nombre: string
+  correo: string
+  telefono: string
+  mensaje: string
+}
+
+interface FormErrors {
+  nombre?: string
+  correo?: string
+  telefono?: string
+  mensaje?: string
+}
+
 export const ContactMe = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     nombre: '',
     correo: '',
     telefono: '',
     mensaje: '',
   })
 
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState<FormErrors>({})
   const [successMessage, setSuccessMessage] = useState('')
   const [showConfetti, setShowConfetti] = useState(false)
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target
     setFormData((prevData) => ({
       ...prevData,
@@ -32,7 +48,7 @@ export const ContactMe = () => {
   }
 
   const validate = () => {
-    const newErrors = {}
+    const newErrors: FormErrors = {}
     if (!formData.nombre) newErrors.nombre = 'El nombre es obligatorio'
     if (!formData.correo) newErrors.correo = 'El correo es obligatorio'
     if (!formData.telefono) newErrors.telefono = 'El teléfono es obligatorio'
@@ -47,9 +63,7 @@ export const ContactMe = () => {
       return
     }
     console.log('Form Data:', formData)
-    // Aquí puedes enviar la data a tu servidor o API
 
-    // Limpiar los datos del formulario
     setFormData({
       nombre: '',
       correo: '',
@@ -57,14 +71,12 @@ export const ContactMe = () => {
       mensaje: '',
     })
 
-    // Mostrar mensaje de éxito
     setSuccessMessage(
       'El mensaje fue enviado y nos pondremos en contacto a la brevedad posible.'
     )
 
-    // Mostrar confeti
     setShowConfetti(true)
-    setTimeout(() => setShowConfetti(false), 5000) // Ocultar confeti después de 5 segundos
+    setTimeout(() => setShowConfetti(false), 5000)
   }
 
   return (
@@ -89,7 +101,7 @@ export const ContactMe = () => {
             onChange={handleChange}
             errorMessage={errors.nombre}
             isRequired
-            validationState={errors.nombre ? 'invalid' : 'valid'}
+            isInvalid={!!errors.nombre}
           />
           <Input
             label="Correo"
@@ -100,7 +112,7 @@ export const ContactMe = () => {
             onChange={handleChange}
             errorMessage={errors.correo}
             isRequired
-            validationState={errors.correo ? 'invalid' : 'valid'}
+            isInvalid={!!errors.correo}
           />
           <Input
             label="Telefono"
@@ -111,7 +123,7 @@ export const ContactMe = () => {
             onChange={handleChange}
             errorMessage={errors.telefono}
             isRequired
-            isInvalid={errors.telefono ? 'invalid' : 'valid'}
+            isInvalid={!!errors.telefono}
           />
           <Textarea
             label="Mensaje"
@@ -121,7 +133,7 @@ export const ContactMe = () => {
             onChange={handleChange}
             errorMessage={errors.mensaje}
             isRequired
-            isInvalid={errors.mensaje ? 'invalid' : 'valid'}
+            isInvalid={!!errors.mensaje}
           />
           {successMessage && <p className="text-green-500">{successMessage}</p>}
         </CardBody>
@@ -139,4 +151,4 @@ export const ContactMe = () => {
       </Card>
     </div>
   )
-}s
+}
