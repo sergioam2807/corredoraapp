@@ -7,9 +7,11 @@ import {
   CardHeader,
   Input,
   Textarea,
+  useDisclosure,
 } from '@nextui-org/react'
 import React, { ChangeEvent, useState } from 'react'
 import Confetti from 'react-confetti'
+import { ModalComponent } from './ModalComponent'
 
 interface FormData {
   nombre: string
@@ -36,6 +38,7 @@ export const ContactMe = () => {
   const [errors, setErrors] = useState<FormErrors>({})
   const [successMessage, setSuccessMessage] = useState('')
   const [showConfetti, setShowConfetti] = useState(false)
+  const { onOpen, isOpen, onOpenChange } = useDisclosure()
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -70,7 +73,6 @@ export const ContactMe = () => {
       telefono: '',
       mensaje: '',
     })
-
     setSuccessMessage(
       'El mensaje fue enviado y nos pondremos en contacto a la brevedad posible.'
     )
@@ -145,10 +147,14 @@ export const ContactMe = () => {
           size="sm"
           onClick={handleSubmit}
           spinner
+          onPress={onOpen}
         >
           Enviar
         </Button>
       </Card>
+      {successMessage && isOpen && (
+        <ModalComponent isOpen={isOpen} onOpenChange={onOpenChange} />
+      )}
     </div>
   )
 }

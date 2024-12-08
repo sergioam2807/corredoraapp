@@ -20,8 +20,8 @@ export const siteConfig = {
   navMenuItems: [
     //TODO ADMIN ROUTE
     {
-      label: 'Profile',
-      href: '/profile',
+      label: 'Contacto',
+      href: '/conoceme',
     },
   ],
   links: {
