@@ -37,11 +37,13 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
     telefono: '',
     mensaje: '',
   })
-
   const [errors, setErrors] = useState<FormErrors>({})
   const [successMessage, setSuccessMessage] = useState('')
   const [showConfetti, setShowConfetti] = useState(false)
   const { onOpen, isOpen, onOpenChange } = useDisclosure()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -62,7 +64,7 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
     return newErrors
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const validationErrors = validate()
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
@@ -70,21 +72,43 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
     }
     console.log('Form Data:', formData)
 
-    setFormData({
-      nombre: '',
-      correo: '',
-      telefono: '',
-      mensaje: '',
-    })
-    setSuccessMessage(
-      'El mensaje fue enviado y nos pondremos en contacto a la brevedad posible.'
-    )
+    setLoading(true)
+    setError(null)
+    setSuccess(null)
 
-    // setShowConfetti(true)
-    setTimeout(() => setShowConfetti(false), 5000)
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSuccess('¡Correo enviado exitosamente!')
+        setFormData({
+          nombre: '',
+          correo: '',
+          telefono: '',
+          mensaje: '',
+        })
+        setSuccessMessage(
+          'El mensaje fue enviado y nos pondremos en contacto a la brevedad posible.'
+        )
+        setShowConfetti(true)
+        setTimeout(() => setShowConfetti(false), 5000)
+      } else {
+        setError(data.error || 'Error desconocido al enviar el correo.')
+      }
+    } catch (err) {
+      setError('Hubo un error al intentar enviar el correo.')
+    } finally {
+      setLoading(false)
+    }
   }
-
-  console.log('elevated', elevated)
 
   return (
     <div>

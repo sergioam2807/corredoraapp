@@ -9,8 +9,6 @@ import { Wave } from '@/components/Wave'
 import house from '@/public/hero-house.jpg'
 import { useDisclosure } from '@nextui-org/react'
 import Image from 'next/image'
-import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
 
 const tiposVenta = [
   { key: 'venta', label: 'Venta' },

@@ -3,13 +3,20 @@ import { Resend } from 'resend'
 
 const resend = new Resend('re_HBAYjstV_MDdYJ74eY3FHezafdKg9U8Q5')
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
+    const formData = await request.json()
+
     const { data, error } = await resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
+      from: 'LorenaSoto.cl<onboarding@resend.dev>',
       to: ['sergioam2807@gmail.com'],
-      subject: 'Enviado desde nextjs a mi mail mendiante resend',
-      react: EmailTemplate({ firstName: 'Karla' }),
+      subject: `Hola Lorena ${formData.nombre} intenta contactarte`,
+      react: EmailTemplate({
+        firstName: formData.nombre,
+        correo: formData.correo,
+        telefono: formData.telefono,
+        mensaje: formData.mensaje,
+      }),
     })
 
     if (error) {
@@ -18,8 +25,6 @@ export async function POST() {
         { status: 500 }
       )
     }
-
-    // Devolver los datos de manera que el cliente pueda manejarlos
     return new Response(
       JSON.stringify({ success: 'Correo enviado exitosamente!', data }),
       { status: 200 }
