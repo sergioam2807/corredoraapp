@@ -1,11 +1,16 @@
+'use client'
 // import { SendEmail } from '@/components/sendEmail'
 import { ButtonComponent } from '@/components/ButtonComponent'
 import { CardComponent } from '@/components/CardComponent'
+import { ContactMe } from '@/components/ContactMe'
 import { Filterbar } from '@/components/Filterbar'
+import { ModalComponent } from '@/components/ModalComponent'
 import { Wave } from '@/components/Wave'
 import house from '@/public/hero-house.jpg'
-import { Button } from '@nextui-org/button'
+import { useDisclosure } from '@nextui-org/react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 const tiposVenta = [
   { key: 'venta', label: 'Venta' },
@@ -25,6 +30,8 @@ const tipoComuna = [
 ]
 
 export default function Home() {
+  const { onOpen, isOpen, onOpenChange } = useDisclosure()
+
   return (
     <div>
       <div className="relative container mx-auto max-w-7xl px-6">
@@ -42,7 +49,17 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <ButtonComponent />
+              <ButtonComponent label="Contacto" onPress={onOpen} />
+
+              {isOpen && (
+                <ModalComponent
+                  isOpen={isOpen}
+                  onOpenChange={onOpenChange}
+                  bgColor="bg-roseGold"
+                >
+                  <ContactMe elevated />
+                </ModalComponent>
+              )}
             </div>
           </div>
           <div className="flex justify-center items-center w-full h-full">
@@ -63,9 +80,6 @@ export default function Home() {
         <div className="absolute inset-0 flex justify-center items-center md:opacity-50 md:z-0 md:hidden ">
           <Image
             src={house}
-            // width={800}
-            // height={1000}
-
             fill
             className="rounded-xl opacity-30 md:fixed md:w-auto md:h-auto"
             alt="house"
@@ -79,12 +93,7 @@ export default function Home() {
           <div className="flex flex-col gap-6">
             <div>
               <p className="text-3xl font-extrabold">Encuentra el hogar</p>
-              <p
-                className="text-3xl font-extrabold"
-                // style={{ fontFamily: 'var(--font-tangerine)' }}
-              >
-                que siempre soñaste
-              </p>
+              <p className="text-3xl font-extrabold">que siempre soñaste</p>
             </div>
             <div>
               <p className="text-md">Vende o arrienda con la mejor asesoría</p>
@@ -92,35 +101,38 @@ export default function Home() {
                 ¡Déjame ayudarte a hacer tu sueño realidad!
               </p>
             </div>
-            <div className="">
-              <ButtonComponent />
-            </div>
           </div>
         </div>
       </div>
-      <div className="inset-0 flex justify-center items-center md:-z-10 -mt-11 -mb-3 flex-col md:flex md:mt-1 md:-mb-9">
-        <div className="bg-gray-400/70 flex justify-center w-3/4 items-center flex-col md:flex-row px-4 py-2 rounded-lg gap-2">
-          <Filterbar filters={tiposVenta} />
-          <Filterbar
-            label="Tipo de propiedad"
-            placeholder="Selecciona tipo de propiedad"
-            filters={tipoPropiedad}
-          />
-          <Filterbar
-            label="Comuna"
-            placeholder="Selecciona Comuna"
-            filters={tipoComuna}
-          />
+
+      <div className="z-0">
+        <div className="z-0 ">
+          <Wave />
         </div>
       </div>
-      <div className="z-0">
-        <Wave />
+      <div className="bg-roseGold md:-mt-14 md:mb-6 ">
+        <div className="inset-0 flex justify-center items-center md:-z-10 -mt-11 -mb-3 flex-col md:flex md:-mt-24 z-10 ">
+          <div className="bg-gray-400/70 flex justify-center w-3/4 items-center flex-col md:flex-row px-4 py-2 rounded-lg gap-2">
+            <Filterbar filters={tiposVenta} />
+            <Filterbar
+              label="Tipo de propiedad"
+              placeholder="Selecciona tipo de propiedad"
+              filters={tipoPropiedad}
+            />
+            <Filterbar
+              label="Comuna"
+              placeholder="Selecciona Comuna"
+              filters={tipoComuna}
+            />
+            <ButtonComponent label="Buscar" showButton smallButton />
+          </div>
+        </div>
       </div>
-      <section className="grid w-full grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold md:-mt-14 -mt-1 justify-items-center items-center">
+      <section className="grid w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold justify-center items-center">
         <CardComponent />
         <CardComponent />
         <CardComponent />
-        <CardComponent />
+        {/* <CardComponent /> */}
       </section>
     </div>
   )

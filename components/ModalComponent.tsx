@@ -12,6 +12,7 @@ interface ModalComponentProps {
   onOpenChange: (isOpen: boolean) => void
   title?: string
   children?: React.ReactNode
+  bgColor?: string
 }
 
 export const ModalComponent = ({
@@ -19,9 +20,10 @@ export const ModalComponent = ({
   onOpenChange,
   title,
   children,
+  bgColor,
 }: ModalComponentProps) => {
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} className={`${bgColor}`}>
       <ModalContent>
         {(onClose) => (
           <>

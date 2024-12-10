@@ -9,8 +9,8 @@ export const siteConfig = {
       href: '/',
     },
     {
-      label: 'Quien Soy',
-      href: '/conoceme',
+      label: 'Propiedades',
+      href: '/propiedades',
     },
     {
       label: 'Contacto',
@@ -21,7 +21,7 @@ export const siteConfig = {
     //TODO ADMIN ROUTE
     {
       label: 'Contacto',
-      href: '/conoceme',
+      href: '/contacto',
     },
     {
       label: 'Propiedades',
