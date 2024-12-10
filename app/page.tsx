@@ -126,7 +126,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <section className="grid w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold justify-center items-center">
+      <section className="grid w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold justify-items-center">
         <CardComponent />
         <CardComponent />
         <CardComponent />
