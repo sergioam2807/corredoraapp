@@ -1,7 +1,23 @@
 import { CardComponent } from '@/components/CardComponent'
 import { Filterbar } from '@/components/Filterbar'
-import { tipoComuna, tipoPropiedad, tiposVenta } from '../page'
 import { ButtonComponent } from '@/components/ButtonComponent'
+
+export const tiposVenta = [
+  { key: 'venta', label: 'Venta' },
+  { key: 'arriendo', label: 'Arriendo' },
+]
+
+export const tipoPropiedad = [
+  { key: 'casa', label: 'Casa' },
+  { key: 'depto', label: 'Departamento' },
+]
+
+export const tipoComuna = [
+  { key: 'viña', label: 'Viña del mar' },
+  { key: 'concon  ', label: 'Con Con' },
+  { key: 'quillota  ', label: 'Quillota' },
+  { key: 'limache  ', label: 'Limache' },
+]
 
 export default function DocsPage() {
   return (
