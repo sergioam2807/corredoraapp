@@ -10,17 +10,17 @@ import house from '@/public/hero-house.jpg'
 import { useDisclosure } from '@nextui-org/react'
 import Image from 'next/image'
 
-export const tiposVenta = [
+const tiposVenta = [
   { key: 'venta', label: 'Venta' },
   { key: 'arriendo', label: 'Arriendo' },
 ]
 
-export const tipoPropiedad = [
+const tipoPropiedad = [
   { key: 'casa', label: 'Casa' },
   { key: 'depto', label: 'Departamento' },
 ]
 
-export const tipoComuna = [
+const tipoComuna = [
   { key: 'viña', label: 'Viña del mar' },
   { key: 'concon  ', label: 'Con Con' },
   { key: 'quillota  ', label: 'Quillota' },
