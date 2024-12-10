@@ -2,17 +2,17 @@ import { CardComponent } from '@/components/CardComponent'
 import { Filterbar } from '@/components/Filterbar'
 import { ButtonComponent } from '@/components/ButtonComponent'
 
-export const tiposVenta = [
+const tiposVenta = [
   { key: 'venta', label: 'Venta' },
   { key: 'arriendo', label: 'Arriendo' },
 ]
 
-export const tipoPropiedad = [
+const tipoPropiedad = [
   { key: 'casa', label: 'Casa' },
   { key: 'depto', label: 'Departamento' },
 ]
 
-export const tipoComuna = [
+const tipoComuna = [
   { key: 'viña', label: 'Viña del mar' },
   { key: 'concon  ', label: 'Con Con' },
   { key: 'quillota  ', label: 'Quillota' },
