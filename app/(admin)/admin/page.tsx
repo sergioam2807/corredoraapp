@@ -1,5 +1,12 @@
 'use client'
 
-export default function Admin() {
-  return <div>Text Here</div>
+function AdminPage() {
+  return (
+    <div>
+      <h1>Admin Dashboard</h1>
+      <p>Content for authenticated users only.</p>
+    </div>
+  )
 }
+
+export default AdminPage

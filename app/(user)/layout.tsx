@@ -1,11 +1,12 @@
 import '@/styles/globals.css'
 import { Metadata } from 'next'
 import clsx from 'clsx'
-import { Providers } from './providers'
+
 import { siteConfig } from '@/config/site'
 import { fontSans } from '@/config/fonts'
 import { Navbar } from '@/components/navbar'
 import { FooterComponent } from '@/components/FooterComponent'
+import { Providers } from './providers'
 
 export const metadata: Metadata = {
   title: {
@@ -17,13 +18,6 @@ export const metadata: Metadata = {
     icon: '/favicon.ico',
   },
 }
-
-// export const viewport: Viewport = {
-//   themeColor: [
-//     { media: '(prefers-color-scheme: light)', color: 'white' },
-//     // { media: '(prefers-color-scheme: dark)', color: 'black' },
-//   ],
-// }
 
 export default function RootLayout({
   children,
