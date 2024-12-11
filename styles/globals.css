@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.image-gallery-image {
+  border-radius: 12px; /* Bordes redondeados para la imagen principal */
+}
+
+.image-gallery-thumbnail {
+  border-radius: 8px; /* Bordes redondeados para las miniaturas */
+  overflow: hidden; /* Evitar que el contenido salga del borde */
+}
+
+/* Opcional: Cambiar el estilo del borde de las miniaturas seleccionadas */
+.image-gallery-thumbnail.active {
+  border: 2px solid #ff7f50; /* Ejemplo de borde personalizado para la miniatura activa */
+  border-radius: 8px;
+}

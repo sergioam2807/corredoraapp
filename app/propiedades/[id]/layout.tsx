@@ -5,7 +5,7 @@ export default function DocsLayout({
 }) {
   return (
     <section className="flex flex-col items-center justify-center gap-4">
-      <div className="max-w-lg md:max-w-3xl lg:max-w-5xl text-center justify-center">
+      <div className="max-w-lg md:max-w-4xl lg:max-w-6xl text-center justify-center">
         {children}
       </div>
     </section>
