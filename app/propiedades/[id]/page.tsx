@@ -19,19 +19,54 @@ interface PropiedadProps {
     id: string
   }
 }
-
 const images = [
   {
-    original: 'https://picsum.photos/id/1018/1000/600/',
-    thumbnail: 'https://picsum.photos/id/1018/250/150/',
+    original:
+      'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+    thumbnail:
+      'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=250&h=150',
   },
   {
-    original: 'https://picsum.photos/id/1015/1000/600/',
-    thumbnail: 'https://picsum.photos/id/1015/250/150/',
+    original:
+      'https://images.pexels.com/photos/1694360/pexels-photo-1694360.jpeg',
+    thumbnail:
+      'https://images.pexels.com/photos/1694360/pexels-photo-1694360.jpeg?auto=compress&cs=tinysrgb&w=250&h=150',
   },
   {
-    original: 'https://picsum.photos/id/1019/1000/600/',
-    thumbnail: 'https://picsum.photos/id/1019/250/150/',
+    original:
+      'https://images.pexels.com/photos/1105754/pexels-photo-1105754.jpeg',
+    thumbnail:
+      'https://images.pexels.com/photos/1105754/pexels-photo-1105754.jpeg?auto=compress&cs=tinysrgb&w=250&h=150',
+  },
+  {
+    original:
+      'https://images.pexels.com/photos/903028/pexels-photo-903028.jpeg',
+    thumbnail:
+      'https://images.pexels.com/photos/903028/pexels-photo-903028.jpeg?auto=compress&cs=tinysrgb&w=250&h=150',
+  },
+  {
+    original:
+      'https://images.pexels.com/photos/1170686/pexels-photo-1170686.jpeg',
+    thumbnail:
+      'https://images.pexels.com/photos/1170686/pexels-photo-1170686.jpeg?auto=compress&cs=tinysrgb&w=250&h=150',
+  },
+  {
+    original:
+      'https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg',
+    thumbnail:
+      'https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=250&h=150',
+  },
+  {
+    original:
+      'https://images.pexels.com/photos/1879061/pexels-photo-1879061.jpeg',
+    thumbnail:
+      'https://images.pexels.com/photos/1879061/pexels-photo-1879061.jpeg?auto=compress&cs=tinysrgb&w=250&h=150',
+  },
+  {
+    original:
+      'https://images.pexels.com/photos/20337840/pexels-photo-20337840.jpeg',
+    thumbnail:
+      'https://images.pexels.com/photos/20337840/pexels-photo-20337840.jpeg?auto=compress&cs=tinysrgb&w=250&h=150',
   },
 ]
 
