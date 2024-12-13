@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model communes {
+  id         Int          @id @default(autoincrement())
+  region_id  Int
+  nombre     String       @db.VarChar(100)
+  regions    regions      @relation(fields: [region_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  properties properties[]
+}
+
+model images {
+  id           Int        @id @default(autoincrement())
+  propiedad_id Int
+  url          String     @db.VarChar(255)
+  properties   properties @relation(fields: [propiedad_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model properties {
+  id                Int       @id @default(autoincrement())
+  nombre            String    @db.VarChar(255)
+  descripcion       String?
+  mt2               Int?
+  valor_uf          Decimal?  @db.Decimal(10, 2)
+  habitaciones      Int?
+  banos             Int?
+  estacionamientos  Int?
+  bodegas           Int?
+  direccion         String?   @db.VarChar(255)
+  comuna_id         Int?
+  estado_id         Int?
+  fecha_publicacion DateTime? @db.Date
+  video_url         String?   @db.VarChar(255)
+  images            images[]
+  communes          communes? @relation(fields: [comuna_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  states            states?   @relation(fields: [estado_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model regions {
+  id       Int        @id @default(autoincrement())
+  nombre   String     @db.VarChar(100)
+  communes communes[]
+}
+
+model states {
+  id         Int          @id @default(autoincrement())
+  nombre     String       @db.VarChar(50)
+  properties properties[]
+}
