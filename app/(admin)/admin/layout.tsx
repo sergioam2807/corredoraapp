@@ -5,12 +5,10 @@ import { siteConfig } from '@/config/site'
 import { fontSans } from '@/config/fonts'
 import { Providers } from '@/app/(user)/providers'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
+import { Sidebar } from '@/components/Sidebar'
 
 export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
+  title: siteConfig.name,
   description: siteConfig.description,
   icons: {
     icon: '/favicon.ico',
@@ -25,7 +23,7 @@ export default function AdminLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <title>{metadata.title.default}</title>
+        <title>'Lorena Soto Propiedades</title>
         <meta name="description" content={metadata.description} />
         <link rel="icon" href={metadata.icons.icon} />
       </head>
@@ -44,7 +42,8 @@ export default function AdminLayout({
           }}
         >
           <UserProvider>
-            <div className="relative flex flex-col h-screen">
+            <div className="relative flex h-screen">
+              <Sidebar />
               <main className="pt-8 px-8">{children}</main>
             </div>
           </UserProvider>
