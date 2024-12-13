@@ -27,7 +27,6 @@ const Propiedad = ({ params }: PropiedadProps) => {
   )
   const { onOpen, isOpen, onOpenChange } = useDisclosure()
   const { id } = params
-  console.log('id', id)
 
   useEffect(() => {
     const fetchProperty = async () => {

@@ -2,24 +2,30 @@ import { CardComponent } from '@/components/CardComponent'
 import { Filterbar } from '@/components/Filterbar'
 import { ButtonComponent } from '@/components/ButtonComponent'
 
-const tiposVenta = [
-  { key: 'venta', label: 'Venta' },
-  { key: 'arriendo', label: 'Arriendo' },
-]
+async function getFilters() {
+  const res = await fetch('http://localhost:3000/api/filters', {
+    cache: 'no-store',
+  })
+  if (!res.ok) {
+    throw new Error('Failed to fetch filters')
+  }
+  return res.json()
+}
 
-const tipoPropiedad = [
-  { key: 'casa', label: 'Casa' },
-  { key: 'depto', label: 'Departamento' },
-]
+async function getProperties() {
+  const res = await fetch('http://localhost:3000/api/properties', {
+    cache: 'no-store',
+  })
+  if (!res.ok) {
+    throw new Error('Failed to fetch properties')
+  }
+  return res.json()
+}
 
-const tipoComuna = [
-  { key: 'viña', label: 'Viña del mar' },
-  { key: 'concon  ', label: 'Con Con' },
-  { key: 'quillota  ', label: 'Quillota' },
-  { key: 'limache  ', label: 'Limache' },
-]
+export default async function PropiedadesPage() {
+  const properties = await getProperties()
+  const { tiposVenta, tipoPropiedad, tipoComuna } = await getFilters()
 
-export default function DocsPage() {
   return (
     <div>
       <div>
@@ -27,28 +33,36 @@ export default function DocsPage() {
       </div>
       <div className="w-full flex justify-center py-10">
         <div className="bg-gray-400/70 flex justify-center w-3/4 items-center flex-col md:flex-row px-4 py-2 rounded-lg gap-2">
-          <Filterbar filters={tiposVenta} />
+          <Filterbar
+            filters={tiposVenta.map((item: any) => ({
+              key: item.id,
+              label: item.nombre,
+            }))}
+          />
           <Filterbar
             label="Tipo de propiedad"
             placeholder="Selecciona tipo de propiedad"
-            filters={tipoPropiedad}
+            filters={tipoPropiedad.map((item: any) => ({
+              key: item.id,
+              label: item.nombre,
+            }))}
           />
           <Filterbar
             label="Comuna"
             placeholder="Selecciona Comuna"
-            filters={tipoComuna}
+            filters={tipoComuna.map((item: any) => ({
+              key: item.id,
+              label: item.nombre,
+            }))}
           />
           <ButtonComponent label="Buscar" showButton smallButton />
         </div>
       </div>
       {/* listado de propiedades */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* <CardComponent id={'1'} />
-        <CardComponent id={'2'} />
-        <CardComponent id={'3'} />
-        <CardComponent id={'4'} />
-        <CardComponent id={'5'} />
-        <CardComponent id={'6'} /> */}
+        {properties.map((property: any) => (
+          <CardComponent key={property.id} {...property} />
+        ))}
       </div>
     </div>
   )
