@@ -43,12 +43,12 @@ export default function DocsPage() {
       </div>
       {/* listado de propiedades */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <CardComponent id={'1'} />
+        {/* <CardComponent id={'1'} />
         <CardComponent id={'2'} />
         <CardComponent id={'3'} />
         <CardComponent id={'4'} />
         <CardComponent id={'5'} />
-        <CardComponent id={'6'} />
+        <CardComponent id={'6'} /> */}
       </div>
     </div>
   )

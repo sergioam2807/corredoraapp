@@ -9,6 +9,7 @@ import { Wave } from '@/components/Wave'
 import house from '@/public/hero-house.jpg'
 import { useDisclosure } from '@nextui-org/react'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 const tiposVenta = [
   { key: 'venta', label: 'Venta' },
@@ -29,6 +30,21 @@ const tipoComuna = [
 
 export default function Home() {
   const { onOpen, isOpen, onOpenChange } = useDisclosure()
+  const [properties, setProperties] = useState([])
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await fetch('/api/properties')
+        const data = await response.json()
+        setProperties(data)
+        console.log(data)
+      } catch (error) {
+        console.log('Error fetching properties', error)
+      }
+    }
+    fetchProperties()
+  }, [])
 
   return (
     <div>
@@ -127,10 +143,9 @@ export default function Home() {
         </div>
       </div>
       <section className="grid w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold justify-items-center">
-        <CardComponent id="1" />
-        <CardComponent id="2" />
-        <CardComponent id="3" />
-        {/* <CardComponent /> */}
+        {properties.slice(-3).map((property: any) => (
+          <CardComponent key={property.id} {...property} />
+        ))}
       </section>
     </div>
   )
