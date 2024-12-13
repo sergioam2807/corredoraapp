@@ -24,23 +24,27 @@ model images {
 }
 
 model properties {
-  id                Int       @id @default(autoincrement())
-  nombre            String    @db.VarChar(255)
+  id                Int                   @id @default(autoincrement())
+  nombre            String                @db.VarChar(255)
   descripcion       String?
   mt2               Int?
-  valor_uf          Decimal?  @db.Decimal(10, 2)
+  valor_uf          Decimal?              @db.Decimal(10, 2)
   habitaciones      Int?
   banos             Int?
   estacionamientos  Int?
   bodegas           Int?
-  direccion         String?   @db.VarChar(255)
+  direccion         String?               @db.VarChar(255)
   comuna_id         Int?
   estado_id         Int?
-  fecha_publicacion DateTime? @db.Date
-  video_url         String?   @db.VarChar(255)
+  tipo_propiedad_id Int?
+  disponibilidad_id Int?
+  fecha_publicacion DateTime?             @db.Date
+  video_url         String?               @db.VarChar(255)
   images            images[]
-  communes          communes? @relation(fields: [comuna_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  states            states?   @relation(fields: [estado_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  communes          communes?             @relation(fields: [comuna_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  states            states?               @relation(fields: [estado_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  property_types    property_types?       @relation(fields: [tipo_propiedad_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  availability_status availability_status? @relation(fields: [disponibilidad_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model regions {
@@ -50,6 +54,18 @@ model regions {
 }
 
 model states {
+  id         Int          @id @default(autoincrement())
+  nombre     String       @db.VarChar(50)
+  properties properties[]
+}
+
+model property_types {
+  id         Int          @id @default(autoincrement())
+  nombre     String       @db.VarChar(50)
+  properties properties[]
+}
+
+model availability_status {
   id         Int          @id @default(autoincrement())
   nombre     String       @db.VarChar(50)
   properties properties[]
