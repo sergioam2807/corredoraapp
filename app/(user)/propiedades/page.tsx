@@ -2,7 +2,7 @@ import { CardComponent } from '@/components/CardComponent'
 import { Filterbar } from '@/components/Filterbar'
 import { ButtonComponent } from '@/components/ButtonComponent'
 
-async function getFilters() {
+export async function getFilters() {
   const res = await fetch('http://localhost:3000/api/filters', {
     cache: 'no-store',
   })
@@ -12,7 +12,7 @@ async function getFilters() {
   return res.json()
 }
 
-async function getProperties() {
+export async function getProperties() {
   const res = await fetch('http://localhost:3000/api/properties', {
     cache: 'no-store',
   })

@@ -14,19 +14,7 @@ export const Filterbar = ({
   placeholder = 'Selecciona un tipo',
 }: FilterbarProps) => {
   return (
-    <Select
-      label={label}
-      placeholder={placeholder}
-      //   disabledKeys={[
-      //     'Vemta',
-      //     'Arriendo',
-      //     'lion',
-      //     'elephant',
-      //     'crocodile',
-      //     'whale',
-      //   ]}
-      className="max-w-xs z-20"
-    >
+    <Select label={label} placeholder={placeholder} className="max-w-xs z-20">
       {filters.map((filter) => (
         <SelectItem key={filter.key}>{filter.label}</SelectItem>
       ))}

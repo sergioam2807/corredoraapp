@@ -15,13 +15,13 @@ export const Bottombar = () => {
         </div>
         <nav className="flex gap-4  flex-grow justify-center items-center">
           <a
-            href="admin/publicar"
+            href="/admin"
             className="flex items-center gap-2 p-2 hover:bg-gray-700 hover:bg-opacity-40 rounded"
           >
             <span>Publicar</span>
           </a>
           <a
-            href="/mis-publicaciones"
+            href="admin/mis-publicaciones"
             className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded"
           >
             <span>Mis Publicaciones</span>
