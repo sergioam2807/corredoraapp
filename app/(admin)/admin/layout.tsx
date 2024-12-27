@@ -6,6 +6,7 @@ import { fontSans } from '@/config/fonts'
 import { Providers } from '@/app/(user)/providers'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { Sidebar } from '@/components/Sidebar'
+import { Bottombar } from '@/components/BottomBar'
 
 export const metadata: Metadata = {
   title: siteConfig.name,
@@ -44,7 +45,8 @@ export default function AdminLayout({
           <UserProvider>
             <div className="relative flex h-screen">
               <Sidebar />
-              <main className="pt-8 px-8">{children}</main>
+              <Bottombar />
+              <main className="w-full pt-8 px-8">{children}</main>
             </div>
           </UserProvider>
         </Providers>
