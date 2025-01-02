@@ -35,6 +35,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
     direccion: '',
     tipoVenta: '',
     tipoPropiedad: '',
+    profitPercentage: '',
   })
 
   useEffect(() => {
@@ -61,6 +62,10 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
     >
   ) => {
     const { name, value } = e.target
+    if (name === 'ganancia' && Number(value) > 100) {
+      alert('El porcentaje de ganancia no puede ser mayor a 100')
+      return
+    }
     setFormValues((prevValues) => ({ ...prevValues, [name]: value }))
   }
 
@@ -132,12 +137,21 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
           ))}
         </Select>
       </div>
-      <Input
-        label="Direccion"
-        placeholder="Ingresa la direccion de la propiedad"
-        name="direccion"
-        onChange={handleChange}
-      />
+      <div className="flex gap-4">
+        <Input
+          label="Direccion"
+          placeholder="Ingresa la direccion de la propiedad"
+          name="direccion"
+          onChange={handleChange}
+        />
+        {/* <Input
+          label="Procentaje de ganancia"
+          placeholder="% de ganancia"
+          type="number"
+          name="ganancia"
+          onChange={handleChange}
+        /> */}
+      </div>
       <div className="flex gap-4">
         <Select
           label="Tipo de Venta"

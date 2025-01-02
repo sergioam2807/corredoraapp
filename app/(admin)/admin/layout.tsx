@@ -46,10 +46,12 @@ export default function AdminLayout({
           }}
         >
           <UserProvider>
-            <div className="relative flex h-screen">
+            <div className="relative flex h-screen z-0">
               <Sidebar />
               <Bottombar />
-              <main className="w-full pt-8 px-8">{children}</main>
+              <main className="w-full pt-8 px-8 sm:pt-8 sm:px-8">
+                {children}
+              </main>
             </div>
           </UserProvider>
         </Providers>

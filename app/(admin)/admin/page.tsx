@@ -23,18 +23,22 @@ function AdminPage() {
   if (error) return <div>{error.message}</div>
 
   return (
-    <div className="w-full flex justify-center items-center flex-col gap-4">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-3xl font-extrabold">Hola! {name} 😁</h1>
-        <p>¿Que deseas publicar hoy?</p>
+    <div className="w-full flex justify-center items-center flex-col gap-4 ">
+      <div className="flex flex-col sm:flex-row w-full gap-4 items-center">
+        <div className="flex flex-col gap-4 sm:w-1/5 px-4">
+          <h1 className="text-3xl font-extrabold">Hola! {name} 😁</h1>
+          <p>¿Que deseas publicar hoy?</p>
+        </div>
+        <div className="flex flex-col sm:flex-row justify-evenly gap-8 sm:w-4/5">
+          <WidgetCard />
+          <WidgetCard />
+          <WidgetCard />
+        </div>
       </div>
-      <div>
-        <WidgetCard />
-      </div>
-      <div className="w-full px-8">
+      <div className="w-full pt-8">
         <FormProperties onChange={handleFormChange} />
       </div>
-      <div className="w-full flex justify-end px-8">
+      <div className="w-full flex justify-end px-8 mb-24 sm:mb-0">
         <ButtonComponent label="Publicar" showButton onClick={handleSubmit} />
       </div>
     </div>
