@@ -14,17 +14,27 @@ function AdminPage() {
     setFormData((prevData) => ({ ...prevData, ...newData }))
   }
 
-  const handleSubmit = () => {
-    // Aquí puedes enviar formData a tu API
-    console.log('Form Data:', formData)
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('/api/properties', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      const result = await response.json()
+      console.log('Response:', result)
+    } catch (error) {
+      console.error('Error:', error)
+    }
   }
-
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>{error.message}</div>
 
   return (
     <div className="w-full flex justify-center items-center flex-col gap-4 ">
-      <div className="flex flex-col sm:flex-row w-full gap-4 items-center sm:py-10">
+      <div className="flex flex-col sm:flex-row w-full gap-4 items-center sm:py-0">
         <div className="flex flex-col gap-4 sm:w-1/5 px-4 justify-center items-center">
           <h1 className="text-4xl font-extrabold">Hola! {name} 😁</h1>
           <p className="text-xl">¿Que deseas publicar hoy?</p>
@@ -35,7 +45,7 @@ function AdminPage() {
           <WidgetCard />
         </div>
       </div>
-      <div className="w-full pt-8">
+      <div className="w-full ">
         <FormProperties onChange={handleFormChange} />
       </div>
       <div className="w-full flex justify-end px-8 mb-24 sm:mb-0">

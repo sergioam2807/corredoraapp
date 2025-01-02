@@ -1,5 +1,6 @@
 import { Input, Textarea } from '@nextui-org/input'
 import { Select, SelectItem } from '@nextui-org/react'
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
 interface Tipo {
@@ -26,6 +27,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
   const [formValues, setFormValues] = useState({
     nombre: '',
     descripcion: '',
+    valor: '',
     mt2: '',
     habitaciones: '',
     banos: '',
@@ -36,6 +38,8 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
     tipoVenta: '',
     tipoPropiedad: '',
     profitPercentage: '',
+    imagenes: [] as File[],
+    imagenesPreview: [] as string[],
   })
 
   useEffect(() => {
@@ -61,12 +65,40 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value } = e.target
+    const { name, value, files } = e.target
     if (name === 'ganancia' && Number(value) > 100) {
       alert('El porcentaje de ganancia no puede ser mayor a 100')
       return
     }
-    setFormValues((prevValues) => ({ ...prevValues, [name]: value }))
+    if (name === 'imagenes' && files) {
+      const fileArray = Array.from(files)
+      if (formValues.imagenes.length + fileArray.length > 12) {
+        alert('No puedes agregar más de 12 imágenes')
+        return
+      }
+      const previewArray = fileArray.map((file) => URL.createObjectURL(file))
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        [name]: [...prevValues.imagenes, ...fileArray],
+        imagenesPreview: [...prevValues.imagenesPreview, ...previewArray],
+      }))
+    } else {
+      setFormValues((prevValues) => ({ ...prevValues, [name]: value }))
+    }
+  }
+
+  const handleRemoveImage = (index: number) => {
+    setFormValues((prevValues) => {
+      const newImages = [...prevValues.imagenes]
+      const newPreviews = [...prevValues.imagenesPreview]
+      newImages.splice(index, 1)
+      newPreviews.splice(index, 1)
+      return {
+        ...prevValues,
+        imagenes: newImages,
+        imagenesPreview: newPreviews,
+      }
+    })
   }
 
   return (
@@ -82,6 +114,13 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
         label="Descripción"
         placeholder="Ingresa la descripción de la propiedad"
         name="descripcion"
+        onChange={handleChange}
+      />
+      <Input
+        label="Valor"
+        placeholder="Ingrese valor en uf"
+        type="text"
+        name="valor"
         onChange={handleChange}
       />
       <div className="flex gap-4">
@@ -177,6 +216,40 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
             </SelectItem>
           ))}
         </Select>
+      </div>
+      <div className="gap-4 sm:flex">
+        <Input
+          label="Imágenes"
+          type="file"
+          name="imagenes"
+          multiple
+          onChange={handleChange}
+          className="sm:w-fit font-bold"
+        />
+        <div className="flex gap-4">
+          {formValues.imagenesPreview.map((src, index) => (
+            <div
+              key={index}
+              role="button"
+              tabIndex={0}
+              className="relative cursor-pointer hover:opacity-75"
+              onClick={() => handleRemoveImage(index)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  handleRemoveImage(index)
+                }
+              }}
+            >
+              <Image
+                src={src}
+                alt={`Imagen ${index + 1}`}
+                className="w-14 h-14 object-contain rounded-lg"
+                height={20}
+                width={60}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
