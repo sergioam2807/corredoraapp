@@ -9,7 +9,7 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import React, { ChangeEvent, useState } from 'react'
-import Confetti from 'react-confetti'
+
 import { ModalComponent } from './ModalComponent'
 
 interface FormData {
@@ -39,7 +39,6 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
   })
   const [errors, setErrors] = useState<FormErrors>({})
   const [successMessage, setSuccessMessage] = useState('')
-  const [showConfetti, setShowConfetti] = useState(false)
   const { onOpen, isOpen, onOpenChange } = useDisclosure()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -98,8 +97,6 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
         setSuccessMessage(
           'El mensaje fue enviado y nos pondremos en contacto a la brevedad posible.'
         )
-        setShowConfetti(true)
-        setTimeout(() => setShowConfetti(false), 5000)
       } else {
         setError(data.error || 'Error desconocido al enviar el correo.')
       }
@@ -112,7 +109,6 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
 
   return (
     <div>
-      {showConfetti && <Confetti />}
       <Card
         isFooterBlurred
         className={`w-full col-span-12 sm:col-span-5 bg-roseGold bg-opacity-40 ${elevated ? 'shadow-none' : 'shadow-medium'}`}

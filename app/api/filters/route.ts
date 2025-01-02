@@ -26,11 +26,19 @@ export async function GET() {
       },
     })
 
+    const estadoVenta = await prisma.states.findMany({
+      select: {
+        id: true,
+        nombre: true,
+      },
+    })
+
     return NextResponse.json(
       {
         tiposVenta,
         tipoPropiedad,
         tipoComuna,
+        estadoVenta,
       },
       { status: 200 }
     )

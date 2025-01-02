@@ -16,13 +16,13 @@ export const Sidebar = () => {
         </div>
         <nav className="flex flex-col gap-4 mt-8 flex-grow">
           <a
-            href="admin/publicar"
+            href="/admin"
             className="flex items-center gap-2 p-2 hover:bg-gray-700 hover:bg-opacity-40 rounded"
           >
             <span>Publicar</span>
           </a>
           <a
-            href="/mis-publicaciones"
+            href="admin/mis-publicaciones"
             className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded"
           >
             <span>Mis Publicaciones</span>
