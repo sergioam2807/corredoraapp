@@ -24,14 +24,17 @@ export default function AdminLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <title>'Lorena Soto Propiedades</title>
-        <meta name="description" content={metadata.description} />
-        <link rel="icon" href={metadata.icons.icon} />
+        <title>Lorena Soto Propiedades</title>
+        <meta
+          name="description"
+          content={metadata.description ?? 'Corredora app'}
+        />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body
         className={clsx(
-          'min-h-screen bg-background font-sans antialiased',
-          fontSans.variable
+          fontSans.variable,
+          'min-h-screen bg-background font-sans antialiased'
         )}
       >
         <Providers
