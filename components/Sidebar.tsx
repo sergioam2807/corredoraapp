@@ -1,6 +1,7 @@
 'use client'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { Avatar } from '@nextui-org/react'
+import Link from 'next/link'
 import React from 'react'
 
 export const Sidebar = () => {
@@ -15,26 +16,26 @@ export const Sidebar = () => {
           )}
         </div>
         <nav className="flex flex-col gap-4 mt-8 flex-grow">
-          <a
+          <Link
             href="/admin"
             className="flex items-center gap-2 p-2 hover:bg-gray-700 hover:bg-opacity-40 rounded"
           >
             <span>Publicar</span>
-          </a>
-          <a
+          </Link>
+          <Link
             href="admin/mis-publicaciones"
             className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded"
           >
             <span>Mis Publicaciones</span>
-          </a>
+          </Link>
         </nav>
         <div className="mt-auto">
-          <a
+          <Link
             href="/api/auth/logout"
             className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded"
           >
             <span>Cerrar Sesion</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
