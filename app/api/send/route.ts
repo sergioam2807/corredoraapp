@@ -1,8 +1,8 @@
 import { EmailTemplate } from '@/components/email-template'
 import { Resend } from 'resend'
 
-const resend = new Resend('re_HBAYjstV_MDdYJ74eY3FHezafdKg9U8Q5')
-
+const resend = new Resend(process.env.RESEND_API_KEY)
+const userName = process.env.NEXT_PUBLIC_RECIPIENT_NAME
 export async function POST(request: Request) {
   try {
     const formData = await request.json()
@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     const { data, error } = await resend.emails.send({
       from: 'Lorenasoto.cl<onboarding@resend.dev>',
       to: ['sergioam2807@gmail.com'],
-      subject: `Hola Lorena!, ${formData.nombre} intenta contactarte`,
+      subject: `Hola ${userName}! ${formData.nombre} intenta contactarte`,
       react: EmailTemplate({
         firstName: formData.nombre,
         correo: formData.correo,

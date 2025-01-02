@@ -59,7 +59,6 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
     if (!formData.nombre) newErrors.nombre = 'El nombre es obligatorio'
     if (!formData.correo) newErrors.correo = 'El correo es obligatorio'
     if (!formData.telefono) newErrors.telefono = 'El teléfono es obligatorio'
-    if (!formData.mensaje) newErrors.mensaje = 'El mensaje es obligatorio'
     return newErrors
   }
 
@@ -159,7 +158,6 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
             value={formData.mensaje}
             onChange={handleChange}
             errorMessage={errors.mensaje}
-            isRequired
             isInvalid={!!errors.mensaje}
           />
         </CardBody>
