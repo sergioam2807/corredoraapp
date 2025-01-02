@@ -15,16 +15,16 @@ export const Sidebar = () => {
             <Avatar className="w-20 h-20 text-large" src={user?.picture} />
           )}
         </div>
-        <nav className="flex flex-col gap-4 mt-8 flex-grow">
+        <nav className="flex ite flex-col gap-4 mt-8 flex-grow">
           <Link
             href="/admin"
-            className="flex items-center gap-2 p-2 hover:bg-sidebar rounded-xl font-bold"
+            className="flex items-center  gap-2 p-2 hover:bg-sidebar rounded-xl font-bold "
           >
             <span>Publicar</span>
           </Link>
           <Link
             href="admin/mis-publicaciones"
-            className="flex items-center gap-2 p-2 hover:bg-sidebar rounded-xl font-bold"
+            className="flex items-center text-start gap-2 p-2 hover:bg-sidebar rounded-xl font-bold"
           >
             <span>Mis Publicaciones</span>
           </Link>

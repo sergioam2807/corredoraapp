@@ -24,10 +24,10 @@ function AdminPage() {
 
   return (
     <div className="w-full flex justify-center items-center flex-col gap-4 ">
-      <div className="flex flex-col sm:flex-row w-full gap-4 items-center">
-        <div className="flex flex-col gap-4 sm:w-1/5 px-4">
-          <h1 className="text-3xl font-extrabold">Hola! {name} 😁</h1>
-          <p>¿Que deseas publicar hoy?</p>
+      <div className="flex flex-col sm:flex-row w-full gap-4 items-center sm:py-10">
+        <div className="flex flex-col gap-4 sm:w-1/5 px-4 justify-center items-center">
+          <h1 className="text-4xl font-extrabold">Hola! {name} 😁</h1>
+          <p className="text-xl">¿Que deseas publicar hoy?</p>
         </div>
         <div className="flex flex-col sm:flex-row justify-evenly gap-8 sm:w-4/5">
           <WidgetCard />
