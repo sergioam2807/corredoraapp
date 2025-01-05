@@ -18,13 +18,31 @@ interface FormPropertiesProps {
   onChange: (data: any) => void
 }
 
+interface FormValues {
+  nombre: string
+  descripcion: string
+  valor: string
+  mt2: string
+  habitaciones: string
+  banos: string
+  estacionamientos: string
+  bodegas: string
+  comuna: string
+  direccion: string
+  tipoVenta: string
+  tipoPropiedad: string
+  profitPercentage: string
+  imagenes: File[]
+  imagenesPreview: string[]
+}
+
 export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
   const [data, setData] = useState<Data>({
     tiposVenta: [],
     tipoPropiedad: [],
     tipoComuna: [],
   })
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<FormValues>({
     nombre: '',
     descripcion: '',
     valor: '',
@@ -38,8 +56,8 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
     tipoVenta: '',
     tipoPropiedad: '',
     profitPercentage: '',
-    imagenes: [] as File[],
-    imagenesPreview: [] as string[],
+    imagenes: [],
+    imagenesPreview: [],
   })
 
   useEffect(() => {
@@ -60,12 +78,14 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
     onChange(formValues)
   }, [formValues])
 
-  const handleChange = (
+  const handleChange = async (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value, files } = e.target
+    const { name, value } = e.target
+    const files = (e.target as HTMLInputElement).files
+
     if (name === 'ganancia' && Number(value) > 100) {
       alert('El porcentaje de ganancia no puede ser mayor a 100')
       return
@@ -76,29 +96,61 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
         alert('No puedes agregar más de 12 imágenes')
         return
       }
-      const previewArray = fileArray.map((file) => URL.createObjectURL(file))
-      setFormValues((prevValues) => ({
-        ...prevValues,
-        [name]: [...prevValues.imagenes, ...fileArray],
-        imagenesPreview: [...prevValues.imagenesPreview, ...previewArray],
-      }))
+      const formData = new FormData()
+      fileArray.forEach((file) => formData.append('file', file))
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+      const result = await response.json()
+
+      const previewArray = result.urls || []
+
+      if (Array.isArray(previewArray)) {
+        setFormValues((prevValues) => ({
+          ...prevValues,
+          imagenes: [...prevValues.imagenes, ...fileArray],
+          imagenesPreview: [...prevValues.imagenesPreview, ...previewArray],
+        }))
+      } else {
+        console.error(
+          'Error: La respuesta de la API no contiene un array de URLs'
+        )
+      }
     } else {
       setFormValues((prevValues) => ({ ...prevValues, [name]: value }))
     }
   }
 
-  const handleRemoveImage = (index: number) => {
-    setFormValues((prevValues) => {
-      const newImages = [...prevValues.imagenes]
-      const newPreviews = [...prevValues.imagenesPreview]
-      newImages.splice(index, 1)
-      newPreviews.splice(index, 1)
-      return {
-        ...prevValues,
-        imagenes: newImages,
-        imagenesPreview: newPreviews,
-      }
+  const handleRemoveImage = async (index: number) => {
+    const fileName = formValues.imagenesPreview[index].split('/').pop()
+
+    const response = await fetch('/api/deleteImage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ fileName }),
     })
+
+    const result = await response.json()
+
+    if (result.success) {
+      setFormValues((prevValues) => {
+        const newImages = [...prevValues.imagenes]
+        const newPreviews = [...prevValues.imagenesPreview]
+        newImages.splice(index, 1)
+        newPreviews.splice(index, 1)
+        return {
+          ...prevValues,
+          imagenes: newImages,
+          imagenesPreview: newPreviews,
+        }
+      })
+    } else {
+      console.error('Error al eliminar la imagen:', result.error)
+    }
   }
 
   return (
@@ -191,42 +243,16 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
           onChange={handleChange}
         /> */}
       </div>
-      <div className="flex gap-4">
-        <Select
-          label="Tipo de Venta"
-          placeholder="Selecciona un tipo de venta"
-          name="tipoVenta"
-          onChange={handleChange}
-        >
-          {data.tiposVenta.map((tipo) => (
-            <SelectItem key={tipo.id} value={tipo.id}>
-              {tipo.nombre}
-            </SelectItem>
-          ))}
-        </Select>
-        <Select
-          label="Tipo de Propiedad"
-          placeholder="Selecciona un tipo de propiedad"
-          name="tipoPropiedad"
-          onChange={handleChange}
-        >
-          {data.tipoPropiedad.map((tipo) => (
-            <SelectItem key={tipo.id} value={tipo.id}>
-              {tipo.nombre}
-            </SelectItem>
-          ))}
-        </Select>
-      </div>
-      <div className="gap-4 sm:flex">
+      <div className="flex flex-col sm:flex-row gap-4">
         <Input
           label="Imágenes"
           type="file"
           name="imagenes"
           multiple
           onChange={handleChange}
-          className="sm:w-fit font-bold"
+          className="w-fit font-bold"
         />
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-wrap">
           {formValues.imagenesPreview.map((src, index) => (
             <div
               key={index}
