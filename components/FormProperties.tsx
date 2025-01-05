@@ -14,10 +14,6 @@ interface Data {
   tipoComuna: Tipo[]
 }
 
-interface FormPropertiesProps {
-  onChange: (data: any) => void
-}
-
 interface FormValues {
   nombre: string
   descripcion: string
@@ -36,7 +32,15 @@ interface FormValues {
   imagenesPreview: string[]
 }
 
-export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
+interface FormPropertiesProps {
+  onChange: (data: any) => void
+  showPopup: boolean
+}
+
+export const FormProperties: React.FC<FormPropertiesProps> = ({
+  onChange,
+  showPopup,
+}) => {
   const [data, setData] = useState<Data>({
     tiposVenta: [],
     tipoPropiedad: [],
@@ -60,6 +64,8 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
     imagenesPreview: [],
   })
 
+  console.log('showPopup', showPopup)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,6 +83,28 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
   useEffect(() => {
     onChange(formValues)
   }, [formValues])
+
+  useEffect(() => {
+    if (showPopup) {
+      setFormValues({
+        nombre: '',
+        descripcion: '',
+        valor: '',
+        mt2: '',
+        habitaciones: '',
+        banos: '',
+        estacionamientos: '',
+        bodegas: '',
+        comuna: '',
+        direccion: '',
+        tipoVenta: '',
+        tipoPropiedad: '',
+        profitPercentage: '',
+        imagenes: [],
+        imagenesPreview: [],
+      })
+    }
+  }, [showPopup])
 
   const handleChange = async (
     e: React.ChangeEvent<
@@ -161,12 +189,14 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
         type="text"
         name="nombre"
         onChange={handleChange}
+        value={formValues.nombre}
       />
       <Textarea
         label="Descripción"
         placeholder="Ingresa la descripción de la propiedad"
         name="descripcion"
         onChange={handleChange}
+        value={formValues.descripcion}
       />
       <Input
         label="Valor"
@@ -174,6 +204,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
         type="text"
         name="valor"
         onChange={handleChange}
+        value={formValues.valor}
       />
       <div className="flex gap-4">
         <Input
@@ -182,6 +213,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
           type="text"
           name="mt2"
           onChange={handleChange}
+          value={formValues.mt2}
         />
         <Input
           label="Habitaciones"
@@ -189,6 +221,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
           type="number"
           name="habitaciones"
           onChange={handleChange}
+          value={formValues.habitaciones}
         />
       </div>
       <div className="flex gap-4">
@@ -198,6 +231,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
           type="number"
           name="banos"
           onChange={handleChange}
+          value={formValues.banos}
         />
         <Input
           label="Estacionamientos"
@@ -205,6 +239,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
           type="number"
           name="estacionamientos"
           onChange={handleChange}
+          value={formValues.estacionamientos}
         />
       </div>
       <div className="flex gap-4">
@@ -214,12 +249,14 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
           type="number"
           name="bodegas"
           onChange={handleChange}
+          value={formValues.bodegas}
         />
         <Select
           label="Comuna"
           placeholder="Selecciona una comuna"
           name="comuna"
           onChange={handleChange}
+          value={formValues.comuna}
         >
           {data.tipoComuna.map((tipo) => (
             <SelectItem key={tipo.id} value={tipo.id}>
@@ -229,19 +266,36 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({ onChange }) => {
         </Select>
       </div>
       <div className="flex gap-4">
+        <Select
+          label="Tipo de propiedad"
+          placeholder="Selecciona un tipo"
+          name="tipoPropiedad"
+          onChange={handleChange}
+          value={formValues.tipoPropiedad}
+        >
+          {data.tipoPropiedad.map((tipo) => (
+            <SelectItem key={tipo.id} value={tipo.id}>
+              {tipo.nombre}
+            </SelectItem>
+          ))}
+        </Select>
+        <Input
+          label="Procentaje de ganancia"
+          placeholder="% de ganancia"
+          type="number"
+          name="profitPercentage"
+          onChange={handleChange}
+          value={formValues.profitPercentage}
+        />
+      </div>
+      <div className="flex gap-4">
         <Input
           label="Direccion"
           placeholder="Ingresa la direccion de la propiedad"
           name="direccion"
           onChange={handleChange}
+          value={formValues.direccion}
         />
-        {/* <Input
-          label="Procentaje de ganancia"
-          placeholder="% de ganancia"
-          type="number"
-          name="ganancia"
-          onChange={handleChange}
-        /> */}
       </div>
       <div className="flex flex-col sm:flex-row gap-4">
         <Input

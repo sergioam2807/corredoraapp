@@ -48,14 +48,24 @@ export async function POST(request: Request) {
           : 1, // Convert to integer if provided
         fecha_publicacion: new Date().toISOString(), // Convert to Date if provided
         video_url: data.video_url,
+        images: {
+          create: data.imagenesPreview.map((url: string) => ({ url })),
+        },
       },
     })
     return NextResponse.json(newProperty, { status: 201 })
   } catch (error) {
     console.error('Error details:', error) // Log the error details for debugging
-    return NextResponse.json(
-      { error: 'Error al crear la propiedad', details: error.message },
-      { status: 500 }
-    )
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { error: 'Error al crear la propiedad', details: error.message },
+        { status: 500 }
+      )
+    } else {
+      return NextResponse.json(
+        { error: 'Error al crear la propiedad', details: 'Unknown error' },
+        { status: 500 }
+      )
+    }
   }
 }
