@@ -50,21 +50,21 @@ export function PieChartComponent() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle className="text-xl font-bold pb-0 -mt-3">
+        <CardTitle className="text-xl font-bold pb-0 sm:-mt-3">
           Vista General
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 pb-0 flex items-center justify-center -mt-14 -mb-14">
+      <CardContent className="flex-1 pb-0 flex flex-col sm:flex-row items-center justify-center sm:-mt-14 -mb-14">
         <CardFooter className="flex-col gap-3 text-sm ">
           <div className="flex items-center gap-2 font-medium leading-none">
             Propiedades por categoria{' '}
             <TrendingUp className="h-4 w-4 text-success-600" />
           </div>
-          <div className="flex flex-col gap-1 justify-start items-start w-full">
+          <div className="flex flex-col gap-1 sm:justify-start sm:items-start items-center w-full">
             {metrics.map((metric) => (
               <div
                 key={metric.label}
-                className="flex justify-start items-center gap-2"
+                className="flex sm:justify-start sm:items-center justify-between w-full px-6 sm:px-0 gap-2"
               >
                 <p className="text-sm font-bold">{metric.label}:</p>
                 <div className="flex">
@@ -80,7 +80,7 @@ export function PieChartComponent() {
         </CardFooter>
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px] min-w-[250px] min-h-[250px]"
+          className="mx-auto aspect-square max-h-[250px] min-w-[250px] min-h-[250px] -mt-16 sm:mt-0"
         >
           <PieChart>
             <ChartTooltip
