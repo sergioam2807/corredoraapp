@@ -46,7 +46,7 @@ function AdminPage() {
           <h1 className="text-2xl font-extrabold">¡Hola {name}! 😁</h1>
           <p className="text-lg">¿Qué deseas publicar hoy?</p>
         </div>
-        <div className="flex flex-col sm:flex-row justify-around gap-8 sm:w-4/5">
+        <div className="flex flex-col sm:flex-row justify-around gap-8 sm:w-4/5 w-full">
           <PieChartComponent />
           <WidgetCard />
           {/* <Earnings /> */}
