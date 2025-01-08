@@ -4,6 +4,9 @@ import { ButtonComponent } from '@/components/ButtonComponent'
 import { FormProperties } from '@/components/FormProperties'
 import { WidgetCard } from '@/components/WidgetCard'
 import { useUser } from '@auth0/nextjs-auth0/client'
+import Earnings from '@/components/Earnings'
+import MetricsCard from '@/components/MetricsCard'
+import { PieChartComponent } from '@/components/PieChartComponent'
 
 function AdminPage() {
   const [formData, setFormData] = useState({})
@@ -42,19 +45,19 @@ function AdminPage() {
     <div className="w-full flex justify-center items-center flex-col gap-4 ">
       <div className="flex flex-col sm:flex-row w-full gap-4 items-center sm:py-0">
         <div className="flex flex-col gap-4 sm:w-1/5 px-4 justify-center items-center">
-          <h1 className="text-4xl font-extrabold">Hola! {name} 😁</h1>
-          <p className="text-xl">¿Que deseas publicar hoy?</p>
+          <h1 className="text-2xl font-extrabold">¡Hola {name}! 😁</h1>
+          <p className="text-lg">¿Qué deseas publicar hoy?</p>
         </div>
-        <div className="flex flex-col sm:flex-row justify-evenly gap-8 sm:w-4/5">
+        <div className="flex flex-col sm:flex-row justify-around gap-8 sm:w-4/5">
+          <PieChartComponent />
           <WidgetCard />
-          <WidgetCard />
-          <WidgetCard />
+          {/* <Earnings /> */}
         </div>
       </div>
       <div className="w-full ">
         <FormProperties onChange={handleFormChange} showPopup={showPopup} />
       </div>
-      <div className="w-full flex justify-end px-8 mb-24 sm:mb-0">
+      <div className="w-full flex justify-end px-8 mb-24 sm:mb-0 sm:-mt-20">
         <ButtonComponent label="Publicar" showButton onClick={handleSubmit} />
       </div>
       {showPopup && (
