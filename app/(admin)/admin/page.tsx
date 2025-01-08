@@ -4,8 +4,6 @@ import { ButtonComponent } from '@/components/ButtonComponent'
 import { FormProperties } from '@/components/FormProperties'
 import { WidgetCard } from '@/components/WidgetCard'
 import { useUser } from '@auth0/nextjs-auth0/client'
-import Earnings from '@/components/Earnings'
-import MetricsCard from '@/components/MetricsCard'
 import { PieChartComponent } from '@/components/PieChartComponent'
 
 function AdminPage() {

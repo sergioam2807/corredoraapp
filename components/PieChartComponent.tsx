@@ -57,7 +57,8 @@ export function PieChartComponent() {
       <CardContent className="flex-1 pb-0 flex items-center justify-center -mt-14 -mb-14">
         <CardFooter className="flex-col gap-3 text-sm ">
           <div className="flex items-center gap-2 font-medium leading-none">
-            Propiedades por categoria <TrendingUp className="h-4 w-4" />
+            Propiedades por categoria{' '}
+            <TrendingUp className="h-4 w-4 text-success-600" />
           </div>
           <div className="flex flex-col gap-1 justify-start items-start w-full">
             {metrics.map((metric) => (
@@ -90,8 +91,8 @@ export function PieChartComponent() {
               data={metrics}
               dataKey="current"
               nameKey="label"
-              innerRadius={45}
-              outerRadius={65}
+              innerRadius={39}
+              outerRadius={59}
               fill="#8884d8"
               paddingAngle={5}
               strokeWidth={5}
@@ -108,15 +109,16 @@ export function PieChartComponent() {
                       >
                         <tspan
                           x={viewBox.cx}
-                          y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          y={(viewBox.cy || 0) - 7}
+                          className="fill-foreground text-2xl font-bold "
                         >
                           {totalVisitors.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
+                          y={(viewBox.cy || 0) + 13}
+                          className="fill-muted-foreground text-xs font-semibold "
+                          style={{ fontSize: '0.6rem' }}
                         >
                           Propiedades
                         </tspan>
