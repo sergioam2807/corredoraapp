@@ -43,17 +43,40 @@ export const WidgetCard = () => {
   }, [])
 
   return (
-    <Card className="max-w-[400px] px-2 py-4">
-      <CardBody className="gap-4">
-        <h1 className="text-2xl font-bold">
-          {day} de {month} del {date.getFullYear()}
-        </h1>
-        <div className="flex justify-center items-center gap-2">
-          <p className="text-xl font-bold">
-            {ufValue ? ` Valor UF $${ufValue}` : 'Cargando...'}
+    <Card className="min-w-[400px] px-4 py-1">
+      <CardBody className="gap-2">
+        <div className="w-full flex justify-center ">
+          <p className="text-xl font-bold">Ganancias</p>
+        </div>
+        <div className="flex justify-between items-center gap-4">
+          <p className="text-sm font-bold">
+            {day} de {month} del {date.getFullYear()}
+          </p>
+          <p className="text-sm font-bold text-success-600">
+            {ufValue ? `Valor UF $${ufValue}` : 'Cargando...'}
           </p>
         </div>
-        {/* <p>Make beautiful websites regardless of your design experience.</p> */}
+        <div className="flex ">
+          <div className="flex flex-col gap-1 w-full justify-start items-start mt-2 w-1/2">
+            <div className="flex justify-between items-center gap-4 w-full">
+              <p className="text-sm font-bold">Venta</p>
+              <p className="text-sm font-bold text-success-600">{`$ 450.000`}</p>
+            </div>
+            <div className="flex justify-between items-center gap-4 w-full">
+              <p className="text-sm font-bold">Arriendo</p>
+              <p className="text-sm font-bold text-success-600">{`$ 860.000`}</p>
+            </div>
+            <div className="flex justify-between items-center gap-4 w-full">
+              <p className="text-sm font-bold">Arriendo T</p>
+              <p className="text-sm font-bold text-success-600">{`$ 360.000`}</p>
+            </div>
+          </div>
+          <div className="flex flex-col text-center w-1/2 gap-2 mt-2">
+            {' '}
+            <p className="text-sm font-bold ">Total</p>
+            <p className="text-lg font-bold text-rose-700">$167.000</p>
+          </div>
+        </div>
       </CardBody>
     </Card>
   )
