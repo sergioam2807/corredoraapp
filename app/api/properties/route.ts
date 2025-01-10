@@ -107,3 +107,54 @@ export async function POST(request: Request) {
     }
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const data = await request.json()
+    const { id } = data
+
+    const updatedProperty = await prisma.properties.update({
+      where: { id: Number(id) },
+      data: {
+        nombre: data.nombre,
+        descripcion: data.descripcion,
+        mt2: parseInt(data.mt2, 10), // Convert to integer
+        valor_uf: data.valor ? parseFloat(data.valor) : 0, // Convert to float if provided
+        habitaciones: parseInt(data.habitaciones, 10), // Convert to integer
+        banos: parseInt(data.banos, 10), // Convert to integer
+        estacionamientos: parseInt(data.estacionamientos, 10), // Convert to integer
+        bodegas: parseInt(data.bodegas, 10), // Convert to integer
+        direccion: data.direccion,
+        comuna_id: data.comuna ? parseInt(data.comuna, 10) : 1, // Convert to integer if provided
+        estado_id: data.tipoVenta ? parseInt(data.tipoVenta, 10) : 1, // Convert to integer if provided
+        tipo_propiedad_id: data.tipoPropiedad
+          ? parseInt(data.tipoPropiedad, 10)
+          : undefined, // Convert to integer if provided
+        disponibilidad_id: data.disponibilidad_id
+          ? parseInt(data.disponibilidad_id, 10)
+          : 1, // Convert to integer if provided
+        fecha_publicacion: new Date().toISOString(), // Convert to Date if provided
+        video_url: data.video_url,
+        images: {
+          deleteMany: {}, // Delete existing images
+          create: data.imagenesPreview.map((url: string) => ({ url })), // Add new images
+        },
+      },
+    })
+
+    return NextResponse.json(updatedProperty, { status: 200 })
+  } catch (error) {
+    console.error('Error details:', error) // Log the error details for debugging
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { error: 'Error al actualizar la propiedad', details: error.message },
+        { status: 500 }
+      )
+    } else {
+      return NextResponse.json(
+        { error: 'Error al actualizar la propiedad', details: 'Unknown error' },
+        { status: 500 }
+      )
+    }
+  }
+}

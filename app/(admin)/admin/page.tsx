@@ -77,6 +77,44 @@ function AdminPage() {
     }
   }
 
+  const handlePut = async () => {
+    try {
+      const response = await fetch(`/api/properties`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...formData, id }),
+      })
+      const result = await response.json()
+      console.log('result', result)
+      if (response.ok) {
+        setShowPopup(true)
+        setFormData({
+          nombre: '',
+          descripcion: '',
+          valor: '',
+          mt2: '',
+          habitaciones: '',
+          banos: '',
+          estacionamientos: '',
+          bodegas: '',
+          comuna: '',
+          direccion: '',
+          tipoVenta: '',
+          tipoPropiedad: '',
+          estadoVenta: '',
+          profitPercentage: '',
+          imagenes: [],
+          imagenesPreview: [],
+        })
+        handleFormChange({})
+      }
+    } catch (error) {
+      console.error('Error:', error)
+    }
+  }
+
   const handleDeleteClick = () => {
     setIsModalOpen(true)
   }
@@ -115,13 +153,20 @@ function AdminPage() {
       </div>
       <div className="w-full flex justify-end px-8 mb-24 sm:mb-0 sm:-mt-20 gap-4">
         {/* TODO: ADD CONDITONAL IN EDIT OR ADMIN MODE */}
+        {id && (
+          <ButtonComponent
+            label="Eliminar"
+            showButton
+            onClick={handleDeleteClick}
+            colorButton="bg-rose-600"
+          />
+        )}
+
         <ButtonComponent
-          label="Eliminar"
+          label={id ? 'Editar' : 'Publicar'}
           showButton
-          onClick={handleDeleteClick}
-          colorButton="bg-rose-600"
+          onClick={id ? handlePut : handleSubmit}
         />
-        <ButtonComponent label="Publicar" showButton onClick={handleSubmit} />
         <ModalComponent
           isOpen={isModalOpen}
           onOpenChange={setIsModalOpen}
@@ -147,7 +192,7 @@ function AdminPage() {
       </div>
       {showPopup && (
         <div className="fixed bottom-10 left-48 z-50 bg-green-500 text-white p-4 gap-4 rounded-xl flex items-center">
-          <p>Publicación exitosa!</p>
+          <p> {id ? 'Edicion exitosa!' : 'Publicación exitosa!'}</p>
           <button
             className="bg-white text-green-500 px-2 py-2 rounded-lg"
             onClick={() => setShowPopup(false)}
