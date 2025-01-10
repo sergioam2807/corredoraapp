@@ -73,6 +73,7 @@ function AdminPage() {
         <FormProperties onChange={handleFormChange} showPopup={showPopup} />
       </div>
       <div className="w-full flex justify-end px-8 mb-24 sm:mb-0 sm:-mt-20 gap-4">
+        {/* TODO: ADD CONDITONAL IN EDIT OR ADMIN MODE */}
         <ButtonComponent
           label="Eliminar"
           showButton

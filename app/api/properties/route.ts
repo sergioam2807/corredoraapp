@@ -3,29 +3,66 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export async function GET() {
-  try {
-    const properties = await prisma.properties.findMany({
-      include: {
-        communes: { include: { regions: true } },
-        states: true,
-        images: true,
-      },
-    })
-    return NextResponse.json(properties, { status: 200 })
-  } catch (error) {
-    console.error(error)
-    return NextResponse.json(
-      { error: 'Error al obtener las propiedades' },
-      { status: 500 }
-    )
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url)
+  const id = searchParams.get('id')
+
+  if (id) {
+    // GET by ID
+    try {
+      const property = await prisma.properties.findUnique({
+        where: { id: Number(id) },
+        include: {
+          communes: { include: { regions: true } },
+          states: true,
+          images: true,
+          property_types: true,
+        },
+      })
+
+      if (!property) {
+        return NextResponse.json(
+          { error: 'Propiedad no encontrada' },
+          { status: 404 }
+        )
+      }
+
+      return NextResponse.json(property, { status: 200 })
+    } catch (error) {
+      console.error(error)
+
+      return NextResponse.json(
+        { error: 'Error al obtener la propiedad' },
+        { status: 500 }
+      )
+    }
+  } else {
+    // GET all properties
+    try {
+      const properties = await prisma.properties.findMany({
+        include: {
+          communes: { include: { regions: true } },
+          states: true,
+          images: true,
+          property_types: true,
+        },
+      })
+
+      return NextResponse.json(properties, { status: 200 })
+    } catch (error) {
+      console.error(error)
+
+      return NextResponse.json(
+        { error: 'Error al obtener las propiedades' },
+        { status: 500 }
+      )
+    }
   }
 }
 
 export async function POST(request: Request) {
   try {
     const data = await request.json()
-    console.log('Received data:', data) // Log the received data for debugging
 
     const newProperty = await prisma.properties.create({
       data: {
@@ -53,6 +90,7 @@ export async function POST(request: Request) {
         },
       },
     })
+
     return NextResponse.json(newProperty, { status: 201 })
   } catch (error) {
     console.error('Error details:', error) // Log the error details for debugging

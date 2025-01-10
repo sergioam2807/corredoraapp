@@ -5,13 +5,9 @@ import { ButtonComponent } from '@/components/ButtonComponent'
 import { CardComponent } from '@/components/CardComponent'
 import { ContactMe } from '@/components/ContactMe'
 import { ModalComponent } from '@/components/ModalComponent'
-import { Badthub } from '@/icons/Badthub'
-import { Bed } from '@/icons/Bed'
-import { Money } from '@/icons/Money'
-import { Mt2 } from '@/icons/Mt2'
-import { Parking } from '@/icons/Parking'
-import { Chip, image, useDisclosure } from '@nextui-org/react'
+import { useDisclosure } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
+import { CardPropData } from '@/components/CardPropData'
 // import { useRouter } from 'next/router'
 
 interface PropiedadProps {
@@ -101,57 +97,8 @@ const Propiedad = ({ params }: PropiedadProps) => {
           <h2 className="text-2xl font-semibold my-4 text-center">
             Descripción
           </h2>
-          <div className="bg-gray-200 bg-opacity-50 rounded-lg py-6 px-4 mb-4 shadow-lg sm:w-[500] md:w-[600] lg:w-[700]">
-            <div className="flex justify-between items-center flex-col gap-3">
-              <div className="w-full flex justify-around">
-                <div>
-                  <div className="flex items-center gap-1">
-                    <Money />
-                    <p className="uppercase font-bold">
-                      uf {property.valor_uf}
-                    </p>
-                  </div>
-                  <div className="text-sm font-bold text-center">Valor</div>
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-1">
-                    <Mt2 />
-                    <p className="uppercase font-bold">{property.mt2} mt</p>
-                  </div>
-                  <div className="text-sm font-bold text-center">Metros</div>
-                </div>
-              </div>
-              <div className="w-full flex items-center justify-center">
-                <div className="flex w-full justify-around items-center">
-                  {/* <Chip color="default">{property.states.nombre}</Chip> */}
-                  <div className="flex flex-col justify-center items-center">
-                    <div className="flex items-center gap-1 font-bold">
-                      <Bed /> : 3
-                    </div>
-                    <div className="text-sm font-bold">Habitaciones</div>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <div className="flex items-center gap-1 font-bold">
-                      <Badthub /> : {property.banos}
-                    </div>
-                    <div className="text-sm font-bold">Baños</div>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <div className="flex items-center gap-1 font-bold">
-                      <Parking /> : {property.estacionamientos}
-                    </div>
-                    <div className="text-sm font-bold">Estacionmiento</div>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <div className="flex items-center gap-1 font-bold">
-                      <Parking /> : {property.bodegas}
-                    </div>
-                    <div className="text-sm font-bold">Bodegas</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="flex justify-center">
+            <CardPropData property={property} />
           </div>
           <p className="text-justify">{property.descripcion}</p>
         </div>
