@@ -26,7 +26,8 @@ interface FormValues {
   bodegas: string
   comuna: string
   direccion: string
-  tipoVenta: string
+  estadoVenta: string
+  tiposVenta: string
   tipoPropiedad: string
   profitPercentage: string
   imagenes: File[]
@@ -36,11 +37,13 @@ interface FormValues {
 interface FormPropertiesProps {
   onChange: (data: any) => void
   showPopup: boolean
+  id?: string
 }
 
 export const FormProperties: React.FC<FormPropertiesProps> = ({
   onChange,
   showPopup,
+  id,
 }) => {
   const [data, setData] = useState<Data>({
     tiposVenta: [],
@@ -59,12 +62,14 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
     bodegas: '',
     comuna: '',
     direccion: '',
-    tipoVenta: '',
+    estadoVenta: '',
     tipoPropiedad: '',
+    tiposVenta: '',
     profitPercentage: '',
     imagenes: [],
     imagenesPreview: [],
   })
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,8 +86,47 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
   }, [])
 
   useEffect(() => {
-    onChange(formValues)
-  }, [formValues])
+    if (id) {
+      const fetchProperty = async () => {
+        try {
+          const response = await fetch(`/api/properties?id=${id}`)
+          const data = await response.json()
+
+          setFormValues({
+            nombre: data.nombre || '',
+            descripcion: data.descripcion || '',
+            valor: data.valor_uf || '',
+            mt2: data.mt2 || '',
+            habitaciones: data.habitaciones || '',
+            banos: data.banos || '',
+            estacionamientos: data.estacionamientos || '',
+            bodegas: data.bodegas || '',
+            comuna: data.comuna_id || '',
+            direccion: data.direccion || '',
+            tiposVenta: data.disponibilidad_id || '',
+            tipoPropiedad: data.tipo_propiedad_id || '',
+            estadoVenta: data.estado_id || '',
+            profitPercentage: '',
+            imagenes: [],
+            imagenesPreview: [],
+          })
+        } catch (error) {
+          console.log('Error fetching property', error)
+        } finally {
+          setLoading(false)
+        }
+      }
+      fetchProperty()
+    } else {
+      setLoading(false)
+    }
+  }, [id])
+
+  useEffect(() => {
+    if (!loading) {
+      onChange(formValues)
+    }
+  }, [formValues, loading])
 
   useEffect(() => {
     if (showPopup) {
@@ -97,8 +141,9 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         bodegas: '',
         comuna: '',
         direccion: '',
-        tipoVenta: '',
+        estadoVenta: '',
         tipoPropiedad: '',
+        tiposVenta: '',
         profitPercentage: '',
         imagenes: [],
         imagenesPreview: [],
@@ -180,6 +225,8 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
       console.error('Error al eliminar la imagen:', result.error)
     }
   }
+
+  if (loading) return <div>Loading...</div>
 
   return (
     <div className="flex flex-col gap-4">
@@ -268,7 +315,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           onChange={handleChange}
           value={formValues.comuna}
         >
-          {data.tipoComuna.map((tipo) => (
+          {data.tipoComuna?.map((tipo) => (
             <SelectItem key={tipo.id} value={tipo.id}>
               {tipo.nombre}
             </SelectItem>
@@ -283,7 +330,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           onChange={handleChange}
           value={formValues.tipoPropiedad}
         >
-          {data.tipoPropiedad.map((tipo) => (
+          {data.tipoPropiedad?.map((tipo) => (
             <SelectItem key={tipo.id} value={tipo.id}>
               {tipo.nombre}
             </SelectItem>
@@ -302,11 +349,11 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         <Select
           label="Tipo de Venta"
           placeholder="Selecciona un tipo de venta"
-          name="tipoPropiedad"
+          name="tipoVenta"
           onChange={handleChange}
-          value={formValues.tipoPropiedad}
+          value={formValues.estadoVenta}
         >
-          {data.tiposVenta.map((tipo) => (
+          {data.tiposVenta?.map((tipo) => (
             <SelectItem key={tipo.id} value={tipo.id}>
               {tipo.nombre}
             </SelectItem>
@@ -315,11 +362,11 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         <Select
           label="Estado de la propiedad"
           placeholder="Selecciona un estado"
-          name="tipoPropiedad"
+          name="estadoVenta"
           onChange={handleChange}
-          value={formValues.tipoPropiedad}
+          value={formValues.estadoVenta}
         >
-          {data.estadoVenta.map((tipo) => (
+          {data.estadoVenta?.map((tipo) => (
             <SelectItem key={tipo.id} value={tipo.id}>
               {tipo.nombre}
             </SelectItem>

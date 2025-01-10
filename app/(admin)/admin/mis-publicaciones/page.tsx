@@ -67,7 +67,7 @@ function MisPublicaciones() {
   }, [])
 
   const handleAdminClick = (id: number) => {
-    router.push(`/admin/${id}`)
+    router.push(`/admin?id=${id}`)
   }
 
   const getStatusColor = (
