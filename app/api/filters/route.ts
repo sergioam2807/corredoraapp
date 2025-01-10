@@ -26,7 +26,7 @@ export async function GET() {
       },
     })
 
-    const estadoVenta = await prisma.states.findMany({
+    const estadoVenta = await prisma.availability_status.findMany({
       select: {
         id: true,
         nombre: true,

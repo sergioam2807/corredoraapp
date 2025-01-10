@@ -12,6 +12,7 @@ interface Data {
   tiposVenta: Tipo[]
   tipoPropiedad: Tipo[]
   tipoComuna: Tipo[]
+  estadoVenta: Tipo[]
 }
 
 interface FormValues {
@@ -45,6 +46,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
     tiposVenta: [],
     tipoPropiedad: [],
     tipoComuna: [],
+    estadoVenta: [],
   })
   const [formValues, setFormValues] = useState<FormValues>({
     nombre: '',
@@ -63,8 +65,6 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
     imagenes: [],
     imagenesPreview: [],
   })
-
-  console.log('showPopup', showPopup)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -198,14 +198,24 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         onChange={handleChange}
         value={formValues.descripcion}
       />
-      <Input
-        label="Valor"
-        placeholder="Ingrese valor en uf"
-        type="text"
-        name="valor"
-        onChange={handleChange}
-        value={formValues.valor}
-      />
+
+      <div className="flex gap-4">
+        <Input
+          label="Direccion"
+          placeholder="Ingresa la direccion de la propiedad"
+          name="direccion"
+          onChange={handleChange}
+          value={formValues.direccion}
+        />
+        <Input
+          label="Valor"
+          placeholder="Ingrese valor en uf"
+          type="text"
+          name="valor"
+          onChange={handleChange}
+          value={formValues.valor}
+        />
+      </div>
       <div className="flex gap-4">
         <Input
           label="Mt2"
@@ -289,13 +299,32 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         />
       </div>
       <div className="flex gap-4">
-        <Input
-          label="Direccion"
-          placeholder="Ingresa la direccion de la propiedad"
-          name="direccion"
+        <Select
+          label="Tipo de Venta"
+          placeholder="Selecciona un tipo de venta"
+          name="tipoPropiedad"
           onChange={handleChange}
-          value={formValues.direccion}
-        />
+          value={formValues.tipoPropiedad}
+        >
+          {data.tiposVenta.map((tipo) => (
+            <SelectItem key={tipo.id} value={tipo.id}>
+              {tipo.nombre}
+            </SelectItem>
+          ))}
+        </Select>
+        <Select
+          label="Estado de la propiedad"
+          placeholder="Selecciona un estado"
+          name="tipoPropiedad"
+          onChange={handleChange}
+          value={formValues.tipoPropiedad}
+        >
+          {data.estadoVenta.map((tipo) => (
+            <SelectItem key={tipo.id} value={tipo.id}>
+              {tipo.nombre}
+            </SelectItem>
+          ))}
+        </Select>
       </div>
       <div className="flex flex-col sm:flex-row gap-4">
         <Input
