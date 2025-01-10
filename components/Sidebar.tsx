@@ -26,7 +26,7 @@ export const Sidebar = () => {
             href="admin/mis-publicaciones"
             className="flex items-center text-start gap-2 p-2 hover:bg-sidebar rounded-xl font-bold"
           >
-            <span>Mis Publicaciones</span>
+            <span>Publicaciones</span>
           </Link>
         </nav>
         <div className="mt-auto">

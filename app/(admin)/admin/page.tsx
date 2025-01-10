@@ -7,12 +7,32 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 import { PieChartComponent } from '@/components/PieChartComponent'
 import { ModalComponent } from '@/components/ModalComponent'
 import { Button, ModalFooter } from '@nextui-org/react'
+import { useSearchParams } from 'next/navigation'
 
 function AdminPage() {
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState({
+    nombre: '',
+    descripcion: '',
+    valor: '',
+    mt2: '',
+    habitaciones: '',
+    banos: '',
+    estacionamientos: '',
+    bodegas: '',
+    comuna: '',
+    direccion: '',
+    tipoVenta: '',
+    tipoPropiedad: '',
+    estadoVenta: '',
+    profitPercentage: '',
+    imagenes: [],
+    imagenesPreview: [],
+  })
   const [showPopup, setShowPopup] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user, error, isLoading } = useUser()
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
   const name = user?.name?.split(' ')[0]
 
   const handleFormChange = (newData: Record<string, any>) => {
@@ -32,7 +52,24 @@ function AdminPage() {
       console.log('result', result)
       if (response.ok) {
         setShowPopup(true)
-        setFormData({})
+        setFormData({
+          nombre: '',
+          descripcion: '',
+          valor: '',
+          mt2: '',
+          habitaciones: '',
+          banos: '',
+          estacionamientos: '',
+          bodegas: '',
+          comuna: '',
+          direccion: '',
+          tipoVenta: '',
+          tipoPropiedad: '',
+          estadoVenta: '',
+          profitPercentage: '',
+          imagenes: [],
+          imagenesPreview: [],
+        })
         handleFormChange({})
       }
     } catch (error) {
@@ -70,7 +107,11 @@ function AdminPage() {
         </div>
       </div>
       <div className="w-full ">
-        <FormProperties onChange={handleFormChange} showPopup={showPopup} />
+        <FormProperties
+          onChange={handleFormChange}
+          showPopup={showPopup}
+          id={id ?? undefined}
+        />
       </div>
       <div className="w-full flex justify-end px-8 mb-24 sm:mb-0 sm:-mt-20 gap-4">
         {/* TODO: ADD CONDITONAL IN EDIT OR ADMIN MODE */}
