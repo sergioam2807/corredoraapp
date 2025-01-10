@@ -10,6 +10,7 @@ interface ButtonComponentProps {
   onPress?: () => void
   showButton?: boolean
   smallButton?: boolean
+  colorButton?: string
 }
 
 export const ButtonComponent = ({
@@ -18,10 +19,11 @@ export const ButtonComponent = ({
   onPress,
   showButton,
   smallButton,
+  colorButton = 'bg-roseGold',
 }: ButtonComponentProps) => {
   return (
     <Button
-      className={`${showButton ? 'block' : 'hidden'} ${smallButton ? 'w-full' : ''} sm:block bg-roseGold text-white ${smallButton ? 'md:w-auto lg:w-auto' : ''}`}
+      className={`${showButton ? 'block' : 'hidden'} ${smallButton ? 'w-full' : ''} sm:block ${colorButton}   text-white ${smallButton ? 'md:w-auto lg:w-auto' : ''}`}
       onClick={onClick}
       onPress={onPress}
     >

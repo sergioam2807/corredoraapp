@@ -5,10 +5,13 @@ import { FormProperties } from '@/components/FormProperties'
 import { WidgetCard } from '@/components/WidgetCard'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { PieChartComponent } from '@/components/PieChartComponent'
+import { ModalComponent } from '@/components/ModalComponent'
+import { Button, ModalFooter } from '@nextui-org/react'
 
 function AdminPage() {
   const [formData, setFormData] = useState({})
   const [showPopup, setShowPopup] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { user, error, isLoading } = useUser()
   const name = user?.name?.split(' ')[0]
 
@@ -36,6 +39,20 @@ function AdminPage() {
       console.error('Error:', error)
     }
   }
+
+  const handleDeleteClick = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleConfirmDelete = () => {
+    // Lógica para eliminar
+    setIsModalOpen(false)
+  }
+
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>{error.message}</div>
 
@@ -55,8 +72,36 @@ function AdminPage() {
       <div className="w-full ">
         <FormProperties onChange={handleFormChange} showPopup={showPopup} />
       </div>
-      <div className="w-full flex justify-end px-8 mb-24 sm:mb-0 sm:-mt-20">
+      <div className="w-full flex justify-end px-8 mb-24 sm:mb-0 sm:-mt-20 gap-4">
+        <ButtonComponent
+          label="Eliminar"
+          showButton
+          onClick={handleDeleteClick}
+          colorButton="bg-rose-600"
+        />
         <ButtonComponent label="Publicar" showButton onClick={handleSubmit} />
+        <ModalComponent
+          isOpen={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          title="Confirmar Eliminación"
+          hasCancelButton={false}
+        >
+          <div className="w-full flex justify-center items-center flex-col gap-4 p-4 text-center">
+            <p>¿Estás seguro de que deseas eliminar este elemento?</p>
+          </div>
+          <ModalFooter>
+            <Button color="danger" variant="light" onPress={handleModalClose}>
+              Cancelar
+            </Button>
+            <Button
+              color="success"
+              variant="light"
+              onPress={handleConfirmDelete}
+            >
+              Confirmar
+            </Button>
+          </ModalFooter>
+        </ModalComponent>
       </div>
       {showPopup && (
         <div className="fixed bottom-10 left-48 z-50 bg-green-500 text-white p-4 gap-4 rounded-xl flex items-center">
