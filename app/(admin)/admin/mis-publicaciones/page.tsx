@@ -141,7 +141,7 @@ function MisPublicaciones() {
           )
         case 'administrar':
           return (
-            <div className="relative flex items-center gap-2">
+            <div className="relative gap-2">
               <Button
                 onClick={() => handleAdminClick(property.id)}
                 className="bg-blue-400 text-xs font-semibold text-white"
