@@ -12,8 +12,9 @@ import {
 } from '@nextui-org/react'
 import { Button } from '@nextui-org/button'
 import { useRouter } from 'next/navigation'
-
+import '@/styles/custom.css'
 import { EditIcon } from '@/icons/EditIcons'
+import { Skeleton } from '@heroui/skeleton'
 
 interface Property {
   id: number
@@ -50,6 +51,7 @@ const columns: Column[] = [
 
 export default function MisPublicaciones() {
   const [properties, setProperties] = useState<Property[]>([])
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
@@ -60,6 +62,8 @@ export default function MisPublicaciones() {
         setProperties(data)
       } catch (error) {
         console.log('Error fetching properties', error)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -155,6 +159,15 @@ export default function MisPublicaciones() {
     },
     []
   )
+
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-4">
+        <Skeleton className="h-20 rounded-lg w-full" />
+        <Skeleton className="custom-height rounded-lg w-full" />
+      </div>
+    )
+  }
 
   return (
     <div className="w-full flex justify-center items-center flex-col gap-4">
