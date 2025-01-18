@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { ButtonComponent } from '@/components/ButtonComponent'
 import { FormProperties } from '@/components/FormProperties'
 import { WidgetCard } from '@/components/WidgetCard'
@@ -9,7 +9,7 @@ import { ModalComponent } from '@/components/ModalComponent'
 import { Button, ModalFooter } from '@nextui-org/react'
 import { useSearchParams } from 'next/navigation'
 
-function AdminPage() {
+function AdminPageContent() {
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
@@ -205,4 +205,10 @@ function AdminPage() {
   )
 }
 
-export default AdminPage
+export default function AdminPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AdminPageContent />
+    </Suspense>
+  )
+}
