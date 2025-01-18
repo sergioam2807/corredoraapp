@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 import {
   Table,
@@ -36,7 +37,7 @@ interface Column {
   uid: string
 }
 
-export const columns: Column[] = [
+const columns: Column[] = [
   { name: 'Nombre', uid: 'nombre' },
   { name: 'Valor', uid: 'valor_uf' },
   { name: 'Comuna', uid: 'communes.nombre' },
@@ -47,16 +48,15 @@ export const columns: Column[] = [
   { name: 'Administrar', uid: 'administrar' },
 ]
 
-function MisPublicaciones() {
+export default function MisPublicaciones() {
   const [properties, setProperties] = useState<Property[]>([])
   const router = useRouter()
+
   useEffect(() => {
     const fetchProperties = async () => {
       try {
         const response = await fetch('/api/properties')
-
         const data = await response.json()
-
         setProperties(data)
       } catch (error) {
         console.log('Error fetching properties', error)
@@ -121,7 +121,6 @@ function MisPublicaciones() {
               className="capitalize px-4 py-2 text-white font-semibold"
               color={getStatusColor(property.states.nombre)}
               size="sm"
-              // variant="flat"
             >
               {cellValue}
             </Chip>
@@ -186,5 +185,3 @@ function MisPublicaciones() {
     </div>
   )
 }
-
-export default MisPublicaciones
