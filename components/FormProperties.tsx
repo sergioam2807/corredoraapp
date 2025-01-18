@@ -1,8 +1,9 @@
+import { Skeleton } from '@heroui/skeleton'
 import { Input, Textarea } from '@nextui-org/input'
 import { Select, SelectItem } from '@nextui-org/react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-
+import '@/styles/custom.css'
 interface Tipo {
   id: number
   nombre: string
@@ -38,12 +39,14 @@ interface FormPropertiesProps {
   onChange: (data: any) => void
   showPopup: boolean
   id?: string
+  setDataIsloading?: (loading: boolean) => void
 }
 
 export const FormProperties: React.FC<FormPropertiesProps> = ({
   onChange,
   showPopup,
   id,
+  setDataIsloading,
 }) => {
   const [data, setData] = useState<Data>({
     tiposVenta: [],
@@ -79,6 +82,10 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         setData(result)
       } catch (error) {
         console.error('Error fetching data:', error)
+      } finally {
+        if (setDataIsloading) {
+          setDataIsloading(false)
+        }
       }
     }
 
@@ -226,7 +233,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
     }
   }
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <Skeleton className="rounded-lg custom-skeleton-height" />
 
   return (
     <div className="flex flex-col gap-4">
