@@ -43,7 +43,7 @@ export const WidgetCard = () => {
   }, [])
 
   return (
-    <Card className="sm:min-w-[400px] max-w-[350px] px-4 py-1">
+    <Card className="sm:min-w-[400px] px-4 py-1">
       <CardBody className="gap-2">
         <div className="w-full flex justify-center">
           <p className="text-xl font-bold">Ganancias</p>
