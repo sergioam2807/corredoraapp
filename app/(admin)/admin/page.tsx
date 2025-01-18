@@ -9,6 +9,7 @@ import { ModalComponent } from '@/components/ModalComponent'
 import { Button, ModalFooter } from '@nextui-org/react'
 import { useSearchParams } from 'next/navigation'
 import SkeletonAdmin from '@/components/skeleton/SkeletonAdmin'
+import { Skeleton } from '@heroui/skeleton'
 
 function AdminPageContent() {
   const [formData, setFormData] = useState({
@@ -31,6 +32,7 @@ function AdminPageContent() {
   })
   const [showPopup, setShowPopup] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [dataIsloading, setDataIsloading] = useState(true)
   const { user, error, isLoading } = useUser()
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
@@ -155,24 +157,28 @@ function AdminPageContent() {
           onChange={handleFormChange}
           showPopup={showPopup}
           id={id ?? undefined}
+          setDataIsloading={setDataIsloading}
         />
       </div>
       <div className="w-full flex justify-end px-8 mb-24 sm:mb-0 sm:-mt-20 gap-4">
         {/* TODO: ADD CONDITONAL IN EDIT OR ADMIN MODE */}
         {id && (
-          <ButtonComponent
-            label="Eliminar"
-            showButton
-            onClick={handleDeleteClick}
-            colorButton="bg-rose-600"
-          />
+          <div className={`${dataIsloading ? 'hidden' : 'flex'} `}>
+            <ButtonComponent
+              label="Eliminar"
+              showButton
+              onClick={handleDeleteClick}
+              colorButton="bg-rose-600"
+            />
+          </div>
         )}
-
-        <ButtonComponent
-          label={id ? 'Editar' : 'Publicar'}
-          showButton
-          onClick={id ? handlePut : handleSubmit}
-        />
+        <div className={`${dataIsloading ? 'hidden' : 'flex'} `}>
+          <ButtonComponent
+            label={id ? 'Editar' : 'Publicar'}
+            showButton={dataIsloading}
+            onClick={id ? handlePut : handleSubmit}
+          />
+        </div>
         <ModalComponent
           isOpen={isModalOpen}
           onOpenChange={setIsModalOpen}
@@ -213,7 +219,7 @@ function AdminPageContent() {
 
 export default function AdminPage() {
   return (
-    <Suspense fallback={<div>Loading</div>}>
+    <Suspense fallback={<Skeleton className="rounded-lg" />}>
       <AdminPageContent />
     </Suspense>
   )
