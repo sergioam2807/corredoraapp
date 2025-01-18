@@ -213,7 +213,7 @@ function AdminPageContent() {
 
 export default function AdminPage() {
   return (
-    <Suspense fallback={<SkeletonAdmin />}>
+    <Suspense fallback={<div>Loading</div>}>
       <AdminPageContent />
     </Suspense>
   )
