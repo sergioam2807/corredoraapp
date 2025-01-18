@@ -1,3 +1,4 @@
+const { heroui } = require('@heroui/theme')
 import { nextui } from '@nextui-org/theme'
 
 /** @type {import('tailwindcss').Config} */
@@ -7,6 +8,7 @@ const config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@heroui/theme/dist/components/(card|skeleton|ripple).js',
   ],
   theme: {
     extend: {
@@ -77,7 +79,7 @@ const config = {
       '2xl': '1536px',
     },
   },
-  plugins: [nextui(), require('tailwindcss-animate')],
+  plugins: [nextui(), require('tailwindcss-animate'), heroui()],
 }
 
 export default config

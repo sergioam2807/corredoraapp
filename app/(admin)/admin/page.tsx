@@ -8,6 +8,7 @@ import { PieChartComponent } from '@/components/PieChartComponent'
 import { ModalComponent } from '@/components/ModalComponent'
 import { Button, ModalFooter } from '@nextui-org/react'
 import { useSearchParams } from 'next/navigation'
+import SkeletonAdmin from '@/components/skeleton/SkeletonAdmin'
 
 function AdminPageContent() {
   const [formData, setFormData] = useState({
@@ -128,7 +129,12 @@ function AdminPageContent() {
     setIsModalOpen(false)
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading)
+    return (
+      <div>
+        <SkeletonAdmin />
+      </div>
+    )
   if (error) return <div>{error.message}</div>
 
   return (
@@ -207,7 +213,7 @@ function AdminPageContent() {
 
 export default function AdminPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<SkeletonAdmin />}>
       <AdminPageContent />
     </Suspense>
   )
