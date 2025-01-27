@@ -140,7 +140,7 @@ function AdminPageContent() {
   if (error) return <div>{error.message}</div>
 
   return (
-    <div className="w-full flex justify-center items-center flex-col gap-4 ">
+    <div className="w-full sm:h-full flex sm:flex-col justify-center items-center flex-col gap-4 ">
       <div className="flex flex-col sm:flex-row w-full gap-4 items-center sm:py-0">
         <div className="flex flex-col gap-4 sm:w-1/5 px-4 justify-center items-center">
           <h1 className="text-2xl font-extrabold">¡Hola {name}! 😁</h1>
@@ -152,7 +152,7 @@ function AdminPageContent() {
           {/* <Earnings /> */}
         </div>
       </div>
-      <div className="w-full ">
+      <div className="w-full sm:flex-grow sm:overflow-auto">
         <FormProperties
           onChange={handleFormChange}
           showPopup={showPopup}
@@ -160,7 +160,7 @@ function AdminPageContent() {
           setDataIsloading={setDataIsloading}
         />
       </div>
-      <div className="w-full flex justify-end px-8 mb-24 sm:mb-0 sm:-mt-20 gap-4">
+      <div className="w-full flex justify-end px-8 mb-24 sm:mb-4 gap-4">
         {/* TODO: ADD CONDITONAL IN EDIT OR ADMIN MODE */}
         {id && (
           <div className={`${dataIsloading ? 'hidden' : 'flex'} `}>
