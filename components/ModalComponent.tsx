@@ -13,6 +13,7 @@ interface ModalComponentProps {
   title?: string
   children?: React.ReactNode
   bgColor?: string
+  hasCancelButton?: boolean
 }
 
 export const ModalComponent = ({
@@ -21,19 +22,29 @@ export const ModalComponent = ({
   title,
   children,
   bgColor,
+  hasCancelButton = true,
 }: ModalComponentProps) => {
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} className={`${bgColor}`}>
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      className={`${bgColor}`}
+      hideCloseButton
+    >
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1 text-center">
+              {title}
+            </ModalHeader>
             <ModalBody>{children}</ModalBody>
-            <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
+            {hasCancelButton && (
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Cancelar
+                </Button>
+              </ModalFooter>
+            )}
           </>
         )}
       </ModalContent>
