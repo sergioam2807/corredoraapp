@@ -1,15 +1,16 @@
 'use client'
 import { useState, Suspense } from 'react'
+import { useUser } from '@auth0/nextjs-auth0/client'
+import { Button, ModalFooter } from '@nextui-org/react'
+import { useSearchParams } from 'next/navigation'
+import { Skeleton } from '@heroui/skeleton'
+
 import { ButtonComponent } from '@/components/ButtonComponent'
 import { FormProperties } from '@/components/FormProperties'
 import { WidgetCard } from '@/components/WidgetCard'
-import { useUser } from '@auth0/nextjs-auth0/client'
 import { PieChartComponent } from '@/components/PieChartComponent'
 import { ModalComponent } from '@/components/ModalComponent'
-import { Button, ModalFooter } from '@nextui-org/react'
-import { useSearchParams } from 'next/navigation'
 import SkeletonAdmin from '@/components/skeleton/SkeletonAdmin'
-import { Skeleton } from '@heroui/skeleton'
 
 function AdminPageContent() {
   const [formData, setFormData] = useState({
@@ -52,6 +53,7 @@ function AdminPageContent() {
         body: JSON.stringify(formData),
       })
       const result = await response.json()
+
       console.log('result', result)
       if (response.ok) {
         setShowPopup(true)
@@ -90,6 +92,7 @@ function AdminPageContent() {
         body: JSON.stringify({ ...formData, id }),
       })
       const result = await response.json()
+
       console.log('result', result)
       if (response.ok) {
         setShowPopup(true)
@@ -154,10 +157,10 @@ function AdminPageContent() {
       </div>
       <div className="w-full sm:flex-grow sm:overflow-auto">
         <FormProperties
-          onChange={handleFormChange}
-          showPopup={showPopup}
           id={id ?? undefined}
           setDataIsloading={setDataIsloading}
+          showPopup={showPopup}
+          onChange={handleFormChange}
         />
       </div>
       <div className="w-full flex justify-end px-8 mb-24 sm:mb-4 gap-4">
@@ -165,10 +168,10 @@ function AdminPageContent() {
         {id && (
           <div className={`${dataIsloading ? 'hidden' : 'flex'} `}>
             <ButtonComponent
-              label="Eliminar"
               showButton
-              onClick={handleDeleteClick}
               colorButton="bg-rose-600"
+              label="Eliminar"
+              onClick={handleDeleteClick}
             />
           </div>
         )}
@@ -180,10 +183,10 @@ function AdminPageContent() {
           />
         </div>
         <ModalComponent
-          isOpen={isModalOpen}
-          onOpenChange={setIsModalOpen}
-          title="Confirmar Eliminación"
           hasCancelButton={false}
+          isOpen={isModalOpen}
+          title="Confirmar Eliminación"
+          onOpenChange={setIsModalOpen}
         >
           <div className="w-full flex justify-center items-center flex-col gap-4 p-4 text-center">
             <p>¿Estás seguro de que deseas eliminar este elemento?</p>

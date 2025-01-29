@@ -79,6 +79,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
       try {
         const response = await fetch('/api/filters')
         const result = await response.json()
+
         setData(result)
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -123,6 +124,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           setLoading(false)
         }
       }
+
       fetchProperty()
     } else {
       setLoading(false)
@@ -168,15 +170,19 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
 
     if (name === 'ganancia' && Number(value) > 100) {
       alert('El porcentaje de ganancia no puede ser mayor a 100')
+
       return
     }
     if (name === 'imagenes' && files) {
       const fileArray = Array.from(files)
+
       if (formValues.imagenes.length + fileArray.length > 12) {
         alert('No puedes agregar más de 12 imágenes')
+
         return
       }
       const formData = new FormData()
+
       fileArray.forEach((file) => formData.append('file', file))
 
       const response = await fetch('/api/upload', {
@@ -220,8 +226,10 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
       setFormValues((prevValues) => {
         const newImages = [...prevValues.imagenes]
         const newPreviews = [...prevValues.imagenesPreview]
+
         newImages.splice(index, 1)
         newPreviews.splice(index, 1)
+
         return {
           ...prevValues,
           imagenes: newImages,
@@ -239,91 +247,91 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
     <div className="flex flex-col gap-4">
       <Input
         label="Nombre"
+        name="nombre"
         placeholder="Nombre de la propiedad"
         type="text"
-        name="nombre"
-        onChange={handleChange}
         value={formValues.nombre}
+        onChange={handleChange}
       />
       <Textarea
         label="Descripción"
-        placeholder="Ingresa la descripción de la propiedad"
         name="descripcion"
-        onChange={handleChange}
+        placeholder="Ingresa la descripción de la propiedad"
         value={formValues.descripcion}
+        onChange={handleChange}
       />
 
       <div className="flex gap-4">
         <Input
           label="Direccion"
-          placeholder="Ingresa la direccion de la propiedad"
           name="direccion"
-          onChange={handleChange}
+          placeholder="Ingresa la direccion de la propiedad"
           value={formValues.direccion}
+          onChange={handleChange}
         />
         <Input
           label="Valor"
+          name="valor"
           placeholder="Ingrese valor en uf"
           type="text"
-          name="valor"
-          onChange={handleChange}
           value={formValues.valor}
+          onChange={handleChange}
         />
       </div>
       <div className="flex gap-4">
         <Input
           label="Mt2"
+          name="mt2"
           placeholder="Metros Cuadrados"
           type="text"
-          name="mt2"
-          onChange={handleChange}
           value={formValues.mt2}
+          onChange={handleChange}
         />
         <Input
           label="Habitaciones"
+          name="habitaciones"
           placeholder="Cantidad de Habitaciones"
           type="number"
-          name="habitaciones"
-          onChange={handleChange}
           value={formValues.habitaciones}
+          onChange={handleChange}
         />
       </div>
       <div className="flex gap-4">
         <Input
           label="Baños"
+          name="banos"
           placeholder="Cantidad de baños"
           type="number"
-          name="banos"
-          onChange={handleChange}
           value={formValues.banos}
+          onChange={handleChange}
         />
         <Input
           label="Estacionamientos"
+          name="estacionamientos"
           placeholder="Cantidad de Estacionamientos"
           type="number"
-          name="estacionamientos"
-          onChange={handleChange}
           value={formValues.estacionamientos}
+          onChange={handleChange}
         />
       </div>
       <div className="flex gap-4">
         <Input
           label="Bodegas"
+          name="bodegas"
           placeholder="Cantidad de Bodegas"
           type="number"
-          name="bodegas"
-          onChange={handleChange}
           value={formValues.bodegas}
+          onChange={handleChange}
         />
         <Select
           label="Comuna"
-          placeholder="Selecciona una comuna"
           name="comuna"
+          placeholder="Selecciona una comuna"
+          selectedKeys={formValues.comuna ? [formValues.comuna.toString()] : []}
           onChange={handleChange}
-          value={formValues.comuna}
         >
           {data.tipoComuna?.map((tipo) => (
-            <SelectItem key={tipo.id} value={tipo.id}>
+            <SelectItem key={tipo.id.toString()} value={tipo.id.toString()}>
               {tipo.nombre}
             </SelectItem>
           ))}
@@ -332,49 +340,57 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
       <div className="flex gap-4">
         <Select
           label="Tipo de propiedad"
-          placeholder="Selecciona un tipo"
           name="tipoPropiedad"
+          placeholder="Selecciona un tipo"
+          selectedKeys={
+            formValues.tipoPropiedad
+              ? [formValues.tipoPropiedad.toString()]
+              : []
+          }
           onChange={handleChange}
-          value={formValues.tipoPropiedad}
         >
           {data.tipoPropiedad?.map((tipo) => (
-            <SelectItem key={tipo.id} value={tipo.id}>
+            <SelectItem key={tipo.id.toString()} value={tipo.id.toString()}>
               {tipo.nombre}
             </SelectItem>
           ))}
         </Select>
         <Input
           label="Procentaje de ganancia"
+          name="profitPercentage"
           placeholder="% de ganancia"
           type="number"
-          name="profitPercentage"
-          onChange={handleChange}
           value={formValues.profitPercentage}
+          onChange={handleChange}
         />
       </div>
       <div className="flex gap-4">
         <Select
           label="Tipo de Venta"
-          placeholder="Selecciona un tipo de venta"
           name="tipoVenta"
+          placeholder="Selecciona un tipo de venta"
+          selectedKeys={
+            formValues.tiposVenta ? [formValues.tiposVenta.toString()] : []
+          }
           onChange={handleChange}
-          value={formValues.estadoVenta}
         >
           {data.tiposVenta?.map((tipo) => (
-            <SelectItem key={tipo.id} value={tipo.id}>
+            <SelectItem key={tipo.id.toString()} value={tipo.id.toString()}>
               {tipo.nombre}
             </SelectItem>
           ))}
         </Select>
         <Select
           label="Estado de la propiedad"
-          placeholder="Selecciona un estado"
           name="estadoVenta"
+          placeholder="Selecciona un estado"
+          selectedKeys={
+            formValues.estadoVenta ? [formValues.estadoVenta.toString()] : []
+          }
           onChange={handleChange}
-          value={formValues.estadoVenta}
         >
           {data.estadoVenta?.map((tipo) => (
-            <SelectItem key={tipo.id} value={tipo.id}>
+            <SelectItem key={tipo.id.toString()} value={tipo.id.toString()}>
               {tipo.nombre}
             </SelectItem>
           ))}
@@ -382,20 +398,20 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
       </div>
       <div className="flex flex-col sm:flex-row gap-4">
         <Input
-          label="Imágenes"
-          type="file"
-          name="imagenes"
           multiple
-          onChange={handleChange}
           className="w-fit font-bold"
+          label="Imágenes"
+          name="imagenes"
+          type="file"
+          onChange={handleChange}
         />
         <div className="flex gap-4 flex-wrap">
           {formValues.imagenesPreview.map((src, index) => (
             <div
               key={index}
+              className="relative cursor-pointer hover:opacity-75"
               role="button"
               tabIndex={0}
-              className="relative cursor-pointer hover:opacity-75"
               onClick={() => handleRemoveImage(index)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -404,10 +420,10 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
               }}
             >
               <Image
-                src={src}
                 alt={`Imagen ${index + 1}`}
                 className="w-14 h-14 object-contain rounded-lg"
                 height={20}
+                src={src}
                 width={60}
               />
             </div>
