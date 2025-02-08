@@ -33,6 +33,7 @@ interface FormValues {
   profitPercentage: string
   imagenes: File[]
   imagenesPreview: string[]
+  profit_percentage: number
 }
 
 interface FormPropertiesProps {
@@ -71,6 +72,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
     profitPercentage: '',
     imagenes: [],
     imagenesPreview: [],
+    profit_percentage: 0,
   })
   const [loading, setLoading] = useState(true)
 
@@ -114,9 +116,10 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
             tiposVenta: data.disponibilidad_id || '',
             tipoPropiedad: data.tipo_propiedad_id || '',
             estadoVenta: data.estado_id || '',
-            profitPercentage: '',
+            profitPercentage: data.profit_percentage || '',
             imagenes: [],
             imagenesPreview: [],
+            profit_percentage: data.profit_percentage || 0,
           })
         } catch (error) {
           console.log('Error fetching property', error)
@@ -156,6 +159,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         profitPercentage: '',
         imagenes: [],
         imagenesPreview: [],
+        profit_percentage: 0,
       })
     }
   }, [showPopup])
