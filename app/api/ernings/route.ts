@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient, Decimal } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 
 import PropertyTypes from '@/enum/properties'
 
@@ -39,11 +39,10 @@ export async function GET() {
       select: { profit_percentage: true, valor_uf: true },
     })
 
-    // Calcular las ganancias
     const calculateTotalProfit = (
       properties: {
-        profit_percentage: Decimal | null
-        valor_uf: Decimal | null
+        profit_percentage: Prisma.Decimal | null
+        valor_uf: Prisma.Decimal | null
       }[]
     ) => {
       return properties.reduce((total: number, property) => {
