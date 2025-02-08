@@ -113,6 +113,7 @@ function AdminPageContent() {
           imagenesPreview: [],
         })
         handleFormChange({})
+        router.push('/admin/mis-publicaciones')
       }
     } catch (error) {
       console.error('Error:', error)

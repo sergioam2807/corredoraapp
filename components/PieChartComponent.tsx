@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { TrendingUp } from 'lucide-react'
 import { Label, Pie, PieChart } from 'recharts'
 
@@ -19,18 +20,52 @@ import {
 } from '@/components/ui/chart'
 
 export function PieChartComponent() {
-  const totalVisitors = 30
-
-  const metrics = [
-    { label: 'Venta', current: 5, total: 10, fill: 'var(--color-venta)' },
-    { label: 'Arriendo', current: 5, total: 10, fill: 'var(--color-arriendo)' },
+  const [metrics, setMetrics] = useState([
+    { label: 'Venta', current: 0, total: 0, fill: 'var(--color-venta)' },
+    { label: 'Arriendo', current: 0, total: 0, fill: 'var(--color-arriendo)' },
     {
       label: 'Arriendo T',
-      current: 5,
-      total: 10,
+      current: 0,
+      total: 0,
       fill: 'var(--color-arriendo-t)',
     },
-  ]
+  ])
+  const [totalProperties, setTotalProperties] = useState(0)
+
+  useEffect(() => {
+    async function fetchMetrics() {
+      try {
+        const response = await fetch('/api/metrics')
+        const data = await response.json()
+
+        setMetrics([
+          {
+            label: 'Venta',
+            current: data.ventaProperties,
+            total: data.totalProperties,
+            fill: 'var(--color-venta)',
+          },
+          {
+            label: 'Arriendo',
+            current: data.arriendoProperties,
+            total: data.totalProperties,
+            fill: 'var(--color-arriendo)',
+          },
+          {
+            label: 'Arriendo T',
+            current: data.arriendoTemporalProperties,
+            total: data.totalProperties,
+            fill: 'var(--color-arriendo-t)',
+          },
+        ])
+        setTotalProperties(data.totalProperties)
+      } catch (error) {
+        console.error('Error fetching metrics:', error)
+      }
+    }
+
+    fetchMetrics()
+  }, [])
 
   const chartConfig = {
     venta: {
@@ -79,21 +114,21 @@ export function PieChartComponent() {
           </div>
         </CardFooter>
         <ChartContainer
-          config={chartConfig}
           className="mx-auto aspect-square max-h-[250px] min-w-[250px] min-h-[250px] -mt-16 sm:mt-0"
+          config={chartConfig}
         >
           <PieChart>
             <ChartTooltip
-              cursor={false}
               content={<ChartTooltipContent hideLabel />}
+              cursor={false}
             />
             <Pie
               data={metrics}
               dataKey="current"
-              nameKey="label"
-              innerRadius={39}
-              outerRadius={59}
               fill="#8884d8"
+              innerRadius={39}
+              nameKey="label"
+              outerRadius={59}
               paddingAngle={5}
               strokeWidth={5}
             >
@@ -102,23 +137,23 @@ export function PieChartComponent() {
                   if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
                     return (
                       <text
+                        dominantBaseline="middle"
+                        textAnchor="middle"
                         x={viewBox.cx}
                         y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
                       >
                         <tspan
+                          className="fill-foreground text-2xl font-bold "
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) - 7}
-                          className="fill-foreground text-2xl font-bold "
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalProperties.toLocaleString()}
                         </tspan>
                         <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 13}
                           className="fill-muted-foreground text-xs font-semibold "
                           style={{ fontSize: '0.6rem' }}
+                          x={viewBox.cx}
+                          y={(viewBox.cy || 0) + 13}
                         >
                           Propiedades
                         </tspan>
