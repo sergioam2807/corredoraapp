@@ -40,6 +40,7 @@ model properties {
   disponibilidad_id Int?
   fecha_publicacion DateTime?             @db.Date
   video_url         String?               @db.VarChar(255)
+  profit_percentage Decimal?              @db.Decimal(5, 2)
   images            images[]
   communes          communes?             @relation(fields: [comuna_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   states            states?               @relation(fields: [estado_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

@@ -9,6 +9,7 @@ export async function GET() {
     return NextResponse.json({ ufValue }, { status: 200 })
   } catch (error) {
     console.error('Error fetching UF value:', error)
+
     return NextResponse.json(
       { error: 'Error fetching UF value' },
       { status: 500 }
