@@ -1,5 +1,5 @@
 export async function getFilters() {
-  const res = await fetch('/api/filters', {
+  const res = await fetch(`${process.env.AUTH0_BASE_URL}/api/filters`, {
     cache: 'no-store',
   })
 
@@ -11,7 +11,7 @@ export async function getFilters() {
 }
 
 export async function getProperties() {
-  const res = await fetch('/api/properties', {
+  const res = await fetch(`${process.env.AUTH0_BASE_URL}/api/properties`, {
     cache: 'no-store',
   })
 
