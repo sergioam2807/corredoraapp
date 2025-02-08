@@ -8,7 +8,6 @@ export async function GET(request: Request) {
   const id = searchParams.get('id')
 
   if (id) {
-    // GET by ID
     try {
       const property = await prisma.properties.findUnique({
         where: { id: Number(id) },
@@ -68,22 +67,25 @@ export async function POST(request: Request) {
       data: {
         nombre: data.nombre,
         descripcion: data.descripcion,
-        mt2: parseInt(data.mt2, 10), // Convert to integer
-        valor_uf: data.valor ? parseFloat(data.valor) : 0, // Convert to float if provided
-        habitaciones: parseInt(data.habitaciones, 10), // Convert to integer
-        banos: parseInt(data.banos, 10), // Convert to integer
-        estacionamientos: parseInt(data.estacionamientos, 10), // Convert to integer
-        bodegas: parseInt(data.bodegas, 10), // Convert to integer
+        mt2: parseInt(data.mt2, 10),
+        valor_uf: data.valor ? parseFloat(data.valor) : 0,
+        habitaciones: parseInt(data.habitaciones, 10),
+        banos: parseInt(data.banos, 10),
+        estacionamientos: parseInt(data.estacionamientos, 10),
+        bodegas: parseInt(data.bodegas, 10),
         direccion: data.direccion,
-        comuna_id: data.comuna ? parseInt(data.comuna, 10) : 1, // Convert to integer if provided
-        estado_id: data.tipoVenta ? parseInt(data.tipoVenta, 10) : 1, // Convert to integer if provided
+        comuna_id: data.comuna ? parseInt(data.comuna, 10) : 1,
+        estado_id: data.tipoVenta ? parseInt(data.tipoVenta, 10) : 1,
         tipo_propiedad_id: data.tipoPropiedad
           ? parseInt(data.tipoPropiedad, 10)
-          : undefined, // Convert to integer if provided
-        disponibilidad_id: data.disponibilidad_id
-          ? parseInt(data.disponibilidad_id, 10)
-          : 1, // Convert to integer if provided
-        fecha_publicacion: new Date().toISOString(), // Convert to Date if provided
+          : undefined,
+        profit_percentage: data.profitPercentage
+          ? parseFloat(data.profitPercentage)
+          : 0,
+        disponibilidad_id: data.estadoVenta
+          ? parseInt(data.estadoVenta, 10)
+          : 3,
+        fecha_publicacion: new Date().toISOString(),
         video_url: data.video_url,
         images: {
           create: data.imagenesPreview.map((url: string) => ({ url })),
@@ -93,7 +95,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(newProperty, { status: 201 })
   } catch (error) {
-    console.error('Error details:', error) // Log the error details for debugging
+    console.error('Error details:', error)
     if (error instanceof Error) {
       return NextResponse.json(
         { error: 'Error al crear la propiedad', details: error.message },
@@ -127,12 +129,15 @@ export async function PUT(request: Request) {
         direccion: data.direccion,
         comuna_id: data.comuna ? parseInt(data.comuna, 10) : 1, // Convert to integer if provided
         estado_id: data.tipoVenta ? parseInt(data.tipoVenta, 10) : 1, // Convert to integer if provided
+        profit_percentage: data.profitPercentage
+          ? parseFloat(data.profitPercentage)
+          : undefined, // Convert to float if provided
         tipo_propiedad_id: data.tipoPropiedad
           ? parseInt(data.tipoPropiedad, 10)
           : undefined, // Convert to integer if provided
-        disponibilidad_id: data.disponibilidad_id
-          ? parseInt(data.disponibilidad_id, 10)
-          : 1, // Convert to integer if provided
+        disponibilidad_id: data.estadoVenta
+          ? parseInt(data.estadoVenta, 10)
+          : 3, // Convert to integer if provided
         fecha_publicacion: new Date().toISOString(), // Convert to Date if provided
         video_url: data.video_url,
         images: {
@@ -153,6 +158,45 @@ export async function PUT(request: Request) {
     } else {
       return NextResponse.json(
         { error: 'Error al actualizar la propiedad', details: 'Unknown error' },
+        { status: 500 }
+      )
+    }
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const data = await request.json()
+    const { id } = data
+
+    // Verifica si el registro existe
+    const property = await prisma.properties.findUnique({
+      where: { id: Number(id) },
+    })
+
+    if (!property) {
+      return NextResponse.json({ error: 'Property not found' }, { status: 404 })
+    }
+
+    await prisma.images.deleteMany({
+      where: { propiedad_id: Number(id) },
+    })
+
+    const deletedProperty = await prisma.properties.delete({
+      where: { id: Number(id) },
+    })
+
+    return NextResponse.json(deletedProperty, { status: 200 })
+  } catch (error) {
+    console.error('Error details:', error) // Log the error details for debugging
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { error: 'Error al eliminar la propiedad', details: error.message },
+        { status: 500 }
+      )
+    } else {
+      return NextResponse.json(
+        { error: 'Error al eliminar la propiedad', details: 'Unknown error' },
         { status: 500 }
       )
     }

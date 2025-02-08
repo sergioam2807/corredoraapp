@@ -3,6 +3,12 @@ import React, { useEffect, useState } from 'react'
 
 export const WidgetCard = () => {
   const [ufValue, setUfValue] = useState(null)
+  const [metrics, setMetrics] = useState({
+    totalProfit: 0,
+    ventaProfit: 0,
+    arriendoProfit: 0,
+    arriendoTemporalProfit: 0,
+  })
   const monthNames = [
     'Enero',
     'Febrero',
@@ -20,26 +26,30 @@ export const WidgetCard = () => {
   const date = new Date()
   const day = date.getDate()
   const month = monthNames[date.getMonth()]
-  const formattedDate = `${day}-${date.getMonth() + 1}-${date.getFullYear()}`
 
   useEffect(() => {
-    const fetchUfValue = async () => {
+    const fetchMetrics = async () => {
       try {
-        const response = await fetch(
-          `https://mindicador.cl/api/uf/${formattedDate}`
-        )
+        const response = await fetch('/api/ernings')
         const data = await response.json()
-        const formattedUfValue = data.serie[0].valor.toLocaleString('es-CL', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
+        const formattedUfValue = data.ufValue.toLocaleString('es-CL', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
         })
+
         setUfValue(formattedUfValue)
+        setMetrics({
+          totalProfit: data.totalProfit,
+          ventaProfit: data.ventaProfit,
+          arriendoProfit: data.arriendoProfit,
+          arriendoTemporalProfit: data.arriendoTemporalProfit,
+        })
       } catch (error) {
-        console.error('Error fetching UF value:', error)
+        console.error('Error fetching metrics:', error)
       }
     }
 
-    fetchUfValue()
+    fetchMetrics()
   }, [])
 
   return (
@@ -56,17 +66,32 @@ export const WidgetCard = () => {
               </p>
             </div>
             <div className="flex flex-col gap-1">
-              <div className="flex  justify-center sm:justify-between items-center gap-4 w-full">
+              <div className="flex justify-center sm:justify-between items-center gap-4 w-full">
                 <p className="text-sm font-bold">Venta</p>
-                <p className="text-sm font-bold text-success-600">{`$ 450.000`}</p>
+                <p className="text-sm font-bold text-success-600">
+                  {`$ ${metrics.ventaProfit.toLocaleString('es-CL', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  })}`}
+                </p>
               </div>
-              <div className="flex  justify-center sm:justify-between items-center gap-4 w-full">
+              <div className="flex justify-center sm:justify-between items-center gap-4 w-full">
                 <p className="text-sm font-bold">Arriendo</p>
-                <p className="text-sm font-bold text-success-600">{`$ 860.000`}</p>
+                <p className="text-sm font-bold text-success-600">
+                  {`$ ${metrics.arriendoProfit.toLocaleString('es-CL', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  })}`}
+                </p>
               </div>
-              <div className="flex  justify-center sm:justify-between items-center gap-4 w-full">
+              <div className="flex justify-center sm:justify-between items-center gap-4 w-full">
                 <p className="text-sm font-bold">Arriendo T</p>
-                <p className="text-sm font-bold text-success-600">{`$ 360.000`}</p>
+                <p className="text-sm font-bold text-success-600">
+                  {`$ ${metrics.arriendoTemporalProfit.toLocaleString('es-CL', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  })}`}
+                </p>
               </div>
             </div>
           </div>
@@ -76,7 +101,12 @@ export const WidgetCard = () => {
             </p>
             <div className="flex flex-col items-center w-1/2 gap-2">
               <p className="text-sm font-bold">Total</p>
-              <p className="text-lg font-bold text-rose-700">$1.670.000</p>
+              <p className="text-lg font-bold text-rose-700">
+                {`$${metrics.totalProfit.toLocaleString('es-CL', {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                })}`}
+              </p>
             </div>
           </div>
         </div>
