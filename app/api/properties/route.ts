@@ -158,3 +158,42 @@ export async function PUT(request: Request) {
     }
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const data = await request.json()
+    const { id } = data
+
+    // Verifica si el registro existe
+    const property = await prisma.properties.findUnique({
+      where: { id: Number(id) },
+    })
+
+    if (!property) {
+      return NextResponse.json({ error: 'Property not found' }, { status: 404 })
+    }
+
+    await prisma.images.deleteMany({
+      where: { propiedad_id: Number(id) },
+    })
+
+    const deletedProperty = await prisma.properties.delete({
+      where: { id: Number(id) },
+    })
+
+    return NextResponse.json(deletedProperty, { status: 200 })
+  } catch (error) {
+    console.error('Error details:', error) // Log the error details for debugging
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { error: 'Error al eliminar la propiedad', details: error.message },
+        { status: 500 }
+      )
+    } else {
+      return NextResponse.json(
+        { error: 'Error al eliminar la propiedad', details: 'Unknown error' },
+        { status: 500 }
+      )
+    }
+  }
+}
