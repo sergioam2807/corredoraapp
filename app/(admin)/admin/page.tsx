@@ -2,7 +2,7 @@
 import { useState, Suspense } from 'react'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { Button, ModalFooter } from '@nextui-org/react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Skeleton } from '@heroui/skeleton'
 
 import { ButtonComponent } from '@/components/ButtonComponent'
@@ -36,6 +36,7 @@ function AdminPageContent() {
   const [dataIsloading, setDataIsloading] = useState(true)
   const { user, error, isLoading } = useUser()
   const searchParams = useSearchParams()
+  const router = useRouter()
   const id = searchParams.get('id')
   const name = user?.name?.split(' ')[0]
 
@@ -91,9 +92,7 @@ function AdminPageContent() {
         },
         body: JSON.stringify({ ...formData, id }),
       })
-      const result = await response.json()
 
-      console.log('result', result)
       if (response.ok) {
         setShowPopup(true)
         setFormData({
@@ -129,8 +128,25 @@ function AdminPageContent() {
     setIsModalOpen(false)
   }
 
-  const handleConfirmDelete = () => {
-    // Lógica para eliminar
+  const handleConfirmDelete = (id: string | null) => {
+    if (id === null) {
+      console.error('ID is null')
+
+      return
+    }
+
+    try {
+      fetch(`/api/properties`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: Number(id) }),
+      })
+      router.push('/admin/mis-publicaciones')
+    } catch (error) {
+      console.error('Error:', error)
+    }
     setIsModalOpen(false)
   }
 
@@ -191,14 +207,14 @@ function AdminPageContent() {
           <div className="w-full flex justify-center items-center flex-col gap-4 p-4 text-center">
             <p>¿Estás seguro de que deseas eliminar este elemento?</p>
           </div>
-          <ModalFooter>
+          <ModalFooter className="flex justify-between">
             <Button color="danger" variant="light" onPress={handleModalClose}>
               Cancelar
             </Button>
             <Button
               color="success"
               variant="light"
-              onPress={handleConfirmDelete}
+              onPress={() => handleConfirmDelete(id)}
             >
               Confirmar
             </Button>
