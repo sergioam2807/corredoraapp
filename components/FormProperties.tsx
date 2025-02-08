@@ -28,7 +28,7 @@ interface FormValues {
   comuna: string
   direccion: string
   estadoVenta: string
-  tiposVenta: string
+  tipoVenta: string
   tipoPropiedad: string
   profitPercentage: string
   imagenes: File[]
@@ -68,7 +68,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
     direccion: '',
     estadoVenta: '',
     tipoPropiedad: '',
-    tiposVenta: '',
+    tipoVenta: '',
     profitPercentage: '',
     imagenes: [],
     imagenesPreview: [],
@@ -102,6 +102,8 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           const response = await fetch(`/api/properties?id=${id}`)
           const data = await response.json()
 
+          console.log('data', data)
+
           setFormValues({
             nombre: data.nombre || '',
             descripcion: data.descripcion || '',
@@ -113,9 +115,9 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
             bodegas: data.bodegas || '',
             comuna: data.comuna_id || '',
             direccion: data.direccion || '',
-            tiposVenta: data.disponibilidad_id || '',
+            tipoVenta: data.estado_id || '',
             tipoPropiedad: data.tipo_propiedad_id || '',
-            estadoVenta: data.estado_id || '',
+            estadoVenta: data.disponibilidad_id || '',
             profitPercentage: data.profit_percentage || '',
             imagenes: [],
             imagenesPreview: [],
@@ -155,7 +157,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         direccion: '',
         estadoVenta: '',
         tipoPropiedad: '',
-        tiposVenta: '',
+        tipoVenta: '',
         profitPercentage: '',
         imagenes: [],
         imagenesPreview: [],
@@ -374,7 +376,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           name="tipoVenta"
           placeholder="Selecciona un tipo de venta"
           selectedKeys={
-            formValues.tiposVenta ? [formValues.tiposVenta.toString()] : []
+            formValues.tipoVenta ? [formValues.tipoVenta.toString()] : []
           }
           onChange={handleChange}
         >

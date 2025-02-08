@@ -82,9 +82,9 @@ export async function POST(request: Request) {
         profit_percentage: data.profitPercentage
           ? parseFloat(data.profitPercentage)
           : 0,
-        disponibilidad_id: data.disponibilidad_id
-          ? parseInt(data.disponibilidad_id, 10)
-          : 1,
+        disponibilidad_id: data.estadoVenta
+          ? parseInt(data.estadoVenta, 10)
+          : 3,
         fecha_publicacion: new Date().toISOString(),
         video_url: data.video_url,
         images: {
@@ -135,9 +135,9 @@ export async function PUT(request: Request) {
         tipo_propiedad_id: data.tipoPropiedad
           ? parseInt(data.tipoPropiedad, 10)
           : undefined, // Convert to integer if provided
-        disponibilidad_id: data.disponibilidad_id
-          ? parseInt(data.disponibilidad_id, 10)
-          : 1, // Convert to integer if provided
+        disponibilidad_id: data.estadoVenta
+          ? parseInt(data.estadoVenta, 10)
+          : 3, // Convert to integer if provided
         fecha_publicacion: new Date().toISOString(), // Convert to Date if provided
         video_url: data.video_url,
         images: {
