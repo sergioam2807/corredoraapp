@@ -34,16 +34,22 @@ export async function GET() {
     const arriendoTemporalProperties = await prisma.properties.findMany({
       where: {
         estado_id: PropertyTypes.ArriendoTemporal,
-        disponibilidad_id: { in: [1, 2] }, // Filtrar por estado_id 1 (vendida) o 2 (arrendada)
+        disponibilidad_id: { in: [1, 2] },
       },
       select: { profit_percentage: true, valor_uf: true },
     })
 
     // Calcular las ganancias
-    const calculateTotalProfit = (properties) => {
-      return properties.reduce((total, property) => {
-        const profit =
-          (property.profit_percentage / 100) * property.valor_uf * ufValue
+    const calculateTotalProfit = (
+      properties: {
+        profit_percentage: number | null
+        valor_uf: number | null
+      }[]
+    ) => {
+      return properties.reduce((total: number, property) => {
+        const profitPercentage = property.profit_percentage ?? 0
+        const valorUf = property.valor_uf ?? 0
+        const profit = (profitPercentage / 100) * valorUf * ufValue
 
         return total + profit
       }, 0)
