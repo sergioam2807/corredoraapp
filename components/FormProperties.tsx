@@ -102,8 +102,6 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           const response = await fetch(`/api/properties?id=${id}`)
           const data = await response.json()
 
-          console.log('data', data)
-
           setFormValues({
             nombre: data.nombre || '',
             descripcion: data.descripcion || '',
