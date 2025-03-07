@@ -12,9 +12,11 @@ import {
 } from '@nextui-org/react'
 import { Button } from '@nextui-org/button'
 import { useRouter } from 'next/navigation'
+
 import '@/styles/custom.css'
-import { EditIcon } from '@/icons/EditIcons'
 import { Skeleton } from '@heroui/skeleton'
+
+import { EditIcon } from '@/icons/EditIcons'
 
 interface Property {
   id: number
@@ -59,6 +61,7 @@ export default function MisPublicaciones() {
       try {
         const response = await fetch('/api/properties')
         const data = await response.json()
+
         setProperties(data)
       } catch (error) {
         console.log('Error fetching properties', error)
@@ -146,8 +149,8 @@ export default function MisPublicaciones() {
           return (
             <div className="relative gap-2">
               <Button
-                onClick={() => handleAdminClick(property.id)}
                 className="bg-blue-400 text-xs font-semibold text-white"
+                onClick={() => handleAdminClick(property.id)}
               >
                 Administrar <EditIcon />
               </Button>
@@ -174,27 +177,71 @@ export default function MisPublicaciones() {
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl font-extrabold">Listado de publicaciones</h1>
       </div>
-      <Table aria-label="Example table with custom cells">
-        <TableHeader columns={columns}>
-          {(column) => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === 'administrar' ? 'center' : 'start'}
+      <div className="hidden lg:block w-full">
+        <Table aria-label="Example table with custom cells">
+          <TableHeader columns={columns}>
+            {(column) => (
+              <TableColumn
+                key={column.uid}
+                align={column.uid === 'administrar' ? 'center' : 'start'}
+              >
+                {column.name}
+              </TableColumn>
+            )}
+          </TableHeader>
+          <TableBody items={properties}>
+            {(item) => (
+              <TableRow key={item.id}>
+                {(columnKey) => (
+                  <TableCell>{renderCell(item, String(columnKey))}</TableCell>
+                )}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="block lg:hidden sm:grid sm:grid-cols-1 md:grid-cols-3 gap-4">
+        {properties.map((property) => (
+          <div
+            key={property.id}
+            className="px-4 py-8 border rounded-lg shadow-md mt-4"
+          >
+            <Chip
+              className="capitalize px-4 py-2 text-white font-semibold"
+              color={getStatusColor(property.states.nombre)}
+              size="sm"
             >
-              {column.name}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody items={properties}>
-          {(item) => (
-            <TableRow key={item.id}>
-              {(columnKey) => (
-                <TableCell>{renderCell(item, String(columnKey))}</TableCell>
+              {property.states.nombre}
+            </Chip>
+            <div className="font-semibold mt-2">{property.nombre}</div>
+            <div>Valor UF: {property.valor_uf}</div>
+            <div className="font-semibold">{property.communes.nombre}</div>
+            <div className="italic">{property.direccion}</div>
+            <div className="font-semibold">
+              {property.property_types.nombre}
+            </div>
+
+            <div className="flex justify-center">
+              <Button
+                className="bg-blue-400 text-xs font-semibold text-white mt-2"
+                onClick={() => handleAdminClick(property.id)}
+              >
+                Administrar <EditIcon />
+              </Button>
+            </div>
+            <div className="text-sm text-end mt-2 italic">
+              {new Date(property.fecha_publicacion).toLocaleDateString(
+                'es-ES',
+                {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                }
               )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
