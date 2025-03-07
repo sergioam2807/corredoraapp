@@ -118,7 +118,8 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
             estadoVenta: data.disponibilidad_id || '',
             profitPercentage: data.profit_percentage || '',
             imagenes: [],
-            imagenesPreview: [],
+            imagenesPreview:
+              data.images.map((image: { url: string }) => image.url) || [],
             profit_percentage: data.profit_percentage || 0,
           })
         } catch (error) {
