@@ -196,6 +196,8 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
       })
       const result = await response.json()
 
+      console.log('result', result)
+
       const previewArray = result.urls || []
 
       if (Array.isArray(previewArray)) {
@@ -213,6 +215,8 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
       setFormValues((prevValues) => ({ ...prevValues, [name]: value }))
     }
   }
+
+  console.log('formValues', formValues)
 
   const handleRemoveImage = async (index: number) => {
     const fileName = formValues.imagenesPreview[index].split('/').pop()
