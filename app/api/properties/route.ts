@@ -6,9 +6,12 @@ const prisma = new PrismaClient()
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')
+  const tipoVenta = searchParams.get('tipoVenta')
+  const tipoPropiedad = searchParams.get('tipoPropiedad')
+  const comuna = searchParams.get('comuna')
 
-  if (id) {
-    try {
+  try {
+    if (id) {
       const property = await prisma.properties.findUnique({
         where: { id: Number(id) },
         include: {
@@ -27,38 +30,40 @@ export async function GET(request: Request) {
       }
 
       return NextResponse.json(property, { status: 200 })
-    } catch (error) {
-      console.error(error)
-
-      return NextResponse.json(
-        { error: 'Error al obtener la propiedad' },
-        { status: 500 }
-      )
     }
-  } else {
-    // GET all properties
-    try {
-      const properties = await prisma.properties.findMany({
-        include: {
-          communes: { include: { regions: true } },
-          states: true,
-          images: true,
-          property_types: true,
-        },
-      })
 
-      return NextResponse.json(properties, { status: 200 })
-    } catch (error) {
-      console.error(error)
+    const filters: any = {}
 
-      return NextResponse.json(
-        { error: 'Error al obtener las propiedades' },
-        { status: 500 }
-      )
+    if (tipoVenta && tipoVenta !== 'undefined') {
+      filters.sale_type_id = Number(tipoVenta)
     }
+    if (tipoPropiedad && tipoPropiedad !== 'undefined') {
+      filters.property_type_id = Number(tipoPropiedad)
+    }
+    if (comuna && comuna !== 'undefined') {
+      filters.comuna_id = Number(comuna)
+    }
+
+    const properties = await prisma.properties.findMany({
+      where: Object.keys(filters).length > 0 ? filters : undefined,
+      include: {
+        communes: { include: { regions: true } },
+        states: true,
+        images: true,
+        property_types: true,
+      },
+    })
+
+    return NextResponse.json(properties, { status: 200 })
+  } catch (error) {
+    console.error(error)
+
+    return NextResponse.json(
+      { error: 'Error al obtener las propiedades' },
+      { status: 500 }
+    )
   }
 }
-
 export async function POST(request: Request) {
   try {
     const data = await request.json()
