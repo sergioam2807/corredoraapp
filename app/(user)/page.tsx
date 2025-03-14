@@ -1,6 +1,6 @@
 'use client'
 
-import { useDisclosure } from '@nextui-org/react'
+import { Skeleton, useDisclosure } from '@nextui-org/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -14,6 +14,7 @@ import house from '@/public/hero-house.jpg'
 export default function Home() {
   const { onOpen, isOpen, onOpenChange } = useDisclosure()
   const [properties, setProperties] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const fetchProperties = async () => {
     try {
@@ -23,6 +24,8 @@ export default function Home() {
       setProperties(data)
     } catch (error) {
       console.log('Error fetching properties', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -37,7 +40,7 @@ export default function Home() {
         <div className="hidden md:flex justify-between items-center w-full text-left">
           <div className="flex flex-col gap-6 w-full">
             <div>
-              <p className="text-6xl font-semibold ">Encuentra el hogar</p>
+              <p className="text-6xl font-semibold">Encuentra el hogar</p>
               <p className="text-6xl font-semibold mt-2">que siempre soñaste</p>
             </div>
             <div>
@@ -110,15 +113,21 @@ export default function Home() {
       </div>
       <div className="bg-roseGold md:-mt-14 md:mb-6 ">
         <div className="inset-0 flex justify-center items-center md:-z-10 -mt-11 -mb-3 flex-col md:flex md:-mt-24 z-10 ">
-          <h2 className="text-3xl font-extrabold mb-3">
-            Propiedades Destacadas
-          </h2>
+          <p className="text-4xl font-semibold">Propiedades Destacadas</p>
         </div>
       </div>
       <section className="grid w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold justify-items-center">
-        {properties.slice(-3).map((property: any) => (
-          <CardComponent key={property.id} {...property} />
-        ))}
+        {loading
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <Skeleton key={index} className="rounded-lg w-full">
+                <div className="min-h-96 sm:h-44 rounded-lg bg-default-300" />
+              </Skeleton>
+            ))
+          : properties
+              .slice(-3)
+              .map((property: any) => (
+                <CardComponent key={property.id} {...property} />
+              ))}
       </section>
     </div>
   )
