@@ -116,6 +116,11 @@ export default function Home() {
           <p className="text-4xl font-semibold">Propiedades Destacadas</p>
         </div>
       </div>
+      {properties.length === 0 && (
+        <p className="text-xl font-semibold text-center my-36">
+          No hay propiedades disponibles
+        </p>
+      )}
       <section className="grid w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold justify-items-center">
         {loading
           ? Array.from({ length: 3 }).map((_, index) => (
