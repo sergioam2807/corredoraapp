@@ -36,7 +36,7 @@ export const Filterbar = ({
 
   return (
     <div className="w-full flex justify-center py-10">
-      <div className="bg-gray-400/70 flex justify-center w-3/4 items-center flex-col md:flex-row px-4 py-2 rounded-lg gap-2">
+      <div className="bg-gray-400/70 flex justify-center w-full items-center flex-col md:flex-row px-4 py-2 rounded-lg gap-2">
         <Select
           label="Tipo de venta"
           placeholder="Selecciona un tipo"

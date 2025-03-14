@@ -34,6 +34,11 @@ export default async function PropiedadesPage({
           tiposVenta={filters.tiposVenta || []}
         />
       </div>
+      {properties.length === 0 && (
+        <p className="text-xl font-semibold text-center my-36">
+          No hay propiedades disponibles
+        </p>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {properties.map((property: any) => (
           <CardComponent key={property.id} {...property} />

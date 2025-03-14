@@ -37,6 +37,8 @@ export const WidgetCard = () => {
           maximumFractionDigits: 0,
         })
 
+        console.log('data', data)
+
         setUfValue(formattedUfValue)
         setMetrics({
           totalProfit: data.totalProfit,
@@ -51,6 +53,8 @@ export const WidgetCard = () => {
 
     fetchMetrics()
   }, [])
+
+  console.log('metrics', metrics)
 
   return (
     <Card className="sm:min-w-[400px] px-4 py-1">
