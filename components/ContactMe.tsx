@@ -48,6 +48,7 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -56,19 +57,22 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
 
   const validate = () => {
     const newErrors: FormErrors = {}
+
     if (!formData.nombre) newErrors.nombre = 'El nombre es obligatorio'
     if (!formData.correo) newErrors.correo = 'El correo es obligatorio'
     if (!formData.telefono) newErrors.telefono = 'El teléfono es obligatorio'
+
     return newErrors
   }
 
   const handleSubmit = async () => {
     const validationErrors = validate()
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
+
       return
     }
-    console.log('Form Data:', formData)
 
     setLoading(true)
     setError(null)
@@ -119,56 +123,56 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
         </CardHeader>
         <CardBody className="flex flex-col items-center justify-center gap-3">
           <Input
+            isRequired
+            errorMessage={errors.nombre}
+            isInvalid={!!errors.nombre}
             label="Nombre"
+            name="nombre"
             placeholder="Ingresa tu nombre"
             type="text"
-            name="nombre"
             value={formData.nombre}
             onChange={handleChange}
-            errorMessage={errors.nombre}
-            isRequired
-            isInvalid={!!errors.nombre}
           />
           <Input
+            isRequired
+            errorMessage={errors.correo}
+            isInvalid={!!errors.correo}
             label="Correo"
+            name="correo"
             placeholder="Ingresa tu Correo"
             type="email"
-            name="correo"
             value={formData.correo}
             onChange={handleChange}
-            errorMessage={errors.correo}
-            isRequired
-            isInvalid={!!errors.correo}
           />
           <Input
+            isRequired
+            errorMessage={errors.telefono}
+            isInvalid={!!errors.telefono}
             label="Telefono"
+            name="telefono"
             placeholder="Ingresa tu numero"
             type="phone"
-            name="telefono"
             value={formData.telefono}
             onChange={handleChange}
-            errorMessage={errors.telefono}
-            isRequired
-            isInvalid={!!errors.telefono}
           />
           <Textarea
-            label="Mensaje"
-            placeholder="Ingresa tu mensaje"
-            name="mensaje"
-            value={formData.mensaje}
-            onChange={handleChange}
             errorMessage={errors.mensaje}
             isInvalid={!!errors.mensaje}
+            label="Mensaje"
+            name="mensaje"
+            placeholder="Ingresa tu mensaje"
+            value={formData.mensaje}
+            onChange={handleChange}
           />
         </CardBody>
 
         <Button
+          spinner
           className="text-tiny mx-4 my-4"
           color="primary"
           radius="full"
           size="sm"
           onClick={handleSubmit}
-          spinner
           onPress={onOpen}
         >
           Enviar
@@ -180,17 +184,17 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
             <div className="flex justify-center items-center px-4 gap-6 -mb-5">
               <div className="text-green-500">
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
                   className="size-10 "
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
+                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                   />
                 </svg>
               </div>
