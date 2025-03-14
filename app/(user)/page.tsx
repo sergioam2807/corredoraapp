@@ -116,7 +116,7 @@ export default function Home() {
           <p className="text-4xl font-semibold">Propiedades Destacadas</p>
         </div>
       </div>
-      {properties.length === 0 && (
+      {properties.length === 0 && !loading && (
         <p className="text-xl font-semibold text-center my-36">
           No hay propiedades disponibles
         </p>

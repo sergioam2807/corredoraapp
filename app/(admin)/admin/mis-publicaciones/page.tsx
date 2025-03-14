@@ -177,8 +177,8 @@ export default function MisPublicaciones() {
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl font-extrabold">Listado de publicaciones</h1>
       </div>
-      <div className="hidden lg:block w-full">
-        <Table aria-label="Example table with custom cells">
+      <div className="hidden lg:block w-full h-[700px] overflow-y-auto">
+        <Table aria-label="Table with custom cells">
           <TableHeader columns={columns}>
             {(column) => (
               <TableColumn
