@@ -25,48 +25,57 @@ if (!bucketName) {
 const bucket = storage.bucket(bucketName)
 
 export const POST = async (req: NextRequest) => {
-  const formData = await req.formData()
-  const files = formData.getAll('file') as File[]
+  try {
+    const formData = await req.formData()
+    const files = formData.getAll('file') as File[]
 
-  if (files.length > 0) {
-    const urls: string[] = []
+    if (files.length > 0) {
+      const urls: string[] = []
 
-    const uploadPromises = files.map(async (file) => {
-      const arrayBuffer = await file.arrayBuffer()
-      const buffer = Buffer.from(arrayBuffer)
-      const fileName = `${uuidv4()}-${file.name}`
-      const blob = bucket.file(fileName)
-      const blobStream = blob.createWriteStream({
-        resumable: false,
-      })
-
-      return new Promise<void>((resolve, reject) => {
-        blobStream.on('error', (err) => {
-          console.error(err)
-          reject(err)
+      const uploadPromises = files.map(async (file) => {
+        const arrayBuffer = await file.arrayBuffer()
+        const buffer = Buffer.from(arrayBuffer)
+        const fileName = `${uuidv4()}-${file.name}`
+        const blob = bucket.file(fileName)
+        const blobStream = blob.createWriteStream({
+          resumable: false,
         })
 
-        blobStream.on('finish', () => {
-          const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+        return new Promise<void>((resolve, reject) => {
+          blobStream.on('error', (err) => {
+            console.error('Stream error:', err)
+            reject(err)
+          })
 
-          urls.push(publicUrl)
-          resolve()
+          blobStream.on('finish', () => {
+            const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+
+            urls.push(publicUrl)
+            resolve()
+          })
+
+          blobStream.end(buffer)
         })
-
-        blobStream.end(buffer)
       })
-    })
 
-    await Promise.all(uploadPromises)
+      await Promise.all(uploadPromises)
 
-    return NextResponse.json({
-      success: true,
-      urls,
-    })
-  } else {
+      return NextResponse.json({
+        success: true,
+        urls,
+      })
+    } else {
+      return NextResponse.json({
+        success: false,
+        error: 'No files uploaded',
+      })
+    }
+  } catch (error) {
+    console.error('Error in POST handler:', error)
+
     return NextResponse.json({
       success: false,
-      error: 'No files uploaded',
+      error: 'Error processing request',
     })
   }
 }
