@@ -44,6 +44,8 @@ function AdminPageContent() {
     setFormData((prevData) => ({ ...prevData, ...newData }))
   }
 
+  console.log('formData', formData)
+
   const handleSubmit = async () => {
     try {
       const response = await fetch('/api/properties', {

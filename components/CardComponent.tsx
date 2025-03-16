@@ -1,12 +1,13 @@
 'use client'
 import Image from 'next/image'
 import { Card, CardHeader, CardBody, CardFooter, Chip } from '@nextui-org/react'
+import Link from 'next/link'
+
 import { LocationIcon } from '@/icons/Location'
 import { Money } from '@/icons/Money'
 import { Bed } from '@/icons/Bed'
 import { Badthub } from '@/icons/Badthub'
 import { Parking } from '@/icons/Parking'
-import Link from 'next/link'
 
 interface CardComponentProps {
   id: string
@@ -47,10 +48,10 @@ export const CardComponent = ({
         <CardBody className="overflow-visible py-2">
           <div className="relative w-full h-64">
             <Image
-              src={images[0]?.url || '/default-image.jpg'}
               alt="Card background"
               className="object-cover rounded-xl"
               layout="fill"
+              src={images[0]?.url || '/default-image.jpg'}
             />
           </div>
         </CardBody>

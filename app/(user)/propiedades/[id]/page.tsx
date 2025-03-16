@@ -1,12 +1,14 @@
 'use client'
 import ImageGallery from 'react-image-gallery'
+
 import 'react-image-gallery/styles/css/image-gallery.css'
+import { useDisclosure } from '@nextui-org/react'
+import { useEffect, useState } from 'react'
+
 import { ButtonComponent } from '@/components/ButtonComponent'
 import { CardComponent } from '@/components/CardComponent'
 import { ContactMe } from '@/components/ContactMe'
 import { ModalComponent } from '@/components/ModalComponent'
-import { useDisclosure } from '@nextui-org/react'
-import { useEffect, useState } from 'react'
 import { CardPropData } from '@/components/CardPropData'
 // import { useRouter } from 'next/router'
 
@@ -29,6 +31,7 @@ const Propiedad = ({ params }: PropiedadProps) => {
       try {
         const response = await fetch(`/api/property/${id}`)
         const data = await response.json()
+
         setProperty(data)
       } catch (error) {
         console.error('Error fetching property:', error)
@@ -41,14 +44,17 @@ const Propiedad = ({ params }: PropiedadProps) => {
   useEffect(() => {
     const updateThumbnailPosition = () => {
       const width = window.innerWidth
+
       if (width >= 768) {
         setThumbnailPosition('left')
       } else {
         setThumbnailPosition('bottom')
       }
     }
+
     updateThumbnailPosition()
     window.addEventListener('resize', updateThumbnailPosition)
+
     return () => window.removeEventListener('resize', updateThumbnailPosition)
   }, [])
 
@@ -60,8 +66,6 @@ const Propiedad = ({ params }: PropiedadProps) => {
     original: image.url,
     thumbnail: image.url,
   }))
-
-  console.log('property', property)
 
   return (
     <div className="px-10 pt-8">
@@ -77,17 +81,17 @@ const Propiedad = ({ params }: PropiedadProps) => {
         <div className="mt-2 sm:px-1">
           <div className="md:hidden">
             <ButtonComponent
+              showButton
+              smallButton
               label="Contacto"
               onPress={onOpen}
-              smallButton
-              showButton
             />
           </div>
           {isOpen && (
             <ModalComponent
+              bgColor="bg-roseGold"
               isOpen={isOpen}
               onOpenChange={onOpenChange}
-              bgColor="bg-roseGold"
             >
               <ContactMe elevated />
             </ModalComponent>

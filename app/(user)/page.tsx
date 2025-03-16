@@ -1,48 +1,35 @@
 'use client'
-// import { SendEmail } from '@/components/sendEmail'
-import { ButtonComponent } from '@/components/ButtonComponent'
-import { CardComponent } from '@/components/CardComponent'
-import { ContactMe } from '@/components/ContactMe'
-import { Filterbar } from '@/components/Filterbar'
-import { ModalComponent } from '@/components/ModalComponent'
-import { Wave } from '@/components/Wave'
-import house from '@/public/hero-house.jpg'
-import { useDisclosure } from '@nextui-org/react'
+
+import { Skeleton, useDisclosure } from '@nextui-org/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-const tiposVenta = [
-  { key: 'venta', label: 'Venta' },
-  { key: 'arriendo', label: 'Arriendo' },
-]
-
-const tipoPropiedad = [
-  { key: 'casa', label: 'Casa' },
-  { key: 'depto', label: 'Departamento' },
-]
-
-const tipoComuna = [
-  { key: 'viña', label: 'Viña del mar' },
-  { key: 'concon  ', label: 'Con Con' },
-  { key: 'quillota  ', label: 'Quillota' },
-  { key: 'limache  ', label: 'Limache' },
-]
+import { ButtonComponent } from '@/components/ButtonComponent'
+import { CardComponent } from '@/components/CardComponent'
+import { ContactMe } from '@/components/ContactMe'
+import { ModalComponent } from '@/components/ModalComponent'
+import { Wave } from '@/components/Wave'
+import house from '@/public/hero-house.jpg'
 
 export default function Home() {
   const { onOpen, isOpen, onOpenChange } = useDisclosure()
   const [properties, setProperties] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchProperties = async () => {
+    try {
+      const response = await fetch(`/api/properties`)
+      const data = await response.json()
+
+      setProperties(data)
+    } catch (error) {
+      console.log('Error fetching properties', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const response = await fetch('/api/properties')
-        const data = await response.json()
-        setProperties(data)
-        console.log(data)
-      } catch (error) {
-        console.log('Error fetching properties', error)
-      }
-    }
     fetchProperties()
   }, [])
 
@@ -53,7 +40,7 @@ export default function Home() {
         <div className="hidden md:flex justify-between items-center w-full text-left">
           <div className="flex flex-col gap-6 w-full">
             <div>
-              <p className="text-6xl font-semibold ">Encuentra el hogar</p>
+              <p className="text-6xl font-semibold">Encuentra el hogar</p>
               <p className="text-6xl font-semibold mt-2">que siempre soñaste</p>
             </div>
             <div>
@@ -67,9 +54,9 @@ export default function Home() {
 
               {isOpen && (
                 <ModalComponent
+                  bgColor="bg-roseGold"
                   isOpen={isOpen}
                   onOpenChange={onOpenChange}
-                  bgColor="bg-roseGold"
                 >
                   <ContactMe elevated />
                 </ModalComponent>
@@ -78,12 +65,12 @@ export default function Home() {
           </div>
           <div className="flex justify-center items-center w-full h-full">
             <Image
+              priority
+              alt="house"
+              className="rounded-xl"
+              height={800}
               src={house}
               width={600}
-              height={800}
-              className="rounded-xl"
-              alt="house"
-              priority
             />
           </div>
         </div>
@@ -93,12 +80,12 @@ export default function Home() {
         {/* Imagen para pantallas pequeñas */}
         <div className="absolute inset-0 flex justify-center items-center md:opacity-50 md:z-0 md:hidden ">
           <Image
-            src={house}
             fill
-            className="rounded-xl opacity-30 md:fixed md:w-auto md:h-auto"
-            alt="house"
             priority
+            alt="house"
+            className="rounded-xl opacity-30 md:fixed md:w-auto md:h-auto"
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, 50vw"
+            src={house}
           />
         </div>
 
@@ -126,26 +113,26 @@ export default function Home() {
       </div>
       <div className="bg-roseGold md:-mt-14 md:mb-6 ">
         <div className="inset-0 flex justify-center items-center md:-z-10 -mt-11 -mb-3 flex-col md:flex md:-mt-24 z-10 ">
-          <div className="bg-gray-400/70 flex justify-center w-3/4 items-center flex-col md:flex-row px-4 py-2 rounded-lg gap-2">
-            <Filterbar filters={tiposVenta} />
-            <Filterbar
-              label="Tipo de propiedad"
-              placeholder="Selecciona tipo de propiedad"
-              filters={tipoPropiedad}
-            />
-            <Filterbar
-              label="Comuna"
-              placeholder="Selecciona Comuna"
-              filters={tipoComuna}
-            />
-            <ButtonComponent label="Buscar" showButton smallButton />
-          </div>
+          <p className="text-4xl font-semibold">Propiedades Destacadas</p>
         </div>
       </div>
+      {properties.length === 0 && !loading && (
+        <p className="text-xl font-semibold text-center my-36">
+          No hay propiedades disponibles
+        </p>
+      )}
       <section className="grid w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold justify-items-center">
-        {properties.slice(-3).map((property: any) => (
-          <CardComponent key={property.id} {...property} />
-        ))}
+        {loading
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <Skeleton key={index} className="rounded-lg w-full">
+                <div className="min-h-96 sm:h-44 rounded-lg bg-default-300" />
+              </Skeleton>
+            ))
+          : properties
+              .slice(-3)
+              .map((property: any) => (
+                <CardComponent key={property.id} {...property} />
+              ))}
       </section>
     </div>
   )
