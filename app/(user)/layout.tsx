@@ -2,11 +2,12 @@ import '@/styles/globals.css'
 import { Metadata } from 'next'
 import clsx from 'clsx'
 
+import { Providers } from './providers'
+
 import { siteConfig } from '@/config/site'
 import { fontSans } from '@/config/fonts'
 import { Navbar } from '@/components/navbar'
 import { FooterComponent } from '@/components/FooterComponent'
-import { Providers } from './providers'
 
 export const metadata: Metadata = {
   title: {
@@ -41,20 +42,9 @@ export default function RootLayout({
             storageKey: 'theme',
           }}
         >
-          <div className="relative flex flex-col h-screen ">
+          <div className="relative flex flex-col min-h-screen ">
             <Navbar />
-            {/* className="container mx-auto max-w-7xl pt-16 px-6 flex-grow" */}
-            <main className="pt-8">{children}</main>
-
-            {/* <Link
-                isExternal
-                className="flex items-center gap-1 text-current"
-                href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
-                title="nextui.org homepage"
-              >
-                <span className="text-default-600">Powered by</span>
-                <p className="text-primary">NextUI</p>
-              </Link> */}
+            <main className="flex-grow pt-8">{children}</main>
             <FooterComponent />
           </div>
         </Providers>

@@ -16,16 +16,14 @@ export default function Error({
   }, [error])
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
+    <div className="w-full h-96 flex justify-center items-center flex-col gap-24">
+      <h2 className="text-4xl font-semibold">Ups, algo salió mal</h2>
+      <p className="text-center text-xl font-semibold">
+        Parece que hubo un problema al procesar tu solicitud. Inténtalo
+        nuevamente en unos momentos.
+      </p>
+
+      <button onClick={() => reset()}>Intentalo de nuevo</button>
     </div>
   )
 }
