@@ -46,39 +46,76 @@ function AdminPageContent() {
 
   const handleSubmit = async () => {
     try {
+      if (!formData.imagenesPreview.length) {
+        alert('Debes subir al menos una imagen antes de publicar.')
+
+        return
+      }
+
+      const formattedData = {
+        ...formData,
+        valor: formData.valor ? parseFloat(formData.valor) : 0,
+        mt2: formData.mt2 ? parseInt(formData.mt2, 10) : 0,
+        habitaciones: formData.habitaciones
+          ? parseInt(formData.habitaciones, 10)
+          : 0,
+        banos: formData.banos ? parseInt(formData.banos, 10) : 0,
+        estacionamientos: formData.estacionamientos
+          ? parseInt(formData.estacionamientos, 10)
+          : 0,
+        bodegas: formData.bodegas ? parseInt(formData.bodegas, 10) : 0,
+        comuna: formData.comuna ? parseInt(formData.comuna, 10) : 1,
+        tipoVenta: formData.tipoVenta ? parseInt(formData.tipoVenta, 10) : 1,
+        tipoPropiedad: formData.tipoPropiedad
+          ? parseInt(formData.tipoPropiedad, 10)
+          : undefined,
+        estadoVenta: formData.estadoVenta
+          ? parseInt(formData.estadoVenta, 10)
+          : 3,
+        profitPercentage: formData.profitPercentage
+          ? parseFloat(formData.profitPercentage)
+          : 0,
+        imagenes: undefined,
+        imagenesPreview: formData.imagenesPreview, // Se envían las URLs de las imágenes
+      }
+
       const response = await fetch('/api/properties', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formattedData),
       })
+
       const result = await response.json()
 
-      if (response.ok) {
-        setShowPopup(true)
-        setFormData({
-          nombre: '',
-          descripcion: '',
-          valor: '',
-          mt2: '',
-          habitaciones: '',
-          banos: '',
-          estacionamientos: '',
-          bodegas: '',
-          comuna: '',
-          direccion: '',
-          tipoVenta: '',
-          tipoPropiedad: '',
-          estadoVenta: '',
-          profitPercentage: '',
-          imagenes: [],
-          imagenesPreview: [],
-        })
-        handleFormChange({})
+      if (!response.ok) {
+        throw new Error(result.error || 'Error al crear la propiedad')
       }
+
+      setShowPopup(true)
+      setFormData({
+        nombre: '',
+        descripcion: '',
+        valor: '',
+        mt2: '',
+        habitaciones: '',
+        banos: '',
+        estacionamientos: '',
+        bodegas: '',
+        comuna: '',
+        direccion: '',
+        tipoVenta: '',
+        tipoPropiedad: '',
+        estadoVenta: '',
+        profitPercentage: '',
+        imagenes: [],
+        imagenesPreview: [],
+      })
+      handleFormChange({})
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Error en handleSubmit:', error)
+      alert(
+        'Ocurrió un error al crear la propiedad. Revisa la consola para más detalles.'
+      )
     }
   }
 

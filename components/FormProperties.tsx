@@ -166,51 +166,67 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
   }, [showPopup])
 
   const handleChange = async (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target
+    const { name } = e.target
     const files = (e.target as HTMLInputElement).files
 
-    if (name === 'ganancia' && Number(value) > 100) {
-      alert('El porcentaje de ganancia no puede ser mayor a 100')
-
-      return
-    }
     if (name === 'imagenes' && files) {
       const fileArray = Array.from(files)
+      const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg']
+      const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
-      if (formValues.imagenes.length + fileArray.length > 12) {
-        alert('No puedes agregar más de 12 imágenes')
+      for (const file of fileArray) {
+        if (file.size > MAX_FILE_SIZE) {
+          alert(`El archivo ${file.name} excede el tamaño máximo de 5 MB`)
 
-        return
+          return
+        }
+
+        if (!ALLOWED_TYPES.includes(file.type)) {
+          alert(`El archivo ${file.name} no es un tipo permitido`)
+
+          return
+        }
       }
-      const formData = new FormData()
 
-      fileArray.forEach((file) => formData.append('file', file))
+      const uploadedUrls: string[] = []
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
-      const result = await response.json()
+      for (const file of fileArray) {
+        try {
+          // 1️⃣ Pedir la URL firmada
+          const res = await fetch(
+            `/api/upload-url?fileType=${encodeURIComponent(file.type)}`
+          )
+          const { url, fileName } = await res.json()
 
-      const previewArray = result.urls || []
+          if (!url) {
+            throw new Error('No se pudo obtener la URL firmada')
+          }
 
-      if (Array.isArray(previewArray)) {
-        setFormValues((prevValues) => ({
-          ...prevValues,
-          imagenes: [...prevValues.imagenes, ...fileArray],
-          imagenesPreview: [...prevValues.imagenesPreview, ...previewArray],
-        }))
-      } else {
-        console.error(
-          'Error: La respuesta de la API no contiene un array de URLs'
-        )
+          // 2️⃣ Subir el archivo directamente a Google Cloud Storage
+          await fetch(url, {
+            method: 'PUT',
+            body: file,
+            headers: { 'Content-Type': file.type },
+          })
+
+          // 3️⃣ Guardar la URL pública
+          const publicUrl = `https://storage.googleapis.com/NOMBRE_DE_TU_BUCKET/${fileName}`
+
+          uploadedUrls.push(publicUrl)
+        } catch (error) {
+          console.error('Error al subir imagen:', error)
+          alert('Error al subir imagen. Inténtalo de nuevo.')
+        }
       }
-    } else {
-      setFormValues((prevValues) => ({ ...prevValues, [name]: value }))
+
+      // 4️⃣ Guardar las URLs en el estado del formulario
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        imagenes: [...prevValues.imagenes, ...fileArray],
+        imagenesPreview: [...prevValues.imagenesPreview, ...uploadedUrls],
+      }))
     }
   }
 
@@ -251,7 +267,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
   return (
     <div className="flex flex-col gap-4">
       <Input
-        label="Nombre"
+        label="Nombre prop eliminar"
         name="nombre"
         placeholder="Nombre de la propiedad"
         type="text"
