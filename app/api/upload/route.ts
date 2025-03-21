@@ -46,7 +46,11 @@ export const POST = async (req: NextRequest) => {
         const fileName = `${uuidv4()}-${file.name}`
         const blob = bucket.file(fileName)
         const blobStream = blob.createWriteStream({
-          resumable: false,
+          resumable: true,
+          contentType: file.type,
+          metadata: {
+            cacheControl: 'public, max-age=31536000',
+          },
         })
 
         return new Promise<void>((resolve, reject) => {
