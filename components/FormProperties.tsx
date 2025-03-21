@@ -170,56 +170,74 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value } = e.target
-    const files = (e.target as HTMLInputElement).files
+    try {
+      const { name, value } = e.target
+      const files = (e.target as HTMLInputElement).files
 
-    if (name === 'ganancia' && Number(value) > 100) {
-      alert('El porcentaje de ganancia no puede ser mayor a 100')
+      console.log(`🔍 Cambio detectado: ${name} = ${value}`)
 
-      return
-    }
-
-    if (name === 'imagenes' && files) {
-      const fileArray = Array.from(files)
-
-      const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
-      const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg']
-
-      for (const file of fileArray) {
-        if (file.size > MAX_FILE_SIZE) {
-          alert(`El archivo ${file.name} excede el tamaño máximo de 5 MB`)
-
-          return
-        }
-
-        if (!ALLOWED_TYPES.includes(file.type)) {
-          alert(`El archivo ${file.name} no es un tipo permitido`)
-
-          return
-        }
-      }
-
-      if (formValues.imagenes.length + fileArray.length > 12) {
-        alert('No puedes agregar más de 12 imágenes')
+      if (name === 'ganancia' && Number(value) > 100) {
+        alert('El porcentaje de ganancia no puede ser mayor a 100')
 
         return
       }
 
-      const formData = new FormData()
+      if (name === 'imagenes' && files) {
+        const fileArray = Array.from(files)
 
-      fileArray.forEach((file) => formData.append('file', file))
+        console.log('📂 Archivos seleccionados:', fileArray)
 
-      try {
+        const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
+        const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg']
+
+        for (const file of fileArray) {
+          if (file.size > MAX_FILE_SIZE) {
+            console.error(`❌ El archivo ${file.name} excede 5 MB`)
+            alert(`El archivo ${file.name} excede el tamaño máximo de 5 MB`)
+
+            return
+          }
+
+          if (!ALLOWED_TYPES.includes(file.type)) {
+            console.error(
+              `❌ Tipo de archivo no permitido: ${file.name} (${file.type})`
+            )
+            alert(`El archivo ${file.name} no es un tipo permitido`)
+
+            return
+          }
+        }
+
+        if (formValues.imagenes.length + fileArray.length > 12) {
+          console.error('❌ Límite de imágenes superado')
+          alert('No puedes agregar más de 12 imágenes')
+
+          return
+        }
+
+        const formData = new FormData()
+
+        fileArray.forEach((file) => formData.append('file', file))
+
+        console.log('🚀 Enviando archivos a /api/upload')
+
         const response = await fetch('/api/upload', {
           method: 'POST',
           body: formData,
         })
 
+        console.log('📩 Respuesta recibida:', response)
+
         if (!response.ok) {
-          throw new Error('Error al subir las imágenes')
+          throw new Error(
+            `Error al subir las imágenes: ${response.status} ${response.statusText}`
+          )
         }
 
         const result = await response.json()
+
+        console.log('📊 Respuesta JSON:', result)
+
         const previewArray = result.urls || []
 
         if (Array.isArray(previewArray)) {
@@ -230,17 +248,15 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           }))
         } else {
           console.error(
-            'Error: La respuesta de la API no contiene un array de URLs'
+            '⚠️ Error: La respuesta de la API no contiene un array de URLs'
           )
         }
-      } catch (error) {
-        console.error('Error al subir las imágenes:', error)
-        alert(
-          'Ocurrió un error al subir las imágenes. Por favor, inténtalo de nuevo.'
-        )
+      } else {
+        setFormValues((prevValues) => ({ ...prevValues, [name]: value }))
       }
-    } else {
-      setFormValues((prevValues) => ({ ...prevValues, [name]: value }))
+    } catch (error) {
+      console.error('🛑 Error en handleChange:', error)
+      alert('Ocurrió un error. Revisa la consola para más detalles.')
     }
   }
 
