@@ -24,13 +24,13 @@ if (!bucketName) {
 
 const bucket = storage.bucket(bucketName)
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '50mb',
-    },
-  },
-}
+// export const config = {
+//   api: {
+//     bodyParser: {
+//       sizeLimit: '50mb',
+//     },
+//   },
+// }
 
 export const POST = async (req: NextRequest) => {
   try {
