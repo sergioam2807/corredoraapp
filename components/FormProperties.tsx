@@ -178,14 +178,26 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
 
       return
     }
+
     if (name === 'imagenes' && files) {
       const fileArray = Array.from(files)
+
+      const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
+
+      for (const file of fileArray) {
+        if (file.size > MAX_FILE_SIZE) {
+          alert(`El archivo ${file.name} excede el tamaño máximo de 5 MB`)
+
+          return
+        }
+      }
 
       if (formValues.imagenes.length + fileArray.length > 12) {
         alert('No puedes agregar más de 12 imágenes')
 
         return
       }
+
       const formData = new FormData()
 
       fileArray.forEach((file) => formData.append('file', file))
