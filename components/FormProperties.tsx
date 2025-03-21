@@ -267,7 +267,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
   return (
     <div className="flex flex-col gap-4">
       <Input
-        label="Nombre"
+        label="Nombre prop eliminar"
         name="nombre"
         placeholder="Nombre de la propiedad"
         type="text"
