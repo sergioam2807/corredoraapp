@@ -166,97 +166,67 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
   }, [showPopup])
 
   const handleChange = async (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    try {
-      const { name, value } = e.target
-      const files = (e.target as HTMLInputElement).files
+    const { name } = e.target
+    const files = (e.target as HTMLInputElement).files
 
-      console.log(`🔍 Cambio detectado: ${name} = ${value}`)
+    if (name === 'imagenes' && files) {
+      const fileArray = Array.from(files)
+      const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg']
+      const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
-      if (name === 'ganancia' && Number(value) > 100) {
-        alert('El porcentaje de ganancia no puede ser mayor a 100')
-
-        return
-      }
-
-      if (name === 'imagenes' && files) {
-        const fileArray = Array.from(files)
-
-        console.log('📂 Archivos seleccionados:', fileArray)
-
-        const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
-        const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg']
-
-        for (const file of fileArray) {
-          if (file.size > MAX_FILE_SIZE) {
-            console.error(`❌ El archivo ${file.name} excede 5 MB`)
-            alert(`El archivo ${file.name} excede el tamaño máximo de 5 MB`)
-
-            return
-          }
-
-          if (!ALLOWED_TYPES.includes(file.type)) {
-            console.error(
-              `❌ Tipo de archivo no permitido: ${file.name} (${file.type})`
-            )
-            alert(`El archivo ${file.name} no es un tipo permitido`)
-
-            return
-          }
-        }
-
-        if (formValues.imagenes.length + fileArray.length > 12) {
-          console.error('❌ Límite de imágenes superado')
-          alert('No puedes agregar más de 12 imágenes')
+      for (const file of fileArray) {
+        if (file.size > MAX_FILE_SIZE) {
+          alert(`El archivo ${file.name} excede el tamaño máximo de 5 MB`)
 
           return
         }
 
-        const formData = new FormData()
+        if (!ALLOWED_TYPES.includes(file.type)) {
+          alert(`El archivo ${file.name} no es un tipo permitido`)
 
-        fileArray.forEach((file) => formData.append('file', file))
-
-        console.log('🚀 Enviando archivos a /api/upload')
-
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        })
-
-        console.log('📩 Respuesta recibida:', response)
-
-        if (!response.ok) {
-          throw new Error(
-            `Error al subir las imágenes: ${response.status} ${response.statusText}`
-          )
+          return
         }
-
-        const result = await response.json()
-
-        console.log('📊 Respuesta JSON:', result)
-
-        const previewArray = result.urls || []
-
-        if (Array.isArray(previewArray)) {
-          setFormValues((prevValues) => ({
-            ...prevValues,
-            imagenes: [...prevValues.imagenes, ...fileArray],
-            imagenesPreview: [...prevValues.imagenesPreview, ...previewArray],
-          }))
-        } else {
-          console.error(
-            '⚠️ Error: La respuesta de la API no contiene un array de URLs'
-          )
-        }
-      } else {
-        setFormValues((prevValues) => ({ ...prevValues, [name]: value }))
       }
-    } catch (error) {
-      console.error('🛑 Error en handleChange:', error)
-      alert('Ocurrió un error. Revisa la consola para más detalles.')
+
+      const uploadedUrls: string[] = []
+
+      for (const file of fileArray) {
+        try {
+          // 1️⃣ Pedir la URL firmada
+          const res = await fetch(
+            `/api/upload-url?fileType=${encodeURIComponent(file.type)}`
+          )
+          const { url, fileName } = await res.json()
+
+          if (!url) {
+            throw new Error('No se pudo obtener la URL firmada')
+          }
+
+          // 2️⃣ Subir el archivo directamente a Google Cloud Storage
+          await fetch(url, {
+            method: 'PUT',
+            body: file,
+            headers: { 'Content-Type': file.type },
+          })
+
+          // 3️⃣ Guardar la URL pública
+          const publicUrl = `https://storage.googleapis.com/NOMBRE_DE_TU_BUCKET/${fileName}`
+
+          uploadedUrls.push(publicUrl)
+        } catch (error) {
+          console.error('Error al subir imagen:', error)
+          alert('Error al subir imagen. Inténtalo de nuevo.')
+        }
+      }
+
+      // 4️⃣ Guardar las URLs en el estado del formulario
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        imagenes: [...prevValues.imagenes, ...fileArray],
+        imagenesPreview: [...prevValues.imagenesPreview, ...uploadedUrls],
+      }))
     }
   }
 

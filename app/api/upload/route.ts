@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { Storage } from '@google-cloud/storage'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -16,13 +16,11 @@ const storage = new Storage({
   },
 })
 
-const bucketName = process.env.GCP_BUCKET_NAME
+const bucketName: string = process.env.GCP_BUCKET_NAME || ''
 
 if (!bucketName) {
   throw new Error('GCP_BUCKET_NAME environment variable is not set')
 }
-
-const bucket = storage.bucket(bucketName)
 
 // export const config = {
 //   api: {
@@ -32,77 +30,35 @@ const bucket = storage.bucket(bucketName)
 //   },
 // }
 
-export const POST = async (req: NextRequest) => {
+export async function GET(req: Request) {
   try {
-    const formData = await req.formData()
-    const files = formData.getAll('file') as File[]
+    const { searchParams } = new URL(req.url)
+    const fileType = searchParams.get('fileType') // ej: image/png
 
-    if (files.length > 0) {
-      const urls: string[] = []
-
-      const uploadPromises = files.map(async (file) => {
-        const arrayBuffer = await file.arrayBuffer()
-        const buffer = Buffer.from(arrayBuffer)
-        const fileName = `${uuidv4()}-${file.name}`
-        const blob = bucket.file(fileName)
-        const blobStream = blob.createWriteStream({
-          resumable: false,
-          gzip: true,
-          contentType: file.type,
-          metadata: {
-            cacheControl: 'public, max-age=31536000',
-          },
-        })
-
-        return new Promise<void>((resolve, reject) => {
-          blobStream.on('error', (err) => {
-            console.error('Stream error:', err)
-            reject(
-              new Error(`Failed to upload file ${fileName}: ${err.message}`)
-            )
-          })
-
-          blobStream.on('finish', () => {
-            const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-
-            urls.push(publicUrl)
-            resolve()
-          })
-
-          // Asegúrate de que el buffer se escriba correctamente
-          try {
-            blobStream.end(buffer)
-          } catch (err) {
-            console.error('Error ending the stream:', err)
-
-            const errorMessage =
-              err instanceof Error
-                ? `Failed to end stream for file ${fileName}: ${err.message}`
-                : `Failed to end stream for file ${fileName}: Unknown error`
-
-            reject(new Error(errorMessage))
-          }
-        })
-      })
-
-      await Promise.all(uploadPromises)
-
-      return NextResponse.json({
-        success: true,
-        urls,
-      })
-    } else {
-      return NextResponse.json({
-        success: false,
-        error: 'No files uploaded',
-      })
+    if (!fileType) {
+      return NextResponse.json(
+        { error: 'No fileType provided' },
+        { status: 400 }
+      )
     }
-  } catch (error) {
-    console.error('Error in POST handler:', error)
 
-    return NextResponse.json({
-      success: false,
-      error: 'Error processing request',
+    const fileName = `${uuidv4()}.${fileType.split('/')[1]}`
+    const bucket = storage.bucket(bucketName)
+    const file = bucket.file(fileName)
+
+    const [url] = await file.getSignedUrl({
+      action: 'write',
+      expires: Date.now() + 15 * 60 * 1000, // 15 minutos
+      contentType: fileType,
     })
+
+    return NextResponse.json({ url, fileName })
+  } catch (error) {
+    console.error('Error generating signed URL:', error)
+
+    return NextResponse.json(
+      { error: 'Failed to generate signed URL' },
+      { status: 500 }
+    )
   }
 }
