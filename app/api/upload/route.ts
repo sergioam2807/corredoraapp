@@ -56,7 +56,9 @@ export const POST = async (req: NextRequest) => {
         return new Promise<void>((resolve, reject) => {
           blobStream.on('error', (err) => {
             console.error('Stream error:', err)
-            reject(err)
+            reject(
+              new Error(`Failed to upload file ${fileName}: ${err.message}`)
+            )
           })
 
           blobStream.on('finish', () => {
@@ -66,7 +68,19 @@ export const POST = async (req: NextRequest) => {
             resolve()
           })
 
-          blobStream.end(buffer)
+          // Asegúrate de que el buffer se escriba correctamente
+          try {
+            blobStream.end(buffer)
+          } catch (err) {
+            console.error('Error ending the stream:', err)
+
+            const errorMessage =
+              err instanceof Error
+                ? `Failed to end stream for file ${fileName}: ${err.message}`
+                : `Failed to end stream for file ${fileName}: Unknown error`
+
+            reject(new Error(errorMessage))
+          }
         })
       })
 

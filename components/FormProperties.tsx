@@ -183,10 +183,17 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
       const fileArray = Array.from(files)
 
       const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
+      const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg']
 
       for (const file of fileArray) {
         if (file.size > MAX_FILE_SIZE) {
           alert(`El archivo ${file.name} excede el tamaño máximo de 5 MB`)
+
+          return
+        }
+
+        if (!ALLOWED_TYPES.includes(file.type)) {
+          alert(`El archivo ${file.name} no es un tipo permitido`)
 
           return
         }
@@ -202,23 +209,34 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
 
       fileArray.forEach((file) => formData.append('file', file))
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
-      const result = await response.json()
+      try {
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        })
 
-      const previewArray = result.urls || []
+        if (!response.ok) {
+          throw new Error('Error al subir las imágenes')
+        }
 
-      if (Array.isArray(previewArray)) {
-        setFormValues((prevValues) => ({
-          ...prevValues,
-          imagenes: [...prevValues.imagenes, ...fileArray],
-          imagenesPreview: [...prevValues.imagenesPreview, ...previewArray],
-        }))
-      } else {
-        console.error(
-          'Error: La respuesta de la API no contiene un array de URLs'
+        const result = await response.json()
+        const previewArray = result.urls || []
+
+        if (Array.isArray(previewArray)) {
+          setFormValues((prevValues) => ({
+            ...prevValues,
+            imagenes: [...prevValues.imagenes, ...fileArray],
+            imagenesPreview: [...prevValues.imagenesPreview, ...previewArray],
+          }))
+        } else {
+          console.error(
+            'Error: La respuesta de la API no contiene un array de URLs'
+          )
+        }
+      } catch (error) {
+        console.error('Error al subir las imágenes:', error)
+        alert(
+          'Ocurrió un error al subir las imágenes. Por favor, inténtalo de nuevo.'
         )
       }
     } else {
