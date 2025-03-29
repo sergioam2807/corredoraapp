@@ -16,6 +16,8 @@ const storage = new Storage({
   },
 })
 
+console.log('Private Key:', process.env.GCP_PRIVATE_KEY)
+
 const bucketName = process.env.GCP_BUCKET_NAME
 
 if (!bucketName) {
