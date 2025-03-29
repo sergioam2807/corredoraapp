@@ -56,6 +56,7 @@ export const POST = async (req: NextRequest) => {
           })
 
           blobStream.on('finish', () => {
+            console.log('File uploaded successfully:', blob.name)
             const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
 
             urls.push(publicUrl)
@@ -83,7 +84,7 @@ export const POST = async (req: NextRequest) => {
 
     return NextResponse.json({
       success: false,
-      error: 'Error processing request',
+      error: error instanceof Error ? error.message : 'Unknown error',
     })
   }
 }
