@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/upload/route": {
+    "app/api/upload": {
       "maxDuration": 10,
       "memory": 1024
     }
