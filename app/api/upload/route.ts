@@ -17,6 +17,10 @@ const storage = new Storage({
 })
 
 console.log('Private Key:', process.env.GCP_PRIVATE_KEY)
+console.log('Project ID:', process.env.GCP_PROJECT_ID)
+console.log('Client Email:', process.env.GCP_CLIENT_EMAIL)
+console.log('Bucket Name:', process.env.GCP_BUCKET_NAME)
+console.log('Storage:', storage)
 
 const bucketName = process.env.GCP_BUCKET_NAME
 
