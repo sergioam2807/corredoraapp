@@ -41,6 +41,8 @@ export const POST = async (req: NextRequest) => {
       const urls: string[] = []
 
       const uploadPromises = files.map(async (file) => {
+        console.log('Processing file:', file.name, 'Size:', file.size)
+
         const arrayBuffer = await file.arrayBuffer()
         const buffer = Buffer.from(arrayBuffer)
         const fileName = `${uuidv4()}-${file.name}`
@@ -52,9 +54,8 @@ export const POST = async (req: NextRequest) => {
         return new Promise<void>((resolve, reject) => {
           blobStream.on('error', (err) => {
             console.error('Stream error:', err)
-            reject(err)
+            reject(new Error(`Stream error: ${err.message}`))
           })
-
           blobStream.on('finish', () => {
             console.log('File uploaded successfully:', blob.name)
             const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
