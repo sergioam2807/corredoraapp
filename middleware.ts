@@ -19,5 +19,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: '/admin/publicacion/:path*', // Aplica a todas las rutas bajo `/admin`
+  matcher: '/admin/publicacion/:path*', //cabiar esto para validacion
 }
