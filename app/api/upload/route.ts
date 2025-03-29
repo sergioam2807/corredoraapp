@@ -65,7 +65,9 @@ export const POST = async (req: NextRequest) => {
         const fileName = `${uuidv4()}-${file.name}`
         const blob = bucket.file(fileName)
         const blobStream = blob.createWriteStream({
-          resumable: false,
+          resumable: true,
+          gzip: true,
+          contentType: file.type,
         })
 
         return new Promise<void>((resolve, reject) => {
@@ -82,7 +84,12 @@ export const POST = async (req: NextRequest) => {
             resolve()
           })
 
-          blobStream.end(buffer)
+          try {
+            blobStream.end(buffer)
+          } catch (err) {
+            console.error('Error al finalizar el stream:', err)
+            reject(new Error('Error al finalizar el stream'))
+          }
         })
       })
 
