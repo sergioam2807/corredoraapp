@@ -7,7 +7,10 @@ export async function middleware(req: NextRequest) {
   if (!token) {
     const loginUrl = new URL('/api/auth/login', req.url)
 
-    loginUrl.searchParams.set('returnTo', req.nextUrl.pathname)
+    loginUrl.searchParams.set(
+      'returnTo',
+      req.nextUrl.pathname + req.nextUrl.search
+    )
 
     return NextResponse.redirect(loginUrl)
   }
@@ -16,5 +19,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: '/admin/:path*', // Aplica a todas las rutas bajo `/admin`
+  matcher: '/admin/publicacion/:path*', // Aplica a todas las rutas bajo `/admin`
 }
