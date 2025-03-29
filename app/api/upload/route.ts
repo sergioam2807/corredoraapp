@@ -41,10 +41,27 @@ export const POST = async (req: NextRequest) => {
       const urls: string[] = []
 
       const uploadPromises = files.map(async (file) => {
-        console.log('Processing file:', file.name, 'Size:', file.size)
+        console.log(
+          'Processing file:',
+          file.name,
+          'Size:',
+          file.size,
+          'Type:',
+          file.type
+        )
+
+        if (file.size > 10 * 1024 * 1024) {
+          // 10 MB
+          throw new Error(`File ${file.name} exceeds the size limit of 10MB`)
+        }
 
         const arrayBuffer = await file.arrayBuffer()
         const buffer = Buffer.from(arrayBuffer)
+
+        if (!buffer || buffer.length === 0) {
+          throw new Error(`Failed to generate buffer for file: ${file.name}`)
+        }
+
         const fileName = `${uuidv4()}-${file.name}`
         const blob = bucket.file(fileName)
         const blobStream = blob.createWriteStream({
@@ -56,6 +73,7 @@ export const POST = async (req: NextRequest) => {
             console.error('Stream error:', err)
             reject(new Error(`Stream error: ${err.message}`))
           })
+
           blobStream.on('finish', () => {
             console.log('File uploaded successfully:', blob.name)
             const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
