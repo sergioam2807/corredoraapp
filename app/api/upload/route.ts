@@ -2,41 +2,26 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Storage } from '@google-cloud/storage'
 import { v4 as uuidv4 } from 'uuid'
 
-const serviceAccount = {
-  type: process.env.GCP_TYPE,
-  project_id: process.env.GCP_PROJECT_ID,
-  private_key_id: process.env.GCP_PRIVATE_KEY_ID,
-  private_key: process.env.GCP_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-  client_email: process.env.GCP_CLIENT_EMAIL,
-  client_id: process.env.GCP_CLIENT_ID,
-  auth_uri: process.env.GCP_AUTH_URI,
-  token_uri: process.env.GCP_TOKEN_URI,
-  auth_provider_x509_cert_url: process.env.GCP_AUTH_PROVIDER_X509_CERT_URL,
-  client_x509_cert_url: process.env.GCP_CLIENT_X509_CERT_URL,
-}
-
-const storage = new Storage({
-  credentials: serviceAccount,
-})
-
-const bucketName = process.env.GCP_BUCKET_NAME
-
-if (!bucketName) {
-  throw new Error('GCP_BUCKET_NAME environment variable is not set')
-}
-
-const bucket = storage.bucket(bucketName)
-
-// export const config = {
-//   api: {
-//     bodyParser: {
-//       sizeLimit: '50mb',
-//     },
-//   },
-// }
-
 export const POST = async (req: NextRequest) => {
   try {
+    if (!process.env.GCP_CREDENTIALS_JSON) {
+      throw new Error('GCP_CREDENTIALS_JSON environment variable is not set')
+    }
+
+    const credentials = JSON.parse(process.env.GCP_CREDENTIALS_JSON)
+
+    const storage = new Storage({
+      credentials: credentials,
+    })
+
+    const bucketName = process.env.GCP_BUCKET_NAME
+
+    if (!bucketName) {
+      throw new Error('GCP_BUCKET_NAME environment variable is not set')
+    }
+
+    const bucket = storage.bucket(bucketName)
+
     const formData = await req.formData()
     const files = formData.getAll('file') as File[]
 
@@ -54,7 +39,6 @@ export const POST = async (req: NextRequest) => {
         )
 
         if (file.size > 10 * 1024 * 1024) {
-          // 10 MB
           throw new Error(`File ${file.name} exceeds the size limit of 10MB`)
         }
 
