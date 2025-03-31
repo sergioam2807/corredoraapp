@@ -200,7 +200,7 @@ export default function MisPublicaciones() {
           </TableBody>
         </Table>
       </div>
-      <div className="block lg:hidden sm:grid sm:grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="block lg:hidden sm:grid sm:grid-cols-1 md:grid-cols-3 gap-4 mb-24">
         {properties.map((property) => (
           <div
             key={property.id}

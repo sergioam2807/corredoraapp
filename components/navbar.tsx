@@ -3,7 +3,6 @@ import {
   NavbarContent,
   NavbarMenu,
   NavbarMenuToggle,
-  NavbarBrand,
   NavbarItem,
   NavbarMenuItem,
 } from '@nextui-org/navbar'
@@ -11,28 +10,16 @@ import { Link } from '@nextui-org/link'
 import { link as linkStyles } from '@nextui-org/theme'
 import NextLink from 'next/link'
 import clsx from 'clsx'
+import Image from 'next/image'
 
 import { siteConfig } from '@/config/site'
 import { TwitterIcon } from '@/components/icons'
-import { fontTangerine } from '@/config/fonts'
 
 export const Navbar = () => {
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/">
-            <div className={`${fontTangerine.variable} flex items-center`}>
-              {/* <Logo /> */}
-              <p
-                className="font-extrabold text-inherit text-3xl"
-                style={{ fontFamily: 'var(--font-tangerine)' }}
-              >
-                Lorena Soto
-              </p>
-            </div>
-          </NextLink>
-        </NavbarBrand>
+        <Image alt="Logo" height={300} src="/sercop.png" width={200} />
         <div className="flex justify-center min-w-full">
           <ul className="hidden sm:flex gap-8 justify-center mr-56">
             {siteConfig.navItems.map((item) => (

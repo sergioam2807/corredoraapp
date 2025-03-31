@@ -13,7 +13,7 @@ export default async function PropiedadesPage({
     comuna_id?: string
   }
 }) {
-  unstable_noStore() // Evita el caché y siempre obtiene nuevos datos
+  unstable_noStore()
 
   const { estado_id, tipo_propiedad_id, comuna_id } = searchParams || {}
   const properties = await getProperties({

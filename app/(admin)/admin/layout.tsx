@@ -1,10 +1,11 @@
 import '@/styles/globals.css'
 import { Metadata } from 'next'
 import clsx from 'clsx'
+import { UserProvider } from '@auth0/nextjs-auth0/client'
+
 import { siteConfig } from '@/config/site'
 import { fontSans } from '@/config/fonts'
 import { Providers } from '@/app/(user)/providers'
-import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { Sidebar } from '@/components/Sidebar'
 import { Bottombar } from '@/components/BottomBar'
 
@@ -22,14 +23,14 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html suppressHydrationWarning lang="en">
       <head>
-        <title>Lorena Soto Propiedades</title>
+        <title>Sercop Propiedades</title>
         <meta
-          name="description"
           content={metadata.description ?? 'Corredora app'}
+          name="description"
         />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link href="/favicon.ico" rel="icon" sizes="any" />
       </head>
       <body
         className={clsx(

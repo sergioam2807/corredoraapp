@@ -179,10 +179,10 @@ function AdminPageContent() {
           onChange={handleFormChange}
         />
       </div>
-      <div className="w-full flex justify-end px-8 mb-24 sm:mb-4 gap-4">
-        {/* TODO: ADD CONDITONAL IN EDIT OR ADMIN MODE */}
+      <div className="w-full flex justify-between mb-24 sm:mb-4 gap-4">
+        {/* Botón Eliminar */}
         {id && (
-          <div className={`${dataIsloading ? 'hidden' : 'flex'} `}>
+          <div className={`${dataIsloading ? 'hidden' : 'flex'} justify-start`}>
             <ButtonComponent
               showButton
               colorButton="bg-rose-600"
@@ -191,36 +191,38 @@ function AdminPageContent() {
             />
           </div>
         )}
-        <div className={`${dataIsloading ? 'hidden' : 'flex'} `}>
+
+        {/* Botón Editar/Publicar */}
+        <div className={`${dataIsloading ? 'hidden' : 'flex'} justify-end`}>
           <ButtonComponent
             label={id ? 'Editar' : 'Publicar'}
-            showButton={dataIsloading}
+            showButton={!dataIsloading}
             onClick={id ? handlePut : handleSubmit}
           />
         </div>
-        <ModalComponent
-          hasCancelButton={false}
-          isOpen={isModalOpen}
-          title="Confirmar Eliminación"
-          onOpenChange={setIsModalOpen}
-        >
-          <div className="w-full flex justify-center items-center flex-col gap-4 p-4 text-center">
-            <p>¿Estás seguro de que deseas eliminar este elemento?</p>
-          </div>
-          <ModalFooter className="flex justify-between">
-            <Button color="danger" variant="light" onPress={handleModalClose}>
-              Cancelar
-            </Button>
-            <Button
-              color="success"
-              variant="light"
-              onPress={() => handleConfirmDelete(id)}
-            >
-              Confirmar
-            </Button>
-          </ModalFooter>
-        </ModalComponent>
       </div>
+      <ModalComponent
+        hasCancelButton={false}
+        isOpen={isModalOpen}
+        title="Confirmar Eliminación"
+        onOpenChange={setIsModalOpen}
+      >
+        <div className="w-full flex justify-center items-center flex-col gap-4 p-4 text-center">
+          <p>¿Estás seguro de que deseas eliminar este elemento?</p>
+        </div>
+        <ModalFooter className="flex justify-between">
+          <Button color="danger" variant="light" onPress={handleModalClose}>
+            Cancelar
+          </Button>
+          <Button
+            color="success"
+            variant="light"
+            onPress={() => handleConfirmDelete(id)}
+          >
+            Confirmar
+          </Button>
+        </ModalFooter>
+      </ModalComponent>
       {showPopup && (
         <div className="fixed bottom-10 left-48 z-50 bg-green-500 text-white p-4 gap-4 rounded-xl flex items-center">
           <p> {id ? 'Edicion exitosa!' : 'Publicación exitosa!'}</p>
