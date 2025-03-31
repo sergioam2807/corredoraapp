@@ -12,7 +12,6 @@ import {
 } from '@nextui-org/react'
 import { Button } from '@nextui-org/button'
 import { useRouter } from 'next/navigation'
-
 import '@/styles/custom.css'
 import { Skeleton } from '@heroui/skeleton'
 

@@ -29,15 +29,6 @@ export const POST = async (req: NextRequest) => {
       const urls: string[] = []
 
       const uploadPromises = files.map(async (file) => {
-        console.log(
-          'Processing file:',
-          file.name,
-          'Size:',
-          file.size,
-          'Type:',
-          file.type
-        )
-
         if (file.size > 10 * 1024 * 1024) {
           throw new Error(`File ${file.name} exceeds the size limit of 10MB`)
         }
@@ -64,7 +55,6 @@ export const POST = async (req: NextRequest) => {
           })
 
           blobStream.on('finish', () => {
-            console.log('File uploaded successfully:', blob.name)
             const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
 
             urls.push(publicUrl)
