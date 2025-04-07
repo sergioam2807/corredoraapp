@@ -4,6 +4,7 @@ import ImageGallery from 'react-image-gallery'
 import 'react-image-gallery/styles/css/image-gallery.css'
 import { useDisclosure } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 import { ButtonComponent } from '@/components/ButtonComponent'
 import { CardComponent } from '@/components/CardComponent'
@@ -115,6 +116,15 @@ const Propiedad = ({ params }: PropiedadProps) => {
             <div className="flex justify-center sm:w-full md:w-5/6 lg:w-2/3">
               <ImageGallery
                 items={images}
+                renderItem={(item) => (
+                  <Image
+                    alt="property image"
+                    className="uniform-gallery-img"
+                    height={500}
+                    src={item.original}
+                    width={500}
+                  />
+                )}
                 thumbnailPosition={thumbnailPosition}
               />
             </div>

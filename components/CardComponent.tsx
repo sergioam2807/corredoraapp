@@ -36,7 +36,7 @@ export const CardComponent = ({
 }: CardComponentProps) => {
   return (
     <Link href={`/propiedades/${id}`}>
-      <Card className="py-4 w-96 min-h-[550] flex flex-col last:justify-self-center">
+      <Card className="py-4 w-96 h-[650] flex flex-col last:justify-self-center">
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
           <small className="text-default-500">{states.nombre}</small>
           <h4 className="font-bold text-large">{nombre}</h4>

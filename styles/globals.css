@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .uniform-gallery-img {
+    @apply h-[500px] w-full object-cover;
+  }
+}
+
 .image-gallery-image {
   border-radius: 12px; /* Bordes redondeados para la imagen principal */
 }
