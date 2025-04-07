@@ -4,7 +4,7 @@ import { Progress } from '@nextui-org/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-import logo from '@/public/sercop.png'
+import logo from '@/public/lshprop.png'
 
 export default function Loading() {
   const [value, setValue] = useState(0)
@@ -19,9 +19,11 @@ export default function Loading() {
 
   return (
     <div className="w-full h-96 gap-4 flex justify-center items-center flex-col px-6">
-      <div>
-        <Image priority alt="Loading..." height={150} src={logo} width={450} />
-      </div>
+      {/* <div> */}
+      <Image priority alt="Loading..." height={0} src={logo} width={450} />
+      {/* </div> */}
+      <p className="text-2xl font-semibold -mt-24">LHS Propiedades</p>
+
       <div>
         <Progress
           aria-label="Downloading..."

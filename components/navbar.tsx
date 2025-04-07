@@ -18,8 +18,13 @@ import { TwitterIcon } from '@/components/icons'
 export const Navbar = () => {
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
+      <div className="flex items-center w-auto">
+        <Image alt="Logo" height={150} src="/lshprop.png" width={150} />
+        <p className="hidden -m-8 sm:block font-semibold text-default-500">
+          {siteConfig.name}
+        </p>
+      </div>
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <Image alt="Logo" height={300} src="/sercop.png" width={200} />
         <div className="flex justify-center min-w-full">
           <ul className="hidden sm:flex gap-8 justify-center mr-56">
             {siteConfig.navItems.map((item) => (

@@ -2,10 +2,11 @@
 import React from 'react'
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/react'
 import Image from 'next/image'
+import Link from 'next/link'
+
 import wtsp from '@/public/whatsapp.png'
 import email from '@/public/email.png'
 import location from '@/public/location.png'
-import Link from 'next/link'
 
 export const SmallCard = () => {
   return (
@@ -18,34 +19,34 @@ export const SmallCard = () => {
       </CardHeader>
       <CardBody className="flex flex-col lg:mt-6 lg:pl-12">
         <div className="flex flex-col gap-6">
-          <Link href="https://wa.me/56964562423">
+          <Link href="https://wa.me/56985984753">
             <div className="flex gap-4">
-              <Image src={wtsp} alt="whatsapp" width={24} height={24} />
-              <p className="text-default-500 ">+569 64562423</p>
+              <Image alt="whatsapp" height={24} src={wtsp} width={24} />
+              <p className="text-default-500 ">+569 985984753</p>
             </div>
           </Link>
-          <Link href="mailto:contacto@lorenasoto.cl">
+          <Link href="mailto:Lshpropiedades@gmail.com">
             <div className="flex gap-4">
-              <Image src={email} alt="email" width={24} height={24} />
-              <p className="text-default-500">contacto@lorenasoto.cl</p>
+              <Image alt="email" height={24} src={email} width={24} />
+              <p className="text-default-500">Lshpropiedades@gmail.com</p>
             </div>
           </Link>
           <div className="flex gap-4">
-            <Image src={location} alt="location" width={24} height={12} />
+            <Image alt="location" height={12} src={location} width={24} />
             <p className="text-default-500">Region de Valparaiso</p>
           </div>
         </div>
       </CardBody>
       <CardFooter className="flex justify-center align-center w-full lg:hidden">
         <iframe
+          allowFullScreen={true}
+          className="rounded-lg"
+          height="300"
+          loading="lazy"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d504379.1788305229!2d-71.85271372873844!3d-32.90993636431451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9689de0024d67dbf%3A0x21e8b06ea5d15502!2sValpara%C3%ADso%2C%20Chile!5e0!3m2!1ses!2scl!4v1699999999999"
+          style={{ border: 0 }}
           title="Mapa de la Región de Valparaíso"
           width="100%"
-          height="300"
-          style={{ border: 0 }}
-          allowFullScreen={true}
-          loading="lazy"
-          className="rounded-lg"
         />
       </CardFooter>
     </Card>

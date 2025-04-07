@@ -25,7 +25,7 @@ export default function AdminLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head>
-        <title>Sercop Propiedades</title>
+        <title>LSH Propiedades</title>
         <meta
           content={metadata.description ?? 'Corredora app'}
           name="description"
