@@ -59,10 +59,6 @@ const Propiedad = ({ params }: PropiedadProps) => {
     return () => window.removeEventListener('resize', updateThumbnailPosition)
   }, [])
 
-  if (!property) {
-    return <div>Loading...</div>
-  }
-
   const images = property?.images?.map((image: { url: string }) => ({
     original: image.url,
     thumbnail: image.url,
