@@ -35,10 +35,10 @@ export async function GET(request: Request) {
     const filters: any = {}
 
     if (tipoVenta && tipoVenta !== 'undefined') {
-      filters.sale_type_id = Number(tipoVenta)
+      filters.estado_id = Number(tipoVenta)
     }
     if (tipoPropiedad && tipoPropiedad !== 'undefined') {
-      filters.property_type_id = Number(tipoPropiedad)
+      filters.tipo_propiedad_id = Number(tipoPropiedad)
     }
     if (comuna && comuna !== 'undefined') {
       filters.comuna_id = Number(comuna)

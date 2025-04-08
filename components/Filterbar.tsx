@@ -19,9 +19,9 @@ export const Filterbar = ({
 }: FilterbarProps) => {
   const router = useRouter()
   const [filters, setFilters] = useState({
-    tipoVenta: '',
-    tipoPropiedad: '',
-    comuna: '',
+    estado_id: '',
+    tipo_propiedad_id: '',
+    comuna_id: '',
   })
 
   const handleFilterChange = (key: string, value: string) => {
@@ -31,7 +31,7 @@ export const Filterbar = ({
   const handleSearch = () => {
     const query = new URLSearchParams(filters).toString()
 
-    router.push(`?${query}`) // Actualiza la URL con los filtros
+    router.push(`?${query}`)
   }
 
   return (
@@ -40,7 +40,7 @@ export const Filterbar = ({
         <Select
           label="Tipo de venta"
           placeholder="Selecciona un tipo"
-          onChange={(e) => handleFilterChange('tipoVenta', e.target.value)}
+          onChange={(e) => handleFilterChange('estado_id', e.target.value)}
         >
           {tiposVenta.map((item) => (
             <SelectItem key={item.id} value={item.id}>
@@ -52,7 +52,9 @@ export const Filterbar = ({
         <Select
           label="Tipo de propiedad"
           placeholder="Selecciona tipo de propiedad"
-          onChange={(e) => handleFilterChange('tipoPropiedad', e.target.value)}
+          onChange={(e) =>
+            handleFilterChange('tipo_propiedad_id', e.target.value)
+          }
         >
           {tipoPropiedad.map((item) => (
             <SelectItem key={item.id} value={item.id}>
