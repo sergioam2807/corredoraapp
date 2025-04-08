@@ -1,8 +1,9 @@
+import { Bed } from 'lucide-react'
+
 import { Badthub } from '@/icons/Badthub'
 import { Money } from '@/icons/Money'
 import { Mt2 } from '@/icons/Mt2'
 import { Parking } from '@/icons/Parking'
-import { Bed } from 'lucide-react'
 
 interface CardPropDataProps {
   property: any
@@ -16,7 +17,7 @@ export function CardPropData({ property }: CardPropDataProps) {
           <div>
             <div className="flex items-center gap-1">
               <Money />
-              <p className="uppercase font-bold">uf {property.valor_uf}</p>
+              <p className="uppercase font-bold">uf {property?.valor_uf}</p>
             </div>
             <div className="text-sm font-bold text-center">Valor</div>
           </div>
@@ -24,35 +25,35 @@ export function CardPropData({ property }: CardPropDataProps) {
           <div>
             <div className="flex items-center gap-1">
               <Mt2 />
-              <p className="uppercase font-bold">{property.mt2} mt</p>
+              <p className="uppercase font-bold">{property?.mt2} mt</p>
             </div>
             <div className="text-sm font-bold text-center">Metros</div>
           </div>
         </div>
         <div className="w-full flex items-center justify-center">
           <div className="flex w-full justify-around items-center">
-            {/* <Chip color="default">{property.states.nombre}</Chip> */}
+            {/* <Chip color="default">{property?.states.nombre}</Chip> */}
             <div className="flex flex-col justify-center items-center">
               <div className="flex items-center gap-1 font-bold">
-                <Bed /> : {property.habitaciones}
+                <Bed /> : {property?.habitaciones}
               </div>
               <div className="text-sm font-bold">Habitaciones</div>
             </div>
             <div className="flex flex-col justify-center items-center">
               <div className="flex items-center gap-1 font-bold">
-                <Badthub /> : {property.banos}
+                <Badthub /> : {property?.banos}
               </div>
               <div className="text-sm font-bold">Baños</div>
             </div>
             <div className="flex flex-col justify-center items-center">
               <div className="flex items-center gap-1 font-bold">
-                <Parking /> : {property.estacionamientos}
+                <Parking /> : {property?.estacionamientos}
               </div>
               <div className="text-sm font-bold">Estacionmiento</div>
             </div>
             <div className="flex flex-col justify-center items-center">
               <div className="flex items-center gap-1 font-bold">
-                <Parking /> : {property.bodegas}
+                <Parking /> : {property?.bodegas}
               </div>
               <div className="text-sm font-bold">Bodegas</div>
             </div>

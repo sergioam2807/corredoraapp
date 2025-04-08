@@ -8,6 +8,7 @@ import { Money } from '@/icons/Money'
 import { Bed } from '@/icons/Bed'
 import { Badthub } from '@/icons/Badthub'
 import { Parking } from '@/icons/Parking'
+import { getStatusColor } from '@/lib/utils'
 
 interface CardComponentProps {
   id: string
@@ -38,11 +39,11 @@ export const CardComponent = ({
     <Link href={`/propiedades/${id}`}>
       <Card className="py-4 w-96 h-[650] flex flex-col last:justify-self-center">
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-          <small className="text-default-500">{states.nombre}</small>
+          <small className="text-default-500">{states?.nombre}</small>
           <h4 className="font-bold text-large">{nombre}</h4>
           <div className="flex items-center w-full">
             <LocationIcon />
-            <small className="text-default-500">{communes.nombre}</small>
+            <small className="text-default-500">{communes?.nombre}</small>
           </div>
         </CardHeader>
         <CardBody className="overflow-visible py-2">
@@ -51,7 +52,11 @@ export const CardComponent = ({
               alt="Card background"
               className="object-cover rounded-xl"
               layout="fill"
-              src={images[0]?.url || '/default-image.jpg'}
+              src={
+                Array.isArray(images) && images.length > 0
+                  ? images[0].url
+                  : '/default-image.jpg'
+              }
             />
           </div>
         </CardBody>
@@ -61,9 +66,9 @@ export const CardComponent = ({
               <Money />
               <p className="uppercase font-bold">uf {valor_uf}</p>
             </div>
-            <Chip color="default">{states.nombre}</Chip>
+            <Chip color={getStatusColor(states?.nombre)}>{states?.nombre}</Chip>
           </div>
-          <div className="py-2">
+          <div className="py-2 h-[150px] overflow-hidden">
             <p className="line-clamp-6 text-justify text-default-500">
               {descripcion}
             </p>

@@ -16,6 +16,7 @@ import '@/styles/custom.css'
 import { Skeleton } from '@heroui/skeleton'
 
 import { EditIcon } from '@/icons/EditIcons'
+import { getStatusColor } from '@/lib/utils'
 
 interface Property {
   id: number
@@ -74,28 +75,6 @@ export default function MisPublicaciones() {
 
   const handleAdminClick = (id: number) => {
     router.push(`/admin?id=${id}`)
-  }
-
-  const getStatusColor = (
-    status: string
-  ):
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | 'default'
-    | 'primary'
-    | 'secondary'
-    | undefined => {
-    switch (status) {
-      case 'Venta':
-        return 'success'
-      case 'Arriendo':
-        return 'warning'
-      case 'Arriendo Temporal':
-        return 'danger'
-      default:
-        return 'primary'
-    }
   }
 
   const getNestedValue = (obj: any, path: string) => {
