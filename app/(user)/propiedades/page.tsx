@@ -1,5 +1,3 @@
-import { unstable_noStore } from 'next/cache' // Importa forceDynamic
-
 import { CardComponent } from '@/components/CardComponent'
 import { Filterbar } from '@/components/Filterbar'
 import { getFilters, getProperties } from '@/services/filters'
@@ -13,8 +11,6 @@ export default async function PropiedadesPage({
     comuna_id?: string
   }
 }) {
-  unstable_noStore()
-
   const { estado_id, tipo_propiedad_id, comuna_id } = searchParams || {}
   const properties = await getProperties({
     tipoVenta: estado_id,

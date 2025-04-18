@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Select, SelectItem } from '@nextui-org/react'
 
@@ -23,6 +23,7 @@ export const Filterbar = ({
     tipo_propiedad_id: '',
     comuna_id: '',
   })
+  const [isPending, startTransition] = useTransition()
 
   const handleFilterChange = (key: string, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }))
@@ -31,7 +32,9 @@ export const Filterbar = ({
   const handleSearch = () => {
     const query = new URLSearchParams(filters).toString()
 
-    router.push(`?${query}`)
+    startTransition(() => {
+      router.push(`?${query}`)
+    })
   }
 
   return (
@@ -78,7 +81,9 @@ export const Filterbar = ({
         <ButtonComponent
           showButton
           smallButton
-          label="Buscar"
+          disabled={isPending}
+          isPending={isPending}
+          label={'Buscar'}
           onClick={handleSearch}
         />
       </div>

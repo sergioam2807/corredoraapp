@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@nextui-org/button'
-import { on } from 'events'
+import { Spinner } from '@nextui-org/react'
 import React from 'react'
 
 interface ButtonComponentProps {
@@ -11,6 +11,8 @@ interface ButtonComponentProps {
   showButton?: boolean
   smallButton?: boolean
   colorButton?: string
+  disabled?: boolean
+  isPending?: boolean
 }
 
 export const ButtonComponent = ({
@@ -20,14 +22,17 @@ export const ButtonComponent = ({
   showButton,
   smallButton,
   colorButton = 'bg-roseGold',
+  disabled,
+  isPending,
 }: ButtonComponentProps) => {
   return (
     <Button
-      className={`${showButton ? 'block' : 'hidden'} ${smallButton ? 'w-full' : ''} sm:block ${colorButton}   text-white ${smallButton ? 'md:w-auto lg:w-auto' : ''}`}
+      className={`${showButton ? 'block' : 'hidden'} ${smallButton ? 'w-full' : ''} sm:block ${colorButton}   text-white ${smallButton ? 'md:w-auto lg:w-auto' : ''} py-1`}
+      disabled={disabled}
       onClick={onClick}
       onPress={onPress}
     >
-      {label}
+      {!isPending ? label : <Spinner color="white" />}
     </Button>
   )
 }
