@@ -23,7 +23,7 @@ export default async function PropiedadesPage({
   return (
     <div>
       <h1 className="text-3xl font-semibold">¡Encuentra tu propiedad!</h1>
-      <div className="w-full flex justify-center py-10">
+      <div className="w-full flex justify-center py-10 lg:w-[800px] md:w-[700px] mx-auto">
         <Filterbar
           tipoComuna={filters.tipoComuna || []}
           tipoPropiedad={filters.tipoPropiedad || []}
@@ -31,7 +31,7 @@ export default async function PropiedadesPage({
         />
       </div>
       {properties.length === 0 && (
-        <p className="text-xl font-semibold text-center my-36">
+        <p className="text-xl font-semibold text-center my-6 ">
           No hay propiedades disponibles
         </p>
       )}
