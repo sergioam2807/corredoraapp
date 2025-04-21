@@ -65,14 +65,14 @@ const Propiedad = ({ params }: PropiedadProps) => {
   }))
 
   return (
-    <div className="px-10 pt-8">
-      <h1 className="text-3xl font-semibold text-center">
+    <div className="px-16 pt-8">
+      <h1 className="text-3xl font-semibold text-center px-8">
         {property?.nombre} - {property?.communes?.nombre}
       </h1>
-      <hr className="border-t-2 border-roseGold mb-8 mt-2 " />
+      <hr className="border-t-2 border-roseGold mb-8 mt-2" />
 
-      <div className="lg:flex lg:justify-center">
-        <div>
+      <div className="lg:flex lg:justify-center sm:flex sm:justify-center">
+        <div className="flex justify-center">
           <CardComponent key={property?.id} {...property} />
         </div>
         <div className="mt-2 sm:px-1">
@@ -94,14 +94,16 @@ const Propiedad = ({ params }: PropiedadProps) => {
             </ModalComponent>
           )}
         </div>
-        <div className="sm:px-24 md:px-5">
+        <div className="sm:px-24 md:px-5 lg:w-1/2">
           <h2 className="text-2xl font-semibold my-4 text-center">
             Descripción
           </h2>
           <div className="flex justify-center">
             <CardPropData property={property} />
           </div>
-          <p className="text-justify">{property?.descripcion}</p>
+          <div className="flex justify-center mt-4 px-20">
+            <p className="text-justify">{property?.descripcion}</p>
+          </div>
         </div>
       </div>
       <div className="sm:flex sm:flex-col gap-6 mt-4">

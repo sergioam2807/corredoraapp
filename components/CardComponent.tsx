@@ -21,6 +21,7 @@ interface CardComponentProps {
   estacionamientos: number
   images: { url: string }[]
   states: { nombre: string }
+  disponibilidad_id: number
 }
 
 export const CardComponent = ({
@@ -34,6 +35,7 @@ export const CardComponent = ({
   estacionamientos,
   images,
   states,
+  disponibilidad_id,
 }: CardComponentProps) => {
   return (
     <Link href={`/propiedades/${id}`}>
@@ -58,6 +60,17 @@ export const CardComponent = ({
                   : '/default-image.jpg'
               }
             />
+            {/* Mensaje de estado */}
+            {disponibilidad_id === 1 && (
+              <div className="absolute rounded-xl top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
+                <p className="text-white text-2xl font-bold">Vendida</p>
+              </div>
+            )}
+            {disponibilidad_id === 2 && (
+              <div className="absolute rounded-xl b top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
+                <p className="text-white text-2xl font-bold">Arrendada</p>
+              </div>
+            )}
           </div>
         </CardBody>
         <CardBody className="flex px-4">
