@@ -20,12 +20,16 @@ export const siteConfig = {
   navMenuItems: [
     //TODO ADMIN ROUTE
     {
-      label: 'Contacto',
-      href: '/contacto',
+      label: 'Inicio',
+      href: '/',
     },
     {
       label: 'Propiedades',
       href: '/propiedades',
+    },
+    {
+      label: 'Contacto',
+      href: '/contacto',
     },
   ],
   links: {

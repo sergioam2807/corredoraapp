@@ -19,8 +19,8 @@ export const Navbar = () => {
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <div className="flex items-center w-auto">
-        <Image alt="Logo" height={150} src="/lshprop.png" width={150} />
-        <p className="hidden -m-8 sm:block font-semibold text-default-500">
+        <Image alt="Logo" height={80} src="/lshprop.png" width={80} />
+        <p className="-m-4 sm:block font-semibold text-default-500">
           {siteConfig.name}
         </p>
       </div>
@@ -65,7 +65,7 @@ export const Navbar = () => {
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 color={
-                  index === 2
+                  index === 1
                     ? 'primary'
                     : index === siteConfig.navMenuItems.length - 1
                       ? 'danger'

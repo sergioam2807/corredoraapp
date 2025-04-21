@@ -17,9 +17,9 @@ export const FooterComponent = () => {
   return (
     <footer className="w-full flex items-center justify-around py-4 gap-2">
       {!isContactPage && (
-        <div className="flex flex-col lg:flex-row gap-1 lg:gap-8 justify-center">
+        <div className="flex flex-col lg:flex-row  gap-1 lg:gap-8 justify-center">
           <p className="text-default-500 font-bold">Contacto:</p>
-          <div className="flex gap-1 justify-center">
+          <div className="flex gap-1">
             <Image
               alt="whatsapp"
               className="fi"
@@ -29,33 +29,35 @@ export const FooterComponent = () => {
             />
             <p className="text-default-500">+569 64562423</p>
           </div>
-          <div className="flex gap-1 justify-center">
+          <div className="flex gap-1">
             <Image alt="email" height={16} src={email} width={24} />
             <p className="text-default-500">contacto@lorenasoto.cl</p>
           </div>
-          <div className="flex gap-1 justify-center">
+          <div className="flex gap-1">
             <Image alt="location" height={14} src={location} width={24} />
             <p className="text-default-500">Region de Valparaiso</p>
           </div>
         </div>
       )}
 
-      <div className="flex gap-4 ">
+      <div className="flex flex-col w-1/2gap-4 gap-2 justify-center sm:flex-row">
         <p className="text-default-500 font-bold">Visita mis redes sociales:</p>
-        <Link
-          href="https://www.instagram.com/lshpropiedades"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Image alt="location" height={24} src={insta} width={24} />
-        </Link>
-        <Link
-          href="https://www.facebook.com/sercop.cl/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Image alt="location" height={24} src={facebook} width={24} />
-        </Link>
+        <div className="gap-4 flex justify-center">
+          <Link
+            href="https://www.instagram.com/lshpropiedades"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Image alt="location" height={24} src={insta} width={24} />
+          </Link>
+          <Link
+            href="https://www.facebook.com/sercop.cl/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Image alt="location" height={24} src={facebook} width={24} />
+          </Link>
+        </div>
       </div>
     </footer>
   )
