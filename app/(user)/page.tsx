@@ -18,7 +18,7 @@ export default function Home() {
 
   const fetchProperties = async () => {
     try {
-      const response = await fetch(`/api/properties`)
+      const response = await fetch(`/api/properties?latest=true`)
       const data = await response.json()
 
       setProperties(data)
@@ -128,11 +128,9 @@ export default function Home() {
                 <div className="min-h-96 sm:h-44 rounded-lg bg-default-300" />
               </Skeleton>
             ))
-          : properties
-              .slice(-3)
-              .map((property: any) => (
-                <CardComponent key={property.id} {...property} />
-              ))}
+          : properties.map((property: any) => (
+              <CardComponent key={property.id} {...property} />
+            ))}
       </section>
     </div>
   )

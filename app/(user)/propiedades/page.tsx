@@ -1,5 +1,6 @@
 import { CardComponent } from '@/components/CardComponent'
 import { Filterbar } from '@/components/Filterbar'
+import { PaginationComponent } from '@/components/PaginationComponent'
 import { getFilters, getProperties } from '@/services/filters'
 
 export default async function PropiedadesPage({
@@ -9,13 +10,19 @@ export default async function PropiedadesPage({
     estado_id?: string
     tipo_propiedad_id?: string
     comuna_id?: string
+    page?: string
   }
 }) {
-  const { estado_id, tipo_propiedad_id, comuna_id } = searchParams || {}
-  const properties = await getProperties({
+  const { estado_id, tipo_propiedad_id, comuna_id, page } = searchParams || {}
+  const currentPage = parseInt(page || '1', 10)
+  const itemsPerPage = 9
+
+  const { properties, total } = await getProperties({
     tipoVenta: estado_id,
     tipoPropiedad: tipo_propiedad_id,
     comuna: comuna_id,
+    page: currentPage,
+    limit: itemsPerPage,
   })
 
   const filters = await getFilters()
@@ -39,6 +46,13 @@ export default async function PropiedadesPage({
         {properties.map((property: any) => (
           <CardComponent key={property.id} {...property} />
         ))}
+      </div>
+      <div className="flex justify-center mt-8">
+        <PaginationComponent
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          total={total}
+        />
       </div>
     </div>
   )

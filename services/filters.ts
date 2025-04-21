@@ -2,8 +2,15 @@ export async function getProperties(filters?: {
   tipoVenta?: string
   tipoPropiedad?: string
   comuna?: string
+  page?: number
+  limit?: number
 }) {
-  const query = new URLSearchParams(filters).toString()
+  const query = new URLSearchParams({
+    ...filters,
+    page: filters?.page?.toString() || '1',
+    limit: filters?.limit?.toString() || '9',
+  }).toString()
+
   const res = await fetch(
     `${process.env.AUTH0_BASE_URL}/api/properties?${query}`,
     {

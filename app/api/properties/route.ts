@@ -9,6 +9,10 @@ export async function GET(request: Request) {
   const tipoVenta = searchParams.get('tipoVenta')
   const tipoPropiedad = searchParams.get('tipoPropiedad')
   const comuna = searchParams.get('comuna')
+  const latest = searchParams.get('latest')
+  const page = parseInt(searchParams.get('page') || '1', 10)
+  const limit = parseInt(searchParams.get('limit') || '9', 10)
+  const offset = (page - 1) * limit
 
   try {
     if (id) {
@@ -44,8 +48,26 @@ export async function GET(request: Request) {
       filters.comuna_id = Number(comuna)
     }
 
+    if (latest) {
+      const properties = await prisma.properties.findMany({
+        where: Object.keys(filters).length > 0 ? filters : undefined,
+        orderBy: { id: 'desc' },
+        take: 3,
+        include: {
+          communes: { include: { regions: true } },
+          states: true,
+          images: true,
+          property_types: true,
+        },
+      })
+
+      return NextResponse.json(properties, { status: 200 })
+    }
+
     const properties = await prisma.properties.findMany({
       where: Object.keys(filters).length > 0 ? filters : undefined,
+      skip: offset,
+      take: limit,
       include: {
         communes: { include: { regions: true } },
         states: true,
@@ -54,7 +76,11 @@ export async function GET(request: Request) {
       },
     })
 
-    return NextResponse.json(properties, { status: 200 })
+    const total = await prisma.properties.count({
+      where: Object.keys(filters).length > 0 ? filters : undefined,
+    })
+
+    return NextResponse.json({ properties, total }, { status: 200 })
   } catch (error) {
     console.error(error)
 
