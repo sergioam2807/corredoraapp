@@ -69,7 +69,7 @@ export const Filterbar = ({
         <Select
           label="Comuna"
           placeholder="Selecciona Comuna"
-          onChange={(e) => handleFilterChange('comuna', e.target.value)}
+          onChange={(e) => handleFilterChange('comuna_id', e.target.value)}
         >
           {tipoComuna.map((item) => (
             <SelectItem key={item.id} value={item.id}>

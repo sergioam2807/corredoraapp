@@ -1,5 +1,5 @@
 'use client'
-import { useState, Suspense } from 'react'
+import { useState, Suspense, useTransition } from 'react'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { Button, ModalFooter } from '@nextui-org/react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -13,6 +13,7 @@ import { ModalComponent } from '@/components/ModalComponent'
 import SkeletonAdmin from '@/components/skeleton/SkeletonAdmin'
 
 function AdminPageContent() {
+  const [isPending, startTransition] = useTransition()
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
@@ -45,79 +46,83 @@ function AdminPageContent() {
   }
 
   const handleSubmit = async () => {
-    try {
-      const response = await fetch('/api/properties', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-      // const result = await response.json()
-
-      if (response.ok) {
-        setShowPopup(true)
-        setFormData({
-          nombre: '',
-          descripcion: '',
-          valor: '',
-          mt2: '',
-          habitaciones: '',
-          banos: '',
-          estacionamientos: '',
-          bodegas: '',
-          comuna: '',
-          direccion: '',
-          tipoVenta: '',
-          tipoPropiedad: '',
-          estadoVenta: '',
-          profitPercentage: '',
-          imagenes: [],
-          imagenesPreview: [],
+    startTransition(async () => {
+      try {
+        const response = await fetch('/api/properties', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
         })
-        handleFormChange({})
+        // const result = await response.json()
+
+        if (response.ok) {
+          setShowPopup(true)
+          setFormData({
+            nombre: '',
+            descripcion: '',
+            valor: '',
+            mt2: '',
+            habitaciones: '',
+            banos: '',
+            estacionamientos: '',
+            bodegas: '',
+            comuna: '',
+            direccion: '',
+            tipoVenta: '',
+            tipoPropiedad: '',
+            estadoVenta: '',
+            profitPercentage: '',
+            imagenes: [],
+            imagenesPreview: [],
+          })
+          handleFormChange({})
+        }
+      } catch (error) {
+        console.error('Error:', error)
       }
-    } catch (error) {
-      console.error('Error:', error)
-    }
+    })
   }
 
   const handlePut = async () => {
-    try {
-      const response = await fetch(`/api/properties`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...formData, id }),
-      })
-
-      if (response.ok) {
-        setShowPopup(true)
-        setFormData({
-          nombre: '',
-          descripcion: '',
-          valor: '',
-          mt2: '',
-          habitaciones: '',
-          banos: '',
-          estacionamientos: '',
-          bodegas: '',
-          comuna: '',
-          direccion: '',
-          tipoVenta: '',
-          tipoPropiedad: '',
-          estadoVenta: '',
-          profitPercentage: '',
-          imagenes: [],
-          imagenesPreview: [],
+    startTransition(async () => {
+      try {
+        const response = await fetch(`/api/properties`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...formData, id }),
         })
-        handleFormChange({})
-        router.push('/admin/mis-publicaciones')
+
+        if (response.ok) {
+          setShowPopup(true)
+          setFormData({
+            nombre: '',
+            descripcion: '',
+            valor: '',
+            mt2: '',
+            habitaciones: '',
+            banos: '',
+            estacionamientos: '',
+            bodegas: '',
+            comuna: '',
+            direccion: '',
+            tipoVenta: '',
+            tipoPropiedad: '',
+            estadoVenta: '',
+            profitPercentage: '',
+            imagenes: [],
+            imagenesPreview: [],
+          })
+          handleFormChange({})
+          router.push('/admin/mis-publicaciones')
+        }
+      } catch (error) {
+        console.error('Error:', error)
       }
-    } catch (error) {
-      console.error('Error:', error)
-    }
+    })
   }
 
   const handleDeleteClick = () => {
@@ -195,6 +200,8 @@ function AdminPageContent() {
         {/* Botón Editar/Publicar */}
         <div className={`${dataIsloading ? 'hidden' : 'flex'} justify-end`}>
           <ButtonComponent
+            disabled={isPending}
+            isPending={isPending}
             label={id ? 'Editar' : 'Publicar'}
             showButton={!dataIsloading}
             onClick={id ? handlePut : handleSubmit}
