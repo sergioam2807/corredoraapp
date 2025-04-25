@@ -76,7 +76,7 @@ const Propiedad = ({ params }: PropiedadProps) => {
           <CardComponent key={property?.id} {...property} />
         </div>
         <div className="mt-2 sm:px-1">
-          <div className="md:hidden">
+          <div className="md:hidden px-4">
             <ButtonComponent
               showButton
               smallButton
@@ -101,8 +101,8 @@ const Propiedad = ({ params }: PropiedadProps) => {
           <div className="flex justify-center">
             <CardPropData property={property} />
           </div>
-          <div className="flex justify-center mt-4 px-20">
-            <p className="text-justify">{property?.descripcion}</p>
+          <div className="flex justify-center mt-4 px-20 whitespace-pre-wrap break-words sm:h-96 overflow-y-auto">
+            <p className="text-justify ">{property?.descripcion}</p>
           </div>
         </div>
       </div>

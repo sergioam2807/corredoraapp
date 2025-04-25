@@ -262,8 +262,15 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         label="Descripción"
         name="descripcion"
         placeholder="Ingresa la descripción de la propiedad"
+        style={{ overflow: 'hidden', resize: 'none' }}
         value={formValues.descripcion}
         onChange={handleChange}
+        onInput={(e) => {
+          const target = e.target as HTMLTextAreaElement
+
+          target.style.height = 'auto'
+          target.style.height = `${target.scrollHeight}px`
+        }}
       />
 
       <div className="flex gap-4">

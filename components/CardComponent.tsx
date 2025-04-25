@@ -12,6 +12,7 @@ import {
   DropdownItem,
 } from '@nextui-org/react'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 import { LocationIcon } from '@/icons/Location'
 import { Money } from '@/icons/Money'
@@ -52,6 +53,8 @@ export const CardComponent = ({
     `¡Mira esta propiedad! ${nombre} en ${communes?.nombre}. Más detalles aquí: ${window.location.origin}/propiedades/${id}`
   )}`
 
+  const params = useParams()
+
   const handleShareClick = (event: React.MouseEvent) => {
     event.stopPropagation()
   }
@@ -86,60 +89,117 @@ export const CardComponent = ({
             <small className="text-default-500">{communes?.nombre}</small>
           </div>
         </CardHeader>
-        <Link href={`/propiedades/${id}`}>
-          <CardBody className="overflow-visible py-2">
-            <div className="relative w-full h-64">
-              <Image
-                alt="Card background"
-                className="object-cover rounded-xl"
-                layout="fill"
-                src={
-                  Array.isArray(images) && images.length > 0
-                    ? images[0].url
-                    : '/default-image.jpg'
-                }
-              />
-              {/* Mensaje de estado */}
-              {disponibilidad_id === 1 && (
-                <div className="absolute rounded-xl top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
-                  <p className="text-white text-2xl font-bold">Vendida</p>
-                </div>
-              )}
-              {disponibilidad_id === 2 && (
-                <div className="absolute rounded-xl b top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
-                  <p className="text-white text-2xl font-bold">Arrendada</p>
-                </div>
-              )}
-            </div>
-          </CardBody>
-          <CardBody className="flex px-4">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-1">
-                <Money />
-                <p className="uppercase font-bold">uf {valor_uf}</p>
+        {!params.id ? (
+          <Link href={`/propiedades/${id}`}>
+            <CardBody className="overflow-visible py-2">
+              <div className="relative w-full h-64">
+                <Image
+                  alt="Card background"
+                  className="object-cover rounded-xl"
+                  layout="fill"
+                  src={
+                    Array.isArray(images) && images.length > 0
+                      ? images[0].url
+                      : '/default-image.jpg'
+                  }
+                />
+                {/* Mensaje de estado */}
+                {disponibilidad_id === 1 && (
+                  <div className="absolute rounded-xl top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
+                    <p className="text-white text-2xl font-bold">Vendida</p>
+                  </div>
+                )}
+                {disponibilidad_id === 2 && (
+                  <div className="absolute rounded-xl b top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
+                    <p className="text-white text-2xl font-bold">Arrendada</p>
+                  </div>
+                )}
               </div>
-              <Chip color={getStatusColor(states?.nombre)}>
-                {states?.nombre}
-              </Chip>
-            </div>
-            <div className="py-2 h-[150px] overflow-hidden">
-              <p className="line-clamp-6 text-justify text-default-500">
-                {descripcion}
-              </p>
-            </div>
-          </CardBody>
-          <CardFooter className="flex justify-around items-center -mt-3">
-            <div className="flex items-center gap-1">
-              <Bed /> x {habitaciones}
-            </div>
-            <div className="flex items-center gap-1">
-              <Badthub /> x {banos}
-            </div>
-            <div className="flex items-center gap-1">
-              <Parking /> x {estacionamientos}
-            </div>
-          </CardFooter>
-        </Link>
+            </CardBody>
+            <CardBody className="flex px-4">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-1">
+                  <Money />
+                  <p className="uppercase font-bold">uf {valor_uf}</p>
+                </div>
+                <Chip color={getStatusColor(states?.nombre)}>
+                  {states?.nombre}
+                </Chip>
+              </div>
+              <div className="py-2 h-[150px] overflow-hidden">
+                <p className="line-clamp-6 text-justify text-default-500">
+                  {descripcion}
+                </p>
+              </div>
+            </CardBody>
+            <CardFooter className="flex justify-around items-center -mt-3">
+              <div className="flex items-center gap-1">
+                <Bed /> x {habitaciones}
+              </div>
+              <div className="flex items-center gap-1">
+                <Badthub /> x {banos}
+              </div>
+              <div className="flex items-center gap-1">
+                <Parking /> x {estacionamientos}
+              </div>
+            </CardFooter>
+          </Link>
+        ) : (
+          <>
+            <CardBody className="overflow-visible py-2">
+              <div className="relative w-full h-64">
+                <Image
+                  alt="Card background"
+                  className="object-cover rounded-xl"
+                  layout="fill"
+                  src={
+                    Array.isArray(images) && images.length > 0
+                      ? images[0].url
+                      : '/default-image.jpg'
+                  }
+                />
+                {/* Mensaje de estado */}
+                {disponibilidad_id === 1 && (
+                  <div className="absolute rounded-xl top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
+                    <p className="text-white text-2xl font-bold">Vendida</p>
+                  </div>
+                )}
+                {disponibilidad_id === 2 && (
+                  <div className="absolute rounded-xl b top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
+                    <p className="text-white text-2xl font-bold">Arrendada</p>
+                  </div>
+                )}
+              </div>
+            </CardBody>
+            <CardBody className="flex px-4">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-1">
+                  <Money />
+                  <p className="uppercase font-bold">uf {valor_uf}</p>
+                </div>
+                <Chip color={getStatusColor(states?.nombre)}>
+                  {states?.nombre}
+                </Chip>
+              </div>
+              <div className="py-2 h-[150px] overflow-hidden">
+                <p className="line-clamp-6 text-justify text-default-500">
+                  {descripcion}
+                </p>
+              </div>
+            </CardBody>
+            <CardFooter className="flex justify-around items-center -mt-3">
+              <div className="flex items-center gap-1">
+                <Bed /> x {habitaciones}
+              </div>
+              <div className="flex items-center gap-1">
+                <Badthub /> x {banos}
+              </div>
+              <div className="flex items-center gap-1">
+                <Parking /> x {estacionamientos}
+              </div>
+            </CardFooter>
+          </>
+        )}
       </Card>
     </>
   )
