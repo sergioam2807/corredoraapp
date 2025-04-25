@@ -11,7 +11,7 @@ import { CardComponent } from '@/components/CardComponent'
 import { ContactMe } from '@/components/ContactMe'
 import { ModalComponent } from '@/components/ModalComponent'
 import { CardPropData } from '@/components/CardPropData'
-// import { useRouter } from 'next/router'
+import Loading from '@/app/(user)/propiedades/[id]/loading'
 
 interface PropiedadProps {
   params: {
@@ -21,6 +21,7 @@ interface PropiedadProps {
 
 const Propiedad = ({ params }: PropiedadProps) => {
   const [property, setProperty] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const [thumbnailPosition, setThumbnailPosition] = useState<'left' | 'bottom'>(
     'bottom'
   )
@@ -30,12 +31,15 @@ const Propiedad = ({ params }: PropiedadProps) => {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
+        setIsLoading(true)
         const response = await fetch(`/api/property/${id}`)
         const data = await response.json()
 
         setProperty(data)
       } catch (error) {
         console.error('Error fetching property:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -63,6 +67,10 @@ const Propiedad = ({ params }: PropiedadProps) => {
     original: image.url,
     thumbnail: image.url,
   }))
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <div className="px-16">

@@ -19,9 +19,8 @@ export default function Loading() {
 
   return (
     <div className="w-full h-96 gap-4 flex justify-center items-center flex-col px-6">
-      {/* <div> */}
       <Image priority alt="Loading..." height={0} src={logo} width={450} />
-      {/* </div> */}
+
       <p className="text-2xl font-semibold -mt-24">LHS Propiedades</p>
 
       <div>
