@@ -17,22 +17,22 @@ export const Sidebar = () => {
         </div>
         <nav className="flex ite flex-col gap-4 mt-8 flex-grow">
           <Link
-            href="/admin"
             className="flex items-center  gap-2 p-2 hover:bg-sidebar rounded-xl font-bold "
+            href="/admin"
           >
             <span>Publicar</span>
           </Link>
           <Link
-            href="admin/mis-publicaciones"
             className="flex items-center text-start gap-2 p-2 hover:bg-sidebar rounded-xl font-bold"
+            href="/admin/mis-publicaciones"
           >
             <span>Publicaciones</span>
           </Link>
         </nav>
         <div className="mt-auto">
           <Link
-            href="/api/auth/logout"
             className="flex items-center gap-2 p-2 hover:bg-sidebar rounded-xl font-bold"
+            href="/api/auth/logout"
           >
             <span>Cerrar Sesion</span>
           </Link>
