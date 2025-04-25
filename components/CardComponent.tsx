@@ -49,14 +49,21 @@ export const CardComponent = ({
   states,
   disponibilidad_id,
 }: CardComponentProps) => {
+  const params = useParams()
+
   const shareUrl = `https://wa.me/?text=${encodeURIComponent(
     `¡Mira esta propiedad! ${nombre} en ${communes?.nombre}. Más detalles aquí: ${window.location.origin}/propiedades/${id}`
   )}`
 
-  const params = useParams()
+  const isMobile = () => {
+    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+  }
 
   const handleShareClick = (event: React.MouseEvent) => {
     event.stopPropagation()
+    if (isMobile()) {
+      window.open(shareUrl, '_blank')
+    }
   }
 
   return (
@@ -64,23 +71,36 @@ export const CardComponent = ({
       <Card className="py-4 w-96 h-[650] flex flex-col last:justify-self-center">
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
           <div className="absolute top-2 right-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <button
-                  className="bg-gray-100 p-2 rounded-full shadow hover:bg-gray-200"
-                  onClick={handleShareClick}
-                >
-                  <Share />
-                </button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Share options">
-                <DropdownItem key="whatsapp">
-                  <a href={shareUrl} rel="noopener noreferrer" target="_blank">
-                    Compartir en WhatsApp
-                  </a>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            {isMobile() ? (
+              <button
+                className="bg-gray-100 p-2 rounded-full shadow hover:bg-gray-200"
+                onClick={handleShareClick}
+              >
+                <Share />
+              </button>
+            ) : (
+              <Dropdown>
+                <DropdownTrigger>
+                  <button
+                    className="bg-gray-100 p-2 rounded-full shadow hover:bg-gray-200"
+                    onClick={handleShareClick}
+                  >
+                    <Share />
+                  </button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Share options">
+                  <DropdownItem key="whatsapp">
+                    <a
+                      href={shareUrl}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Compartir en WhatsApp
+                    </a>
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            )}
           </div>
           <small className="text-default-500">{states?.nombre}</small>
           <h4 className="font-bold text-large">{nombre}</h4>
