@@ -65,7 +65,7 @@ const Propiedad = ({ params }: PropiedadProps) => {
   }))
 
   return (
-    <div className="px-16 pt-8">
+    <div className="px-16">
       <h1 className="text-3xl font-semibold text-center px-8">
         {property?.nombre} - {property?.communes?.nombre}
       </h1>
