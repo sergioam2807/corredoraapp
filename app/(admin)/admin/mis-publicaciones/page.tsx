@@ -62,7 +62,7 @@ export default function MisPublicaciones() {
         const response = await fetch('/api/properties')
         const data = await response.json()
 
-        setProperties(data)
+        setProperties(data.properties)
       } catch (error) {
         console.log('Error fetching properties', error)
       } finally {
