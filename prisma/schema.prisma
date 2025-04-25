@@ -11,7 +11,7 @@ datasource db {
 model communes {
   id         Int          @id @default(autoincrement())
   region_id  Int
-  nombre     String       @db.VarChar(100)
+  nombre     String       @unique @db.VarChar(100)
   regions    regions      @relation(fields: [region_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   properties properties[]
 }
@@ -50,7 +50,7 @@ model properties {
 
 model regions {
   id       Int        @id @default(autoincrement())
-  nombre   String     @db.VarChar(100)
+  nombre   String     @unique @db.VarChar(100)
   communes communes[]
 }
 
