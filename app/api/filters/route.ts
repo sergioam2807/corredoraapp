@@ -19,7 +19,7 @@ export async function GET() {
       },
     })
 
-    const tipoComuna = await prisma.communes.findMany({
+    const tipoRegion = await prisma.regions.findMany({
       select: {
         id: true,
         nombre: true,
@@ -37,13 +37,14 @@ export async function GET() {
       {
         tiposVenta,
         tipoPropiedad,
-        tipoComuna,
+        tipoRegion,
         estadoVenta,
       },
       { status: 200 }
     )
   } catch (error) {
     console.error(error)
+
     return NextResponse.json(
       { error: 'Error al obtener los filtros' },
       { status: 500 }

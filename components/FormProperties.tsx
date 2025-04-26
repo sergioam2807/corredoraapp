@@ -13,6 +13,7 @@ interface Data {
   tiposVenta: Tipo[]
   tipoPropiedad: Tipo[]
   tipoComuna: Tipo[]
+  tipoRegion: Tipo[]
   estadoVenta: Tipo[]
 }
 
@@ -25,6 +26,7 @@ interface FormValues {
   banos: string
   estacionamientos: string
   bodegas: string
+  region: string
   comuna: string
   direccion: string
   estadoVenta: string
@@ -53,6 +55,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
     tiposVenta: [],
     tipoPropiedad: [],
     tipoComuna: [],
+    tipoRegion: [],
     estadoVenta: [],
   })
   const [formValues, setFormValues] = useState<FormValues>({
@@ -64,6 +67,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
     banos: '',
     estacionamientos: '',
     bodegas: '',
+    region: '1',
     comuna: '',
     direccion: '',
     estadoVenta: '',
@@ -75,6 +79,45 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
     profit_percentage: 0,
   })
   const [loading, setLoading] = useState(true)
+  const [loadingCommunes, setLoadingCommunes] = useState(false)
+
+  const handleRegionChange = async (regionId: string) => {
+    if (formValues.region !== regionId) {
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        region: regionId,
+      }))
+    }
+
+    setLoadingCommunes(true)
+
+    try {
+      const response = await fetch(`/api/communes?regionId=${regionId}`)
+      const communes = await response.json()
+
+      if (Array.isArray(communes)) {
+        setData((prevData) => ({ ...prevData, tipoComuna: communes }))
+
+        setFormValues((prevValues) => {
+          const comunaActual = prevValues.comuna
+          const comunaExiste = communes.some(
+            (comuna) => comuna.id.toString() === comunaActual
+          )
+
+          return {
+            ...prevValues,
+            comuna: comunaExiste ? comunaActual : '',
+          }
+        })
+      } else {
+        console.error('Invalid response format:', communes)
+      }
+    } catch (error) {
+      console.error('Error fetching communes:', error)
+    } finally {
+      setLoadingCommunes(false)
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,7 +154,8 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
             banos: data.banos || '',
             estacionamientos: data.estacionamientos || '',
             bodegas: data.bodegas || '',
-            comuna: data.comuna_id || '',
+            region: data.communes.region_id?.toString() || '',
+            comuna: data.communes?.id.toString() || '',
             direccion: data.direccion || '',
             tipoVenta: data.estado_id || '',
             tipoPropiedad: data.tipo_propiedad_id || '',
@@ -122,6 +166,10 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
               data.images.map((image: { url: string }) => image.url) || [],
             profit_percentage: data.profit_percentage || 0,
           })
+
+          if (data.communes?.region_id) {
+            await handleRegionChange(data.communes.region_id.toString())
+          }
         } catch (error) {
           console.log('Error fetching property', error)
         } finally {
@@ -152,6 +200,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         banos: '',
         estacionamientos: '',
         bodegas: '',
+        region: '',
         comuna: '',
         direccion: '',
         estadoVenta: '',
@@ -164,6 +213,12 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
       })
     }
   }, [showPopup])
+
+  useEffect(() => {
+    if (formValues.region && data.tipoRegion.length > 0) {
+      handleRegionChange(formValues.region)
+    }
+  }, [formValues.region, data.tipoRegion])
 
   const handleChange = async (
     e: React.ChangeEvent<
@@ -309,6 +364,56 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
         />
       </div>
       <div className="flex gap-4">
+        <Select
+          label="Región"
+          name="region"
+          placeholder="Selecciona una Región"
+          selectedKeys={
+            data.tipoRegion.some(
+              (tipo) => tipo.id.toString() === formValues.region
+            )
+              ? [formValues.region.toString()]
+              : []
+          }
+          onChange={(selected) => {
+            const regionId = selected?.target?.value || selected
+
+            handleRegionChange(regionId.toString())
+          }}
+        >
+          {data.tipoRegion?.map((tipo) => (
+            <SelectItem key={tipo.id.toString()} value={tipo.id.toString()}>
+              {tipo.nombre}
+            </SelectItem>
+          ))}
+        </Select>
+        <Select
+          disabled={loadingCommunes || !data.tipoComuna?.length}
+          label="Comuna"
+          name="comuna"
+          placeholder="Selecciona una comuna"
+          selectedKeys={
+            data.tipoComuna?.some(
+              (tipo) => tipo.id.toString() === formValues.comuna
+            )
+              ? [formValues.comuna.toString()]
+              : []
+          }
+          onChange={(selected) => {
+            setFormValues((prevValues) => ({
+              ...prevValues,
+              comuna: selected.target.value,
+            }))
+          }}
+        >
+          {data.tipoComuna?.map((tipo) => (
+            <SelectItem key={tipo.id.toString()} value={tipo.id.toString()}>
+              {tipo.nombre}
+            </SelectItem>
+          ))}
+        </Select>
+      </div>
+      <div className="flex gap-4 flex-col sm:flex-row">
         <Input
           label="Baños"
           name="banos"
@@ -325,8 +430,6 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           value={formValues.estacionamientos}
           onChange={handleChange}
         />
-      </div>
-      <div className="flex gap-4">
         <Input
           label="Bodegas"
           name="bodegas"
@@ -335,21 +438,9 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           value={formValues.bodegas}
           onChange={handleChange}
         />
-        <Select
-          label="Comuna"
-          name="comuna"
-          placeholder="Selecciona una comuna"
-          selectedKeys={formValues.comuna ? [formValues.comuna.toString()] : []}
-          onChange={handleChange}
-        >
-          {data.tipoComuna?.map((tipo) => (
-            <SelectItem key={tipo.id.toString()} value={tipo.id.toString()}>
-              {tipo.nombre}
-            </SelectItem>
-          ))}
-        </Select>
       </div>
-      <div className="flex gap-4">
+
+      <div className="flex gap-4 flex-col sm:flex-row">
         <Select
           label="Tipo de propiedad"
           name="tipoPropiedad"
@@ -376,7 +467,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           onChange={handleChange}
         />
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-col sm:flex-row">
         <Select
           label="Tipo de Venta"
           name="tipoVenta"

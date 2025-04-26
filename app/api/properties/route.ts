@@ -8,6 +8,7 @@ export async function GET(request: Request) {
   const id = searchParams.get('id')
   const tipoVenta = searchParams.get('tipoVenta')
   const tipoPropiedad = searchParams.get('tipoPropiedad')
+  const region = searchParams.get('region')
   const comuna = searchParams.get('comuna')
   const latest = searchParams.get('latest')
   const page = parseInt(searchParams.get('page') || '1', 10)
@@ -46,6 +47,9 @@ export async function GET(request: Request) {
     }
     if (comuna && comuna !== 'undefined') {
       filters.comuna_id = Number(comuna)
+    }
+    if (region && region !== 'undefined') {
+      filters.region_id = Number(region)
     }
 
     if (latest) {
