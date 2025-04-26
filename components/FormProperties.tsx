@@ -363,7 +363,7 @@ export const FormProperties: React.FC<FormPropertiesProps> = ({
           onChange={handleChange}
         />
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-col sm:flex-row">
         <Select
           label="Región"
           name="region"
