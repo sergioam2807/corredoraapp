@@ -122,11 +122,16 @@ export default function Home() {
         </p>
       )}
       <section className="grid w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold justify-items-center">
-        {loading
+        {!loading
           ? Array.from({ length: 3 }).map((_, index) => (
-              <Skeleton key={index} className="rounded-lg w-full">
-                <div className="w-64 h-[650] rounded-lg bg-default-300" />
-              </Skeleton>
+              <div
+                key={index}
+                className="flex justify-center items-center w-96 h-[650]"
+              >
+                <Skeleton key={index} className="rounded-lg w-full">
+                  <div className="w-96 h-[650] rounded-lg bg-default-300" />
+                </Skeleton>
+              </div>
             ))
           : properties.map((property: any) => (
               <CardComponent key={property.id} {...property} />
