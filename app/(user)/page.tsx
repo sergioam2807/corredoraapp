@@ -125,7 +125,7 @@ export default function Home() {
         {loading
           ? Array.from({ length: 3 }).map((_, index) => (
               <Skeleton key={index} className="rounded-lg w-full">
-                <div className="min-h-96 sm:h-44 rounded-lg bg-default-300" />
+                <div className="w-64 h-[650] rounded-lg bg-default-300" />
               </Skeleton>
             ))
           : properties.map((property: any) => (
