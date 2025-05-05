@@ -51,9 +51,12 @@ export const CardComponent = ({
 }: CardComponentProps) => {
   const params = useParams()
 
-  const shareUrl = `https://wa.me/?text=${encodeURIComponent(
-    `¡Mira esta propiedad! ${nombre} en ${communes?.nombre}. Más detalles aquí: ${window.location.origin}/propiedades/${id}`
-  )}`
+  const shareUrl =
+    typeof window !== 'undefined'
+      ? `https://wa.me/?text=${encodeURIComponent(
+          `¡Mira esta propiedad! ${nombre} en ${communes?.nombre}. Más detalles aquí: ${window.location.origin}/propiedades/${id}`
+        )}`
+      : ''
 
   const isMobile = () => {
     return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
@@ -61,7 +64,7 @@ export const CardComponent = ({
 
   const handleShareClick = (event: React.MouseEvent) => {
     event.stopPropagation()
-    if (isMobile()) {
+    if (typeof window !== 'undefined' && isMobile()) {
       window.open(shareUrl, '_blank')
     }
   }

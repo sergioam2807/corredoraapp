@@ -48,13 +48,17 @@ export async function GET(request: Request) {
     if (comuna && comuna !== 'undefined') {
       filters.comuna_id = Number(comuna)
     }
-    if (region && region !== 'undefined') {
-      filters.region_id = Number(region)
-    }
+    const regionFilter =
+      region && region !== 'undefined'
+        ? { regions: { id: Number(region) } }
+        : undefined
 
     if (latest) {
       const properties = await prisma.properties.findMany({
-        where: Object.keys(filters).length > 0 ? filters : undefined,
+        where: {
+          ...filters,
+          communes: regionFilter,
+        },
         orderBy: { id: 'desc' },
         take: 3,
         include: {
@@ -69,7 +73,10 @@ export async function GET(request: Request) {
     }
 
     const properties = await prisma.properties.findMany({
-      where: Object.keys(filters).length > 0 ? filters : undefined,
+      where: {
+        ...filters,
+        communes: regionFilter,
+      },
       skip: offset,
       take: limit,
       include: {
@@ -81,7 +88,10 @@ export async function GET(request: Request) {
     })
 
     const total = await prisma.properties.count({
-      where: Object.keys(filters).length > 0 ? filters : undefined,
+      where: {
+        ...filters,
+        communes: regionFilter,
+      },
     })
 
     return NextResponse.json({ properties, total }, { status: 200 })

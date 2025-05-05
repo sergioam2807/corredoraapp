@@ -10,10 +10,12 @@ export default async function PropiedadesPage({
     estado_id?: string
     tipo_propiedad_id?: string
     comuna_id?: string
+    region_id?: string
     page?: string
   }
 }) {
-  const { estado_id, tipo_propiedad_id, comuna_id, page } = searchParams || {}
+  const { estado_id, tipo_propiedad_id, comuna_id, region_id, page } =
+    searchParams || {}
   const currentPage = parseInt(page || '1', 10)
   const itemsPerPage = 9
 
@@ -21,6 +23,7 @@ export default async function PropiedadesPage({
     tipoVenta: estado_id,
     tipoPropiedad: tipo_propiedad_id,
     comuna: comuna_id,
+    region: region_id,
     page: currentPage,
     limit: itemsPerPage,
   })
@@ -30,15 +33,16 @@ export default async function PropiedadesPage({
   return (
     <div>
       <h1 className="text-3xl font-semibold">¡Encuentra tu propiedad!</h1>
-      <div className="w-full flex justify-center py-10 lg:w-[800px] md:w-[700px] mx-auto">
+      <div className="w-full flex justify-center py-10 lg:w-full md:w-[700px] mx-auto">
         <Filterbar
           tipoComuna={filters.tipoComuna || []}
           tipoPropiedad={filters.tipoPropiedad || []}
+          tipoRegion={filters.tipoRegion || []}
           tiposVenta={filters.tiposVenta || []}
         />
       </div>
       {properties.length === 0 && (
-        <p className="text-xl font-semibold text-center my-6 ">
+        <p className="text-xl font-semibold text-center my-6 xl:w-[1200px]">
           No hay propiedades disponibles
         </p>
       )}
@@ -47,13 +51,15 @@ export default async function PropiedadesPage({
           <CardComponent key={property.id} {...property} />
         ))}
       </div>
-      <div className="flex justify-center mt-8">
-        <PaginationComponent
-          currentPage={currentPage}
-          itemsPerPage={itemsPerPage}
-          total={total}
-        />
-      </div>
+      {properties.length > 0 && (
+        <div className="flex justify-center mt-8">
+          <PaginationComponent
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            total={total}
+          />
+        </div>
+      )}
     </div>
   )
 }

@@ -2,6 +2,7 @@ export async function getProperties(filters?: {
   tipoVenta?: string
   tipoPropiedad?: string
   comuna?: string
+  region?: string
   page?: number
   limit?: number
 }) {
@@ -43,6 +44,7 @@ export async function getFilters() {
       tiposVenta: [],
       tipoPropiedad: [],
       tipoComuna: [],
+      tipoeRegion: [],
     }
   }
 }
