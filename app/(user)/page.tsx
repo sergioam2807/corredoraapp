@@ -122,7 +122,7 @@ export default function Home() {
         </p>
       )}
       <section className="grid w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 md:py-4 bg-roseGold justify-items-center">
-        {!loading
+        {loading
           ? Array.from({ length: 3 }).map((_, index) => (
               <div
                 key={index}
