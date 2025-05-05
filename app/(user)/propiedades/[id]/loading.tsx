@@ -21,7 +21,7 @@ export default function Loading() {
     <div className="w-full h-96 gap-4 flex justify-center items-center flex-col px-6">
       <Image priority alt="Loading..." height={0} src={logo} width={450} />
 
-      <p className="text-2xl font-semibold -mt-24">LHS Propiedades</p>
+      <p className="text-2xl font-semibold -mt-24">LSH Propiedades</p>
 
       <div>
         <Progress
