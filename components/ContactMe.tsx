@@ -172,8 +172,10 @@ export const ContactMe = ({ elevated }: ContactMeProps) => {
           color="primary"
           radius="full"
           size="sm"
-          onClick={handleSubmit}
-          onPress={onOpen}
+          onPress={() => {
+            handleSubmit()
+            onOpen()
+          }}
         >
           Enviar
         </Button>

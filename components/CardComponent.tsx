@@ -117,9 +117,11 @@ export const CardComponent = ({
             <CardBody className="overflow-visible py-2">
               <div className="relative w-full h-64">
                 <Image
+                  fill
+                  priority
                   alt="Card background"
                   className="object-cover rounded-xl"
-                  layout="fill"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                   src={
                     Array.isArray(images) && images.length > 0
                       ? images[0].url
@@ -172,9 +174,11 @@ export const CardComponent = ({
             <CardBody className="overflow-visible py-2">
               <div className="relative w-full h-64">
                 <Image
+                  fill
+                  priority
                   alt="Card background"
                   className="object-cover rounded-xl"
-                  layout="fill"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                   src={
                     Array.isArray(images) && images.length > 0
                       ? images[0].url

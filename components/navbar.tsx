@@ -19,7 +19,7 @@ export const Navbar = () => {
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <div className="flex items-center w-auto">
-        <Image alt="Logo" height={80} src="/lshprop.png" width={80} />
+        <Image priority alt="Logo" height={80} src="/lshprop.png" width={80} />
         <p className="-m-4 sm:block font-semibold text-default-500">
           {siteConfig.name}
         </p>

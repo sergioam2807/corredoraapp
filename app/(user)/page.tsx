@@ -68,7 +68,7 @@ export default function Home() {
               priority
               alt="house"
               className="rounded-xl"
-              height={800}
+              height={600}
               src={house}
               width={600}
             />

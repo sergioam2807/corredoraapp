@@ -32,7 +32,7 @@ export const SmallCard = () => {
             </div>
           </Link>
           <div className="flex gap-4">
-            <Image alt="location" height={12} src={location} width={24} />
+            <Image alt="location" height={24} src={location} width={24} />
             <p className="text-default-500">Region de Valparaiso</p>
           </div>
         </div>

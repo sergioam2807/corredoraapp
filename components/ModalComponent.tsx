@@ -26,10 +26,10 @@ export const ModalComponent = ({
 }: ModalComponentProps) => {
   return (
     <Modal
+      hideCloseButton
+      className={`${bgColor}`}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
-      className={`${bgColor}`}
-      hideCloseButton
     >
       <ModalContent>
         {(onClose) => (
@@ -40,7 +40,7 @@ export const ModalComponent = ({
             <ModalBody>{children}</ModalBody>
             {hasCancelButton && (
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="default" variant="bordered" onPress={onClose}>
                   Cancelar
                 </Button>
               </ModalFooter>
